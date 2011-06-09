@@ -1,0 +1,643 @@
+0. 安装的要点
+
+使用网络安装，光盘下载：http://www.debian.org/distrib/netinst。
+
+网络安装光盘镜像中的vmlinuz、initrd.gz无法搜索加载硬盘上的iso镜像，所以这两个文件要从网上下载，我下载到的这两个文件也无法搜索加载NTFS文件系统中的iso文件，所以debian-6.0.1a-i386-netinst.iso要放在ext3或fat32格式的分区上。
+
+可以找到无线网卡，但好像无法正常使用，所以要准备好网络。
+
+分区时选择手动分区。要从网络上下载大于1200个的软件包，安装源选择中国的，大约要两个小时才能下载完。
+
+不安装引导程序，因为使用grub4dos引导。
+
+引导菜单：
+title 3.Debian 6.0-2.6.32-5-686 Squeeze
+root (hd0,5)
+kernel /boot/vmlinuz-2.6.32-5-686 root=/dev/sda6 ro quiet splash vga=9 acpi_osi=Linux
+initrd /boot/initrd.img-2.6.32-5-686
+boot 
+
+1. 设置源，更新系统。
+
+/etc/apt/sources.list文件如下：
+# 台湾的源
+deb http://debian.nctu.edu.tw/debian/ squeeze main non-free contrib
+deb http://debian.nctu.edu.tw/debian/ squeeze-proposed-updates main non-free contrib
+
+# 网易163的源
+deb http://mirrors.163.com/debian squeeze main non-free contrib
+deb http://mirrors.163.com/debian squeeze-proposed-updates main contrib non-free
+deb http://mirrors.163.com/debian-security squeeze/updates main contrib non-free
+deb-src http://mirrors.163.com/debian squeeze main non-free contrib
+deb-src http://mirrors.163.com/debian squeeze-proposed-updates main contrib non-free
+deb-src http://mirrors.163.com/debian-security squeeze/updates main contrib non-free
+
+# 官方的源
+deb http://ftp.debian.org/debian/ squeeze main non-free contrib
+deb http://ftp.debian.org/debian/ squeeze-proposed-updates main non-free contrib
+
+# 官方安全更新的源
+deb http://http.us.debian.org/debian squeeze main contrib non-free
+deb http://security.debian.org squeeze/updates main contrib non-free
+
+#Debian Multimedia,因专利问题不能收在多媒体的软件
+deb http://www.debian-multimedia.org stable main non-free
+deb ftp://ftp.debian-multimedia.org stable main non-free
+
+# Google 软件库
+deb http://dl.google.com/linux/deb/ stable non-free
+
+# Opera 软件库
+deb http://deb.opera.com/opera stable non-free
+
+# Skype 软件库
+deb http://download.skype.com/linux/repos/debian stable non-free
+
+更新一下源：
+# apt-get update
+
+为Multimedia、Google、Opera的源添加密钥，Skype没有密钥。
+# apt-get install debian-multimedia-keyring
+# wget -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+# wget -O - http://deb.opera.com/archive.key | apt-key add -
+
+再更新一下源：
+# apt-get update
+
+更新系统
+# apt-get upgrade
+
+2. 打开声音 
+
+装完debian 6.0后发现没有声音，到处找解决方法，甚至试过编译声卡驱动——在编译第3个软件包时出错，第3个软件未能装上，所以我也不知道最终的解决与编译声卡驱动有没有关系——我自己觉得是没有关系的。
+
+在debian中打开声音的方法是：点击右上角的喇叭图标，音量控制，把“主音量”和“speaker”调到最大。声音就出来了。
+
+3. 启用触摸板点击功能
+
+受传统思想的影响，我总以为要设置触摸板就要建个文本，输入一串串英文，让触摸板正常工作起来，于是花了很多不必要的功夫，甚至进不了桌面，事实上这个设置与音量的设置一样，完全是图形化的。
+
+点击面板上的“系统”，首先项，鼠标，触摸板，常规，在“enable mouse clicks with touchpad”前面打上钩。
+
+4. 安装fcitx输入法
+
+scim输入法也许很好，但在我看来它真的有很多问题，最严重的两个是：1，无法光标跟随，我打五笔可以盲打都忍受不了；2，与nautilus冲突，无法定位文件夹，对像我这样的键盘控来说是无法忍受的。
+
+不知道什么原因，fcitx没有进入debian 6.0 squeeze的源，我决定使用sid的源。编辑sources.list，添加下面一行：
+deb http://mirrors.163.com/debian sid main non-free contrib
+更新源：
+# apt-get update
+安装：
+# apt-get install fcitx fcitx-config-common fcitx-config-gtk fcitx-data fcitx-sunpinyin fcitx-table-wubi
+
+设置fcitx为默认输入法(这一步可省略)
+# im-switch -s fcitx
+
+注销再登陆，默认的输入法就变成fcitx 4.0.1了，不得不说这个输入法真的是我在linux平台见到的最好的输入法了，在vim的自动切换问题也解决了，大善，强烈推荐使用。
+由于我不想使用sid版本，所以还要把源中刚才添加的那一行删除，再update一下。
+
+5. 解决无线上网(这一步没有必要，但记在这里以备不时之需)
+
+参考：http://easwy.com/blog/archives/thinkpad_t400_wireless_driver_for_debian_lenny/
+
+查看无线网卡的名字：
+查看路由名字：$ iwlist wlan0 scanning
+编辑：/etc/network/interfaces，在最后面添加
+#无线网卡选项
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+wpa-ssid "Netcore"
+wpa-psk "密码"
+
+# 静态IP，请按实际情况修改
+# auto eth0 #开机自动激活
+# iface eth0 inet static #静态IP
+#　address 192.168.0.56 #本机IP
+# netmask 255.255.255.0 #子网掩码
+# gateway 192.168.0.254 #路由网关
+
+allow-hotplug wlan0的意思是wlan0在打开时自动启动。
+iface wlan0 inet dhcp的意思是这个接口使用DHCP来获取IP地址
+wpa-ssid用来配置无线网络的SSID
+wpa-psk配置连接easwy无线网络的密码
+
+其中“Netcore”是路由名，fuckgfw2是路由密码。
+配置好后，使用关闭wlan0网卡，然后再重新启用/sbin/ifup wlan0。完成了。
+
+命令行手动设置无线网卡
+
+查看无线网卡：
+# lspci -nn
+(输出的内容不全是网卡，要自己判断一下)
+
+查看网卡的配置
+# /sbin/iwconfig
+
+激活无线网卡：
+# ifconfig wlan0 up 或# /sbin/ifup wlan0
+
+关闭无线网卡：
+# ifconfig wlan0 down 或# /sbin/ifdown wlan0
+
+查看周围的无线网络(wlan0是网卡名)：
+# iwlist wlan0 scanning
+
+配置essid，由上一步找到AP（接入点）后，记下其essid(如“Netcore”)：
+# iwconfig wlan0 essid "Netcore"
+
+如果有密码时，使用下面的命令：
+# iwconfig wlan0 essid "Netcore" key open 1111111111
+
+如果网络是restricted的文本模式(ASCII字符) ，key前面带上s前缀:
+# iwconfig wlan0 essid "Netcore" key restricted s:111111
+
+设置网卡的IP地址和子网掩码：
+# ifconfig wlan0 192.168.1.30 netmask 255.255.255.0
+
+也可以使用dhcp自动获取IP地址：
+# dhclient wlan0
+
+重启网络服务：
+# /etc/init.d/networking restrict
+
+6. 字体美化
+
+从ubuntu转到debian觉得各方面都好，就是字体太难看了，不得不找方案美化一下。
+
+Debian Testing中文字休美化全攻略 http://edyfox.codecarver.org/html/debian_testing_chinese.html 这篇文章解决了这个问题，但是在我的电脑上好像有的步骤效果不是很明显，所以我这里只记录两步（可以是我的辨识力不强，我只觉得这两步有效果，囧）。
+
+# apt-get install ttf-bitstream-vera
+
+复印windows下的SimSun字体到~/.fonts文件夹。
+
+附： 两个与字体有关系的命令
+fc-cache -f //刷新字体缓存
+fc-list  //查看是否已经安装上宋体了
+
+7.安装mplayer
+
+我无比地喜欢mplayer这个播放器，几乎在所有的平台都使用它。使用下面的命令安装，gmplayer就不装了，我不是很喜欢。
+
+$ apt-get install mplayer smplayer
+
+安装完成后可以播放视频，但是非常卡，一般可以安装ffmepg，但我使用的是另一种方法。
+下载mplayer for windows版，解压并到其中的codecs文件夹移动到/usr/lib/codecs。
+
+编辑~/.mplayer/config，对mplayer进行基本的设置，下面是我的config文件：
+# Write your default config options here!
+# 防止播放视频时进入屏保
+#stop-xscreensaver=yes
+#允许视频缩放
+zoom = "yes"
+#font = "1"
+# 设置字体编码 繁体big5、简体cp936
+subcp = "big5"
+subfont-encoding = "unicode"
+font = "/home/xxxcjr/.fonts/simsun.ttc"
+# font = "~/.fonts/msyh.ttf"
+# 设置字体大小
+subfont-text-scale = "5.800000" 
+# 字体缩放：0 不自动缩放； 1 按电影高度缩放； 2 按宽度； 3 按对角线
+subfont-autoscale = "2"
+# 启用ASS字幕渲染
+ass = "on"
+#指定ASS字幕的Hinting方式(Freetype Only) 0―无Hinting 1―轻微 2―普通 3―字体自带Hint
+ass-hinting = "3" 
+# 默认音量百分比
+volume = "85"
+
+打开smplayer播放视频发现没有声音，也无法自动加载显示字幕。解决方法：
+
+打开smplayer的首选项，常规，音频，在输出视频中选择"alsa"，声音就出来了。选择“字幕”，字幕编码可选择“繁体中文”或“简体中文”，当选择正确时字幕就能正常显示。
+
+8. 给予普通用户使用sudo的权限
+
+Debian默认已经安装了sudo，但是没有把使用的权限给予普通用户，要手动修改。
+
+# visudo
+
+找到root ALL=(ALL) ALL一行,在下一行添加
+xxxcjr ALL=(ALL) ALL 
+
+（将xxxcjr改成的要取得运行sudo权限的用户）
+
+附：sudo的权限设置的格式
+格式: 授权用户 主机 = [(目的用户)] [NOPASSWD:] 命令列表
+如：tony ALL=(ALL) NOPASSWD:ALL
+
+9. 安装加密软件truecrypt，并解决几个遇到的问题。
+
+下载地址：http://www.truecrypt.org/downloads
+选择针对linux,standard - 32-bit(x86)
+# tar zxvf truecrypt-7.0a-linux-x86.tar.gz
+# ./truecrypt-7.0a-setup-x86
+
+可以在“应用程序”“附件”找到truecrypt。点击却无法运行。在命令行输入：“truecrypt”回车，提示：truecrypt: error while loading shared libraries: libfuse.so.2: cannot open shared object file: No such file or directory
+（奇怪的是我第二次安装的时候没有出现这个问题，但是还是保留这个记录，以备不时之需）
+
+看看找不到的libfuse2.so.2属于哪个包：
+# apt-cache search libfuse2.so.2
+
+由结果可知要安装libfuse2
+# apt-get install libfuse2
+
+再运行truecrypt熟悉的界面就出来了。试用了一下，发现普通用户无法成功打开加密文件，这是权限的原因。首先确认系统已经安装了sudo。
+
+添加一个组：系统，用户和组，管理级，组名输入“truecrypt”，确定。
+
+把用户root和xxxcjr添加到truecrypt组中：
+# usermod -G truecrypt root
+# usermod -G truecrypt xxxcjr
+
+# visudo
+
+在最后面添加上下面一行：
+%truecrypt ALL=(root) NOPASSWD:/usr/bin/truecrypt
+
+给予truecrypt组运行truecrypt命令的权力（这一步好像非必需）
+# chgrp truecrypt /usr/bin/truecrypt
+
+注销普通用户就可以运行truecrypt了。
+
+解决加密文件内的中文文件乱码。
+在setting->preference->mount option->file system中填入utf8，
+
+要删除truecrypt时运行:truecrypt-uninstall.sh
+
+10. 设置开机加载分区
+
+建立相应的目录：
+$ mkdir /media/c-sda1-hd00 
+$ mkdir /media/d-sda7-hd06 
+$ mkdir /media/e-sda8-hd07 
+$ mkdir /media/ubuntu-sda5-hd04 
+
+编辑/etc/fstab，添加下面内容：
+/dev/sda5       /media/ubuntu-sda5-hd04         ext3    defaults    0   0
+/dev/sda7       /media/d-sda7-hd06  ntfs    defaults,iocharset=zh.CN.utf8,umask=000,uid=1000,gid=1000   0    0
+/dev/sda8       /media/e-sda8-hd07  vfat    defaults,iocharset=utf8,umask=000,uid=1000,gid=1000   0    0
+/dev/sda1       /media/c-sda1-hd00  ntfs  defaults,iocharset=zh.CN.utf8,umask=000,uid=1000,gid=1000  0    0 
+/media/ubuntu-sda5-hd04/media/swap.file   swap    swap    defaults    0   0
+
+11. 安装gvim
+
+$ sudo apt-get install vim-gnome 
+
+把配置文件链接到~目录。
+$ ln -s /media/d-sda7-hd06/library/important_files/vim/vimfiles ~/.vim
+$ ln -s /media/d-sda7-hd06/library/important_files/vim/vimrc ~/.vimrc
+
+如果出现Root终端退出vi/vim后终端乱码的情况可以这样解决：
+#update-alternatives --config vi
+#update-alternatives --config vim
+选择vim.basic来提供vim即可解决乱码问题。
+
+12. 安装ctags
+
+确保系统已经安装make。
+
+下载地址：http://ctags.sourceforge.net/。我下载的是 ctags-5.8.tag.gz。运行下面的命令进行解压安装。
+$ tar xzvf ctags-5.8.tag.gz
+$ cd ctags-5.8
+$ ./configure
+$ make
+$ sudo make install
+
+13. 安装Mutagen对mp3 ID标签进行转码解决乱码问题
+
+# sudo apt-get install python-mutagen
+
+使用方法：
+$ mid3iconv -e gbk *.mp3
+-e gbk 参数是代表把 GBK 编码的标签转换为 Unicode 编码，本身是 Unicode 编码的就不转换。如果需要转换其他编码的文件可以自行修改，如改为 Big5、gb18030。
+
+转换当前目录下的所有 mp3 (包括子目录)：
+$ find . -iname "*.mp3" -execdir mid3iconv -e gbk {} \;
+
+不过它会同时用 Unicode 编码填满 D3v1, ID3v2, APEv2 标签，但是 ID3v1 又不支持中文的Unicode 编码，所以转换后的 ID3v1 标签全是问号。所以最好加上 –remove-v1 参数，转换后删除 ID3v1 标签。
+$ mid3iconv -e gbk --remove-v1 *.mp3
+
+14. 安装解压缩软件
+$ sudo apt-get install unrar unzip p7zip-full
+
+15. 安装Flash插件
+执行命令：
+$ sudo apt-get install flashplugin-nonfree 
+
+第一次这样就把flash插件安装上了，但是以后再怎么装都装不上，不知道是什么原因，所以只得选择手动安装。
+
+手动安装官方Flash插件
+注意如果你已经用上面的命令安装了flashplugin-nonfree，最好先卸载掉。
+$ sudo apt-get remove flashplugin-nonfree
+
+先把两个相关的包装上
+$ sudo apt-get install ca-certificates libcurl3-gnutls
+
+到下面网址下载 Flash Player 的压缩包
+http://labs.adobe.com/downloads/flashplayer10.html
+
+Download plug-in for 32-bit Linux (TAR.GZ, 4.7 MB) ← 下载这个
+
+然后解压下载下来的压缩文件，解压出来
+libflashplayer.so
+
+切换到普通用户创建存放 Flash 插件的目录
+$ mkdir ~/.mozilla/plugins
+
+进入存放 libflashplayer.so 的目录
+$ cp -v libflashplayer.so ~/.mozilla/plugins
+
+16. PPP 拔号设置
+
+安装 pppconfig 软件包，设置 PPP 拨号访问。
+
+     # apt-get install pppconfig
+     # pppconfig
+      ... 按提示配置 PPP 拨号
+     # adduser user_name dip
+      ... 允许 user_name 进行 PPP 拨号访问
+
+用户(user_name)进行 PPP 拨号访问：
+
+     $ pon ISP_name   # 开始 PPP 访问，接通你的 ISP
+      ... 享受 Internet
+     $ poff ISP_name # 停止 PPP 访问，ISP_name 可选
+
+17. 为星际译王安装字典
+$ ln -s /media/d-sda7-hd06/library/stardict/dic /usr/share/stardict/dic
+
+18. 安装配置Emaces
+$ suod apt-get install emacs emacs23-common-non-dfsg emacs23-el libgd-tools m17n-docs gawk
+
+19. 安装基本编译环境
+$ apt-get install gcc
+$ apt-get install linux-headers-`uname -r`
+$ apt-get install make
+$ apt-get install automake
+
+20. 安装所见即所得的网页编辑器：KompoZer
+$ sudo apt-get install kompozer
+
+安装后默认是英文的，这时需要自己去下载中文包
+
+中文包下载地址：http://kompozer.sourceforge.net/l10n/langpacks/
+
+点击tool-addons
+
+选中下载的中文包，然后点击install步骤安装就可以，安装后重启KompoZer就能看到第一幅图中的中文界面了
+
+21. 把终端命令 rm 删除的文件放进回收站
+
+有不小心使用rm命令而惨痛经历，以后再也不使用rm命令了。参考： Linux 终端命令 rm 删除的文件进入回收站实现方法
+
+脚本/bin/totrash内容如下：
+#!/bin/sh
+# script to send removed files to trash directory
+mv "$*" ~/.local/share/Trash/files          
+(原文中没有加双引号，无法删除带有空格的文件)
+
+保存文件
+
+修改属性: 
+$ suod chmod +x /bin/totrash
+
+修改rm 命令句柄,重命名rm 命令：
+# vim ~/.bashrc
+添加如下代码到其中：
+alias rm＝'/bin/totrash'
+执行命令更新.bashrc文件的内容: source ~/.bashrc
+
+以后就可以使用rm命令把文件移动到回收站了。
+
+21.安装gitk
+
+#sudo apt-get install gitk
+
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
+其它各种小折腾
+
+.1 右键打开终端
+    # apt-get install nautilus-open-terminal
+
+.2 允许以root权限打开文件夹
+#apt-get install nautilus-gksu
+
+.3 面板上调节cpu频率并且对其进行监视
+    # dpkg-reconfigure gnome-applets
+
+.4 面板上监视CPU温度,硬盘温度等
+    # apt-get install lm-sensors sensors-applet
+    确定，否
+
+.5 OpenOffice的启动速度优化
+). 打开 OpenOffice Writer，在菜单中选择：工具->选项->内存：
+). 修改：撤销命令->步数：20
+). 修改：图形缓冲区->用于openoffice：128m，每个对象的内存：20m
+). 激活：系统栏快速启动
+5).取消 Java 选项页中的‘使用 Java 运行环境’ 设置input method
+
+.6 Iceweasel浏览器相关设置
+在地址栏输入 about:config 打开浏览器的设置页面。
+在中间的过滤器中输入Iceweasel 找到对应项目。
+右键选择修改键值，将Iceweasel改成Firefox。
+保存后重启浏览器。选择“工具”——”组件“添加你想要的插件。
+
+.7 安装gdebi，以后双击deb包就能安装了
+# apt-get install gdebi
+
+
+.8 修改主菜单图标
+
+下载并解压图标到/usr/share/pixmaps
+打开配置编辑器（应用程序->系统工具->配置编辑器）
+跳到/apps/panel/objects，点击小箭头，展开它
+你将会看到一系列文件夹包含这样的名称”object_2″, “object_3″等等
+浏览这些文件夹，你将会在右边的窗口中看到 “tooltip”值
+检查”use_custom_icon”的复选框是否选中。
+双击”custom_icon” 字段
+输入”name_of_file”（不包括双引号），把name_of_file改为你所喜爱的图标名称，注意图标文件名应该包括扩展名。
+点击该字段以外的地方，修改立即生效
+10)修改完成后，关闭配置编辑器
+
+
+.11 zhcon 分辨率
+# vim /etc/zhcon.conf 
+修改下面两行：
+x_resolution = 800
+y_resolution = 480
+
+
+.16 安装ubuntu字体
+
+# apt-get install ttf-ubuntu-title 
+sudo apt-get install ttf-wqy-microhei
+
+.17 安装终端终结者Terminator
+
+参考：http://www.debianedu.org/shells/tools/terminator
+
+$ sudo aptitude install terminator
+
+.22 歌开源浏览器Chromium
+# 不喜欢用这个的，也可以安装 Chrome 浏览器
+apt-get install chromium-browser chromium-browser-l10n
+
+.23 CHM阅读器
+如果有Windows下的CHM文档资料要看，那么就安装chmsee吧
+apt-get install chmsee
+
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
+2.2.12 源码包
+
+源码包发布在 source 目录中，既可以手工下载可以使用
+
+     apt-get source foo
+
+获取它们(参阅apt-get(8)帮助页面)。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+一、[使用apt-get从源码安装软件]
+
+2.2.13 编译源码包
+
+对于 foo 软件包，从源码编译需要 foo_*.dsc、foo_*.tar.gz 和
+foo_*.diff.gz 文件(注意，对于由 Debian 开发的软件包，没有
+.diff.gz 文件)。
+
+当你得全了这些文件，如果你这安装了 dpkg-dev 软件包，运行：
+
+     $ dpkg-source -x foo_version-revision.dsc
+
+它将软件包解压到一个名为 foo-version 的目录。
+
+使用下列命令创建二进制软件包：
+
+     $ cd foo-version
+     $ su -c "apt-get update ; apt-get install fakeroot"
+     $ dpkg-buildpackage -rfakeroot -us -uc
+
+然后，
+
+     # su -c "dpkg -i ../foo_version-revision_arch.deb"
+
+安装新编译的软件包。参阅向 stable 系统引入软件包, 第 6.4.10 节。
+
+
+
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
+1. 安装Emaces，学生使用shell，w3m，等等等
+2. 定制中文的终端
+    安装fbterm
+    小小输入法
+    字符界面音乐播放器：moc
+    显示图片：fbi
+3. 打字时关闭触摸屏
+
+
+Emaces
+
+a. 安装配色方案
+{
+到这里下载：http://download.gna.org/color-theme/，并解压到~/.emacs.d
+在~/.emacs文件中添加：
+    ;配色方案
+    (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+    (require 'color-theme)
+    (color-theme-initialize)
+    (color-theme-classic )
+保存。
+要测试配色方案时只要你可以选择自己喜欢的颜色主题，选择的时候，可以在Tools-->color theme里面选择，也可以直接输入 M-x color-theme-select RET进行选择。选中后把代码中的“classic”改成选中的名字，需要注意的是，所列出的美色主题的名字第一个都大写了，我们写配置信息的时候，全部分是小写，否则会报错。
+}
+
+b. 在Emacs中运行vim
+{
+M-x ansi-term
+Run program: vim
+}
+
+
+1.下载emms:http://www.gnu.org/software/emms/(http://www.gnu.org/software/emms/download/emms-3.0.tar.gz)
+2.解压到~/.emacs.d/
+3.在~/.emacs文件内添加如下内容：
+(add-to-list 'load-path "~/My_Emacs/emms-3.0/")     ;;; emms目录
+(add-to-list 'exec-path "e:/tools/mplayer/")                ;;;mplayer目录
+(require 'emms-setup)
+(emms-devel)
+;; players
+(setq emms-player-mpg321-command-name "mpg123"
+      emms-player-mplayer-command-name "mplayer"
+      emms-player-list '(emms-player-mplayer
+                         emms-player-mplayer-playlist
+                         emms-player-ogg123
+                         emms-player-mpg321))
+;; Show the current track each time EMMS
+;; starts to play a track with "播放 : "
+(add-hook 'emms-player-started-hook 'emms-show)
+(setq emms-show-format "播放: %s")
+;; When asked for emms-play-directory,
+;; always start from this 默认的播放目录
+(setq emms-source-file-default-directory "~/mp3")
+(setq emms-playlist-buffer-name "音乐")
+
+;;;emms快捷键设置
+(global-set-key (kbd "C-c e l") 'emms-playlist-mode-go)
+(global-set-key (kbd "C-c e s") 'emms-start)
+(global-set-key (kbd "C-c e e") 'emms-stop)
+(global-set-key (kbd "C-c e n") 'emms-next)
+(global-set-key (kbd "C-c e p") 'emms-pause)
+(global-set-key (kbd "C-c e f") 'emms-play-playlist)
+(global-set-key (kbd "C-c e o") 'emms-play-file)
+(global-set-key (kbd "C-c e d") 'emms-play-directory-tree)
+(global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
+
+3.
+apt-get install mpg123
+下载mpg123.el 
+http://www.gentei.org/~yuuji/software/mpg123el/mpg123.el
+存放到~/.emacs.d/
+
+4.在.emacs中添加下面一行
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'mpg123)
+
+
+---------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/emms-3.0/")     
+(require 'emms-setup)
+  (emms-standard)
+  (setq emms-player-list '(emms-player-mplayer)
+        emms-player-mplayer-command-name "mplayer"
+        emms-player-mplayer-parameters '("-slave"))
+  (setq emms-repeat-playlist nil
+        emms-source-file-default-directory "~/music/"
+        emms-lyrics-dir "~/music/"
+        emms-lyrics-coding-system nil
+        emms-playlist-buffer-name "*EMMS*")
+  
+;;;emms快捷键设置
+(global-set-key (kbd "C-c e l") 'emms-playlist-mode-go)
+(global-set-key (kbd "C-c e s") 'emms-start)
+(global-set-key (kbd "C-c e e") 'emms-stop)
+(global-set-key (kbd "C-c e n") 'emms-next)
+(global-set-key (kbd "C-c e p") 'emms-pause)
+(global-set-key (kbd "C-c e f") 'emms-play-playlist)
+(global-set-key (kbd "C-c e o") 'emms-play-file)
+(global-set-key (kbd "C-c e d") 'emms-play-directory-tree)
+(global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
+
+
+
+
+Gnome主菜单图标修改
+
+Gnome主菜单（也就是“应用程序”）
+
+vim: foldmethod=expr: foldexpr=Fold(v\:lnum)
+
