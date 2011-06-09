@@ -1,3 +1,5 @@
+" Last Modified: 2011年06月09日 星期四 23时18分48秒 [Athena]
+
 0. 安装的要点
 
 使用网络安装，光盘下载：http://www.debian.org/distrib/netinst。
@@ -632,12 +634,6 @@ http://www.gentei.org/~yuuji/software/mpg123el/mpg123.el
 (global-set-key (kbd "C-c e d") 'emms-play-directory-tree)
 (global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
 
-
-
-
-Gnome主菜单图标修改
-
-Gnome主菜单（也就是“应用程序”）
 
 vim: foldmethod=expr: foldexpr=Fold(v\:lnum)
 
