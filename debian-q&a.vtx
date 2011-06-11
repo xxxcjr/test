@@ -1,4 +1,4 @@
-" Last Modified: 2011年06月09日 星期四 23时18分48秒 [Athena]
+" Last Modified: 2011年06月11日 星期六 14时37分10秒 [Athena]
 
 0. 安装的要点
 
@@ -411,9 +411,25 @@ alias rm＝'/bin/totrash'
 
 以后就可以使用rm命令把文件移动到回收站了。
 
-21.安装gitk
-
+21. 安装gitk
 #sudo apt-get install gitk
+
+22. 安装FoxitReader 
+自带的pdf阅读器渲染很差，显示总是模模糊糊的，在网上找了几篇介绍，都说FoxitReader不错，于是就安装了。
+
+首先到这里下载最新版的FoxitReader:
+www.fuxinsoftware.com.cn/pdf/desklinux/downloads.html
+
+当前最新的版本是1.1，下载适合Debian的deb包，使用以下命令进行安装
+
+$ sudo dpkg -i FoxitReader_1.1.0_i386.deb
+
+要缷裁时使用命令
+$ sudo dpkg -r FoxitReader
+
+显示效果确实比自带的pdf阅读器要好很多，但缺点就是没法用翻屏了。
+
+
 
 
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
@@ -490,7 +506,7 @@ apt-get install chromium-browser chromium-browser-l10n
 如果有Windows下的CHM文档资料要看，那么就安装chmsee吧
 apt-get install chmsee
 
-
+安装：CHM Reader 0.2
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 
 2.2.12 源码包
