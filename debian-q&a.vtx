@@ -1,4 +1,4 @@
-" Last Modified: 2011年06月11日 星期六 14时37分10秒 [Athena]
+" Last Modified: 2011-10-18 星期二 21:18:05 [Athena]
 
 0. 安装的要点
 
@@ -6,7 +6,9 @@
 
 网络安装光盘镜像中的vmlinuz、initrd.gz无法搜索加载硬盘上的iso镜像，所以这两个文件要从网上下载，我下载到的这两个文件也无法搜索加载NTFS文件系统中的iso文件，所以debian-6.0.1a-i386-netinst.iso要放在ext3或fat32格式的分区上。
 
-可以找到无线网卡，但好像无法正常使用，所以要准备好网络。
+可以找到无线网卡，但好像无法正常使用，所以要准备好网线。
+
+因为是笔记本，所以选择软件包时把笔记本的选项也选上。
 
 分区时选择手动分区。要从网络上下载大于1200个的软件包，安装源选择中国的，大约要两个小时才能下载完。
 
@@ -19,7 +21,9 @@ kernel /boot/vmlinuz-2.6.32-5-686 root=/dev/sda6 ro quiet splash vga=9 acpi_osi=
 initrd /boot/initrd.img-2.6.32-5-686
 boot 
 
-1. 设置源，更新系统。
+1. 系统的基本设置
+
+1.1 设置源和更新系统
 
 /etc/apt/sources.list文件如下：
 # 台湾的源
@@ -69,36 +73,25 @@ deb http://download.skype.com/linux/repos/debian stable non-free
 更新系统
 # apt-get upgrade
 
-2. 打开声音 
+### 还有一种方法 ###
+是使用apt-spy根据站点回应时间和带宽自动创建sources.list
+    # apt-get install apt-spy
+    # cd /etc/apt ; mv sources.list sources.list.old
+    # apt-spy -d testing -l sources.apt
 
-装完debian 6.0后发现没有声音，到处找解决方法，甚至试过编译声卡驱动——在编译第3个软件包时出错，第3个软件未能装上，所以我也不知道最终的解决与编译声卡驱动有没有关系——我自己觉得是没有关系的。
+1.2 打开声音 
+
+装完debian 6.0后发现没有声音，到处找解决方法，甚至试过编译声卡驱动，事实上这样做完全是多余的。
 
 在debian中打开声音的方法是：点击右上角的喇叭图标，音量控制，把“主音量”和“speaker”调到最大。声音就出来了。
 
-3. 启用触摸板点击功能
+1.3 启用触摸板点击功能
 
 受传统思想的影响，我总以为要设置触摸板就要建个文本，输入一串串英文，让触摸板正常工作起来，于是花了很多不必要的功夫，甚至进不了桌面，事实上这个设置与音量的设置一样，完全是图形化的。
 
 点击面板上的“系统”，首先项，鼠标，触摸板，常规，在“enable mouse clicks with touchpad”前面打上钩。
 
-4. 安装fcitx输入法
-
-scim输入法也许很好，但在我看来它真的有很多问题，最严重的两个是：1，无法光标跟随，我打五笔可以盲打都忍受不了；2，与nautilus冲突，无法定位文件夹，对像我这样的键盘控来说是无法忍受的。
-
-不知道什么原因，fcitx没有进入debian 6.0 squeeze的源，我决定使用sid的源。编辑sources.list，添加下面一行：
-deb http://mirrors.163.com/debian sid main non-free contrib
-更新源：
-# apt-get update
-安装：
-# apt-get install fcitx fcitx-config-common fcitx-config-gtk fcitx-data fcitx-sunpinyin fcitx-table-wubi
-
-设置fcitx为默认输入法(这一步可省略)
-# im-switch -s fcitx
-
-注销再登陆，默认的输入法就变成fcitx 4.0.1了，不得不说这个输入法真的是我在linux平台见到的最好的输入法了，在vim的自动切换问题也解决了，大善，强烈推荐使用。
-由于我不想使用sid版本，所以还要把源中刚才添加的那一行删除，再update一下。
-
-5. 解决无线上网(这一步没有必要，但记在这里以备不时之需)
+1.4 无线上网(这一步没有必要，但记在这里以备不时之需)
 
 参考：http://easwy.com/blog/archives/thinkpad_t400_wireless_driver_for_debian_lenny/
 
@@ -162,7 +155,22 @@ wpa-psk配置连接easwy无线网络的密码
 重启网络服务：
 # /etc/init.d/networking restrict
 
-6. 字体美化
+1.5 给予普通用户使用sudo的权限
+
+Debian默认已经安装了sudo，但是没有把使用的权限给予普通用户，要手动修改。
+
+# visudo
+
+找到root ALL=(ALL) ALL一行,在下一行添加
+xxxcjr ALL=(ALL) ALL 
+
+（将xxxcjr改成的要取得运行sudo权限的用户）
+
+附：sudo的权限设置的格式
+格式: 授权用户 主机 = [(目的用户)] [NOPASSWD:] 命令列表
+如：tony ALL=(ALL) NOPASSWD:ALL
+
+1.6 字体美化
 
 从ubuntu转到debian觉得各方面都好，就是字体太难看了，不得不找方案美化一下。
 
@@ -176,7 +184,41 @@ Debian Testing中文字休美化全攻略 http://edyfox.codecarver.org/html/debi
 fc-cache -f //刷新字体缓存
 fc-list  //查看是否已经安装上宋体了
 
-7.安装mplayer
+1.7 设置开机加载分区
+
+建立相应的目录：
+$ mkdir /media/c-sda1-hd00 
+$ mkdir /media/d-sda7-hd06 
+$ mkdir /media/e-sda8-hd07 
+$ mkdir /media/ubuntu-sda5-hd04 
+
+编辑/etc/fstab，添加下面内容：
+/dev/sda5       /media/ubuntu-sda5-hd04         ext3    defaults    0   0
+/dev/sda7       /media/d-sda7-hd06  ntfs    defaults,iocharset=zh.CN.utf8,umask=000,uid=1000,gid=1000   0    0
+/dev/sda8       /media/e-sda8-hd07  vfat    defaults,iocharset=utf8,umask=000,uid=1000,gid=1000   0    0
+/dev/sda1       /media/c-sda1-hd00  ntfs  defaults,iocharset=zh.CN.utf8,umask=000,uid=1000,gid=1000  0    0 
+/media/ubuntu-sda5-hd04/media/swap.file   swap    swap    defaults    0   0
+
+2. 日常应用软件的安装
+
+2.1 安装fcitx输入法
+
+scim输入法也许很好，但在我看来它真的有很多问题，最严重的两个是：1，无法光标跟随，我打五笔可以盲打都忍受不了；2，与nautilus冲突，无法定位文件夹，对像我这样的键盘控来说是无法忍受的。
+
+不知道什么原因，fcitx没有进入debian 6.0 squeeze的源，我决定使用sid的源。编辑sources.list，添加下面一行：
+deb http://mirrors.163.com/debian sid main non-free contrib
+更新源：
+# apt-get update
+安装：
+# apt-get install fcitx fcitx-config-common fcitx-config-gtk fcitx-data fcitx-sunpinyin fcitx-table-wubi
+
+设置fcitx为默认输入法(这一步可省略)
+# im-switch -s fcitx
+
+注销再登陆，默认的输入法就变成fcitx 4.0.1了，不得不说这个输入法真的是我在linux平台见到的最好的输入法了，在vim的自动切换问题也解决了，大善，强烈推荐使用。
+由于我不想使用sid版本，所以还要把源中刚才添加的那一行删除，再update一下。
+
+2.2 安装mplayer
 
 我无比地喜欢mplayer这个播放器，几乎在所有的平台都使用它。使用下面的命令安装，gmplayer就不装了，我不是很喜欢。
 
@@ -207,27 +249,14 @@ ass = "on"
 ass-hinting = "3" 
 # 默认音量百分比
 volume = "85"
+# 显示视频长度
+osdlevel = "3"
 
 打开smplayer播放视频发现没有声音，也无法自动加载显示字幕。解决方法：
 
 打开smplayer的首选项，常规，音频，在输出视频中选择"alsa"，声音就出来了。选择“字幕”，字幕编码可选择“繁体中文”或“简体中文”，当选择正确时字幕就能正常显示。
 
-8. 给予普通用户使用sudo的权限
-
-Debian默认已经安装了sudo，但是没有把使用的权限给予普通用户，要手动修改。
-
-# visudo
-
-找到root ALL=(ALL) ALL一行,在下一行添加
-xxxcjr ALL=(ALL) ALL 
-
-（将xxxcjr改成的要取得运行sudo权限的用户）
-
-附：sudo的权限设置的格式
-格式: 授权用户 主机 = [(目的用户)] [NOPASSWD:] 命令列表
-如：tony ALL=(ALL) NOPASSWD:ALL
-
-9. 安装加密软件truecrypt，并解决几个遇到的问题。
+2.3 安装加密软件truecrypt
 
 下载地址：http://www.truecrypt.org/downloads
 选择针对linux,standard - 32-bit(x86)
@@ -266,22 +295,8 @@ xxxcjr ALL=(ALL) ALL
 
 要删除truecrypt时运行:truecrypt-uninstall.sh
 
-10. 设置开机加载分区
 
-建立相应的目录：
-$ mkdir /media/c-sda1-hd00 
-$ mkdir /media/d-sda7-hd06 
-$ mkdir /media/e-sda8-hd07 
-$ mkdir /media/ubuntu-sda5-hd04 
-
-编辑/etc/fstab，添加下面内容：
-/dev/sda5       /media/ubuntu-sda5-hd04         ext3    defaults    0   0
-/dev/sda7       /media/d-sda7-hd06  ntfs    defaults,iocharset=zh.CN.utf8,umask=000,uid=1000,gid=1000   0    0
-/dev/sda8       /media/e-sda8-hd07  vfat    defaults,iocharset=utf8,umask=000,uid=1000,gid=1000   0    0
-/dev/sda1       /media/c-sda1-hd00  ntfs  defaults,iocharset=zh.CN.utf8,umask=000,uid=1000,gid=1000  0    0 
-/media/ubuntu-sda5-hd04/media/swap.file   swap    swap    defaults    0   0
-
-11. 安装gvim
+2.4 安装gvim
 
 $ sudo apt-get install vim-gnome 
 
@@ -294,18 +309,13 @@ $ ln -s /media/d-sda7-hd06/library/important_files/vim/vimrc ~/.vimrc
 #update-alternatives --config vim
 选择vim.basic来提供vim即可解决乱码问题。
 
-12. 安装ctags
+2.5 安装基本编译环境
+$ apt-get install gcc
+$ apt-get install linux-headers-`uname -r`
+$ apt-get install make
+$ apt-get install automake
 
-确保系统已经安装make。
-
-下载地址：http://ctags.sourceforge.net/。我下载的是 ctags-5.8.tag.gz。运行下面的命令进行解压安装。
-$ tar xzvf ctags-5.8.tag.gz
-$ cd ctags-5.8
-$ ./configure
-$ make
-$ sudo make install
-
-13. 安装Mutagen对mp3 ID标签进行转码解决乱码问题
+2.6 安装Mutagen对mp3 ID标签进行转码解决乱码问题
 
 # sudo apt-get install python-mutagen
 
@@ -319,10 +329,12 @@ $ find . -iname "*.mp3" -execdir mid3iconv -e gbk {} \;
 不过它会同时用 Unicode 编码填满 D3v1, ID3v2, APEv2 标签，但是 ID3v1 又不支持中文的Unicode 编码，所以转换后的 ID3v1 标签全是问号。所以最好加上 –remove-v1 参数，转换后删除 ID3v1 标签。
 $ mid3iconv -e gbk --remove-v1 *.mp3
 
-14. 安装解压缩软件
+2.7 安装解压缩软件
+
 $ sudo apt-get install unrar unzip p7zip-full
 
-15. 安装Flash插件
+2.8 安装Flash插件
+
 执行命令：
 $ sudo apt-get install flashplugin-nonfree 
 
@@ -349,7 +361,16 @@ $ mkdir ~/.mozilla/plugins
 进入存放 libflashplayer.so 的目录
 $ cp -v libflashplayer.so ~/.mozilla/plugins
 
-16. PPP 拔号设置
+2.9 为星际译王安装字典
+
+Debian 6.0已经默认安装好星际译王，只要把字典存放到相应的位置就行了，由于我的三个系统都是用同一份字典文件，所以我使用链接到文件链接到相应的位置。
+
+$ ln -s /media/d-sda7-hd06/library/stardict/dic /usr/share/stardict/dic
+
+2.10 安装配置Emaces
+$ suod apt-get install emacs emacs23-common-non-dfsg emacs23-el libgd-tools m17n-docs gawk
+
+2.11 PPP 拔号设置
 
 安装 pppconfig 软件包，设置 PPP 拨号访问。
 
@@ -365,19 +386,19 @@ $ cp -v libflashplayer.so ~/.mozilla/plugins
       ... 享受 Internet
      $ poff ISP_name # 停止 PPP 访问，ISP_name 可选
 
-17. 为星际译王安装字典
-$ ln -s /media/d-sda7-hd06/library/stardict/dic /usr/share/stardict/dic
+2.12 安装ctags
 
-18. 安装配置Emaces
-$ suod apt-get install emacs emacs23-common-non-dfsg emacs23-el libgd-tools m17n-docs gawk
+确保系统已经安装make。
 
-19. 安装基本编译环境
-$ apt-get install gcc
-$ apt-get install linux-headers-`uname -r`
-$ apt-get install make
-$ apt-get install automake
+下载地址：http://ctags.sourceforge.net/。我下载的是 ctags-5.8.tag.gz。运行下面的命令进行解压安装。
+$ tar xzvf ctags-5.8.tag.gz
+$ cd ctags-5.8
+$ ./configure
+$ make
+$ sudo make install
 
-20. 安装所见即所得的网页编辑器：KompoZer
+2.13 安装所见即所得的网页编辑器：KompoZer
+
 $ sudo apt-get install kompozer
 
 安装后默认是英文的，这时需要自己去下载中文包
@@ -386,9 +407,48 @@ $ sudo apt-get install kompozer
 
 点击tool-addons
 
-选中下载的中文包，然后点击install步骤安装就可以，安装后重启KompoZer就能看到第一幅图中的中文界面了
+选中下载的中文包，然后点击install步骤安装就可以，安装后重启KompoZer就能看到第一幅图中的中文界面了。
 
-21. 把终端命令 rm 删除的文件放进回收站
+2.14 安装gitk
+#sudo apt-get install gitk
+
+2.15 安装FoxitReader 
+
+自带的pdf阅读器渲染很差，显示总是模模糊糊的，在网上找了几篇介绍，都说FoxitReader不错，于是就安装了。
+
+首先到这里下载最新版的FoxitReader:
+www.fuxinsoftware.com.cn/pdf/desklinux/downloads.html
+
+当前最新的版本是1.1，下载适合Debian的deb包，使用以下命令进行安装
+
+$ sudo dpkg -i FoxitReader_1.1.0_i386.deb
+
+要缷裁时使用命令
+$ sudo dpkg -r FoxitReader
+
+显示效果确实比自带的pdf阅读器要好很多，但缺点就是没法用翻屏，少了很多快捷键。
+
+2.16 安装gdebi，以后双击deb包就能安装了
+
+# apt-get install gdebi
+
+2.17 安装终端终结者Terminator
+
+参考：http://www.debianedu.org/shells/tools/terminator
+
+$ sudo aptitude install terminator
+
+2.18 安装 tmux
+
+$ sudo apt-get install tmux
+
+2.19 安装 Chrome
+
+$ sudo apt-get install chromium-browser
+
+3 各种小折腾
+
+3.1 把终端命令 rm 删除的文件放进回收站
 
 有不小心使用rm命令而惨痛经历，以后再也不使用rm命令了。参考： Linux 终端命令 rm 删除的文件进入回收站实现方法
 
@@ -411,62 +471,24 @@ alias rm＝'/bin/totrash'
 
 以后就可以使用rm命令把文件移动到回收站了。
 
-21. 安装gitk
-#sudo apt-get install gitk
+3.2 右键打开终端
 
-22. 安装FoxitReader 
-自带的pdf阅读器渲染很差，显示总是模模糊糊的，在网上找了几篇介绍，都说FoxitReader不错，于是就安装了。
+# apt-get install nautilus-open-terminal
 
-首先到这里下载最新版的FoxitReader:
-www.fuxinsoftware.com.cn/pdf/desklinux/downloads.html
+3.3 允许以root权限打开文件夹
 
-当前最新的版本是1.1，下载适合Debian的deb包，使用以下命令进行安装
+# apt-get install nautilus-gksu
 
-$ sudo dpkg -i FoxitReader_1.1.0_i386.deb
+3.4 面板上调节cpu频率并且对其进行监视
 
-要缷裁时使用命令
-$ sudo dpkg -r FoxitReader
+# dpkg-reconfigure gnome-applets
 
-显示效果确实比自带的pdf阅读器要好很多，但缺点就是没法用翻屏了。
+3.5 面板上监视CPU温度,硬盘温度等
 
+# apt-get install lm-sensors sensors-applet
+确定，否
 
-
-
-－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
-
-其它各种小折腾
-
-.1 右键打开终端
-    # apt-get install nautilus-open-terminal
-
-.2 允许以root权限打开文件夹
-#apt-get install nautilus-gksu
-
-.3 面板上调节cpu频率并且对其进行监视
-    # dpkg-reconfigure gnome-applets
-
-.4 面板上监视CPU温度,硬盘温度等
-    # apt-get install lm-sensors sensors-applet
-    确定，否
-
-.5 OpenOffice的启动速度优化
-). 打开 OpenOffice Writer，在菜单中选择：工具->选项->内存：
-). 修改：撤销命令->步数：20
-). 修改：图形缓冲区->用于openoffice：128m，每个对象的内存：20m
-). 激活：系统栏快速启动
-5).取消 Java 选项页中的‘使用 Java 运行环境’ 设置input method
-
-.6 Iceweasel浏览器相关设置
-在地址栏输入 about:config 打开浏览器的设置页面。
-在中间的过滤器中输入Iceweasel 找到对应项目。
-右键选择修改键值，将Iceweasel改成Firefox。
-保存后重启浏览器。选择“工具”——”组件“添加你想要的插件。
-
-.7 安装gdebi，以后双击deb包就能安装了
-# apt-get install gdebi
-
-
-.8 修改主菜单图标
+3.6 修改主菜单图标
 
 下载并解压图标到/usr/share/pixmaps
 打开配置编辑器（应用程序->系统工具->配置编辑器）
@@ -477,178 +499,192 @@ $ sudo dpkg -r FoxitReader
 双击”custom_icon” 字段
 输入”name_of_file”（不包括双引号），把name_of_file改为你所喜爱的图标名称，注意图标文件名应该包括扩展名。
 点击该字段以外的地方，修改立即生效
-10)修改完成后，关闭配置编辑器
 
+3.7 zhcon 分辨率
 
-.11 zhcon 分辨率
 # vim /etc/zhcon.conf 
 修改下面两行：
 x_resolution = 800
 y_resolution = 480
 
+3.8 自动登录
 
-.16 安装ubuntu字体
+每次天机都要输入密码烦死了，设置成自动登录。系统，系统管理，login screen，“点击来进行改变”，选择要默认登录的用户。
 
-# apt-get install ttf-ubuntu-title 
-sudo apt-get install ttf-wqy-microhei
+3.9 Iceweasel浏览器相关设置
 
-.17 安装终端终结者Terminator
+3.9.1 修改Iceweasel的标识
+在地址栏输入 about:config 打开浏览器的设置页面。
+在中间的过滤器中输入Iceweasel 找到对应项目。
+右键选择修改键值，将Iceweasel改成Firefox。
+保存后重启浏览器。选择“工具”——”组件“添加你想要的插件。
 
-参考：http://www.debianedu.org/shells/tools/terminator
+3.9.2 安装插件CHM Reader
+在linux阅读CHM文件是个大问题，安装CHM Reader是一个不错（也许是最好）的解决方案，要注意的是快捷键上vimperator有冲突，不能带按ctrl+e打开侧边栏了，要用鼠标操作。
 
-$ sudo aptitude install terminator
+3.9.3 修改User-agent
+我迷信一种说法，好的User-agent可以提高安全性，坏的user-agent可以为上网带来麻烦。
+地址栏键入：about:config 回车。
+查找：general.useragent.override，如果没有就新建一个同名的字符串。字符串的值为：
+Mozilla/5.0 (X11; U; Linux x86_64; zh-CN) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16
 
-.22 歌开源浏览器Chromium
-# 不喜欢用这个的，也可以安装 Chrome 浏览器
-apt-get install chromium-browser chromium-browser-l10n
+3.9.4 显示状态栏
+点击“查看”，然后点击“状态栏”，前面会有个勾，就好了。
 
-.23 CHM阅读器
-如果有Windows下的CHM文档资料要看，那么就安装chmsee吧
-apt-get install chmsee
+3.10 OpenOffice的启动速度优化
+(1). 打开 OpenOffice Writer，在菜单中选择：工具->选项->内存：
+(2). 修改：撤销命令->步数：20
+(3). 修改：图形缓冲区->用于openoffice：128m，每个对象的内存：20m
+(4). 激活：系统栏快速启动
+(5). 取消 Java 选项页中的‘使用 Java 运行环境’ 设置input method
 
-安装：CHM Reader 0.2
-－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+3.11 开机进入字符终端
+修改grub的引导菜单，我使用的是grub4dos，所以修改menu.lst，把“quiet splash”改为“quiet splash txt”。现在的菜单为：
+title 3.Debian 6.0-2.6.32-5-686 Squeeze
+password=x
+root (hd0,5)
+kernel /boot/vmlinuz-2.6.32-5-686 root=/dev/sda6 ro quiet splash text vga=9 acpi_osi=Linux
+initrd /boot/initrd.img-2.6.32-5-686
+boot 
 
-2.2.12 源码包
+附：另外3种方法
 
-源码包发布在 source 目录中，既可以手工下载可以使用
+方法一：
+ubuntu在6.10开始用upstart替代init，主要脚本都在/etc/event.d下面，默认情况下/etc下没有inittab文件,但是默认情况下inittab虽然不存在，ubuntu用upstart替代init，但还是和init保持兼容。方法是自建一个inittab文件，写入一行id:3:initdefault: ，然后进入/etc/rc3.d，将S13kdm移动到其他目录备份起来，重新启动系统，如愿以偿进入字符界面。
 
-     apt-get source foo
+方法二：
+首先安装sysv-rc-conf。
+sudo apt-get install sysv-rc-conf
+运行sysv-rc-conf
+sudo sysv-rc-conf
+运行后在选项中寻找到2列 对于的gdm项，去掉选择gdm即可。
+注重！当你重新启动ubuntu之后进入了字符界面之后，又想回到图形环境不是用startx命令，而是telinit 3。
 
-获取它们(参阅apt-get(8)帮助页面)。
+方法三：
+直接在X环境下停掉GDM服务:
+sudo update-rc.d -f gdm remove
+重新启动(进入文字命令行模式):
+sudo reboot -n
+假如想在命令行模式直接进入X环境的话,则需输入:
+startx
+假如想改回开机启动回到X环境的话,则需开启GDM服务即可:
+sudo update-rc.d gdm defaults
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-一、[使用apt-get从源码安装软件]
+3.12 ipv6 的相关设置
 
-2.2.13 编译源码包
+查看IPv6是否开启
+$ netstat -antl
+如果看到以“tcp6”开头的行，说明ipv6是开启的。
 
-对于 foo 软件包，从源码编译需要 foo_*.dsc、foo_*.tar.gz 和
-foo_*.diff.gz 文件(注意，对于由 Debian 开发的软件包，没有
-.diff.gz 文件)。
+如果没有开启就要手动开启
+$ sudo apt-get install gw6c
+$ sudo apt-get install ndisc6
 
-当你得全了这些文件，如果你这安装了 dpkg-dev 软件包，运行：
+重启浏览器，访问http://www.ipv6forum.org/test_ipv6.php，如果出现 Congratulations! You are connected with IPv6! The IPv6 Globe is spinning for you. Your IPv6 address is: 240c:2:100:fdc9::1的字样也表示配置成功。
+$ sudo vim /etc/hosts 添加下面内容
 
-     $ dpkg-source -x foo_version-revision.dsc
+Iceweasel就可以成功翻墙了——不过发现有一此网站反而访问不了，但在重启浏览器后又可以访问，很奇怪，原因未明。
 
-它将软件包解压到一个名为 foo-version 的目录。
+如果有安装Chrome并用它访问twitter.com出现的不是它的主页而是一大堆英文，需要手动为其设置代理。
+工具——首选项——高级选项——更改代理设置，修改“自动配置代理”“自动配置URL”为：http://gfw-proxy.co.cc/proxy.pac 。
 
+（开启ipv6后感觉上网速度慢了一点，唉，在天朝的无奈）
+
+关闭ipv6。
+$ sudo vim /etc/modprobe.d/aliases
+找到“# alias net-pf-10 ipv6”这一行，在它下面添加两行：
+alias net-pf-10 off
+alias ipv6 off
+
+重启系统，完成。
+
+3.13  激活Ctrl-Alt-Backspace
+    选择 “系统/System”->“首选项/Preferences”->“键盘/Keyboard”
+    选择 “布局/Layouts” 选项卡并点击“选项/Layout Options” 按钮
+    选择 “Key sequence to kill the X server” and enable并激活 “Control + Alt + Backspace”.aa 
+
+
+4 零碎知识备查
+
+4.1 无法更新安装软件
+
+错误提示：E: 无法获得锁 /var/cache/apt/archives/lock - open (11 资源临时不可用)
+E: 无法对下载目录加锁
+
+解决步骤：将错误提示输入google中搜索。获得第一个方案，打开终端，输入： ps -aux ，列出进程，形式如
+root      5765  0.0  1.0  18204 15504 ?        SN   04:02   0:00 apt-get -qq -d
+
+最后一列以apt-get 开头，这个进程正得到锁，在终端输入：sudo kill PID，释放锁。
+
+第二个方案，强制解锁,命令
+
+sudo rm /var/cache/apt/archives/lock
+
+sudo rm /var/lib/dpkg/lock
+
+问题解决。
+
+4.2 通过apt-get从源码编译安装软件
+
+下载源代码
+    $ apt-get source foo
 使用下列命令创建二进制软件包：
-
-     $ cd foo-version
-     $ su -c "apt-get update ; apt-get install fakeroot"
-     $ dpkg-buildpackage -rfakeroot -us -uc
-
+    $ cd foo-version
+    $ su -c "apt-get update ; apt-get install fakeroot"
+    $ dpkg-buildpackage -rfakeroot -us -uc
 然后，
+    # su -c "dpkg -i ../foo_version-revision_arch.deb"
 
-     # su -c "dpkg -i ../foo_version-revision_arch.deb"
-
-安装新编译的软件包。参阅向 stable 系统引入软件包, 第 6.4.10 节。
-
+4.3 APT缓存存放位置：/var/cache/apt/archives
 
 
+++++++++++++++++++++++++++++++++++++++++
 
-－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+5 待实践
 
-1. 安装Emaces，学生使用shell，w3m，等等等
-2. 定制中文的终端
+* 定制中文的终端
     安装fbterm
     小小输入法
     字符界面音乐播放器：moc
     显示图片：fbi
-3. 打字时关闭触摸屏
+
+* 打字时关闭触摸屏
+
+* 用 chroot 来运行不同版本的 Debian(6493行)
 
 
-Emaces
+6 常用小命令
 
-a. 安装配色方案
-{
-到这里下载：http://download.gna.org/color-theme/，并解压到~/.emacs.d
-在~/.emacs文件中添加：
-    ;配色方案
-    (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-    (require 'color-theme)
-    (color-theme-initialize)
-    (color-theme-classic )
-保存。
-要测试配色方案时只要你可以选择自己喜欢的颜色主题，选择的时候，可以在Tools-->color theme里面选择，也可以直接输入 M-x color-theme-select RET进行选择。选中后把代码中的“classic”改成选中的名字，需要注意的是，所列出的美色主题的名字第一个都大写了，我们写配置信息的时候，全部分是小写，否则会报错。
-}
+6.1 更新系统
 
-b. 在Emacs中运行vim
-{
-M-x ansi-term
-Run program: vim
-}
+$ sudo apt-get update
+$ sudo apt-get upgrade
+
+6.2 查看文件md5
+$ ms5sum 要查看的文件
+
+6.3 显示CPU、硬盘温度 
+$ sensors 
 
 
-1.下载emms:http://www.gnu.org/software/emms/(http://www.gnu.org/software/emms/download/emms-3.0.tar.gz)
-2.解压到~/.emacs.d/
-3.在~/.emacs文件内添加如下内容：
-(add-to-list 'load-path "~/My_Emacs/emms-3.0/")     ;;; emms目录
-(add-to-list 'exec-path "e:/tools/mplayer/")                ;;;mplayer目录
-(require 'emms-setup)
-(emms-devel)
-;; players
-(setq emms-player-mpg321-command-name "mpg123"
-      emms-player-mplayer-command-name "mplayer"
-      emms-player-list '(emms-player-mplayer
-                         emms-player-mplayer-playlist
-                         emms-player-ogg123
-                         emms-player-mpg321))
-;; Show the current track each time EMMS
-;; starts to play a track with "播放 : "
-(add-hook 'emms-player-started-hook 'emms-show)
-(setq emms-show-format "播放: %s")
-;; When asked for emms-play-directory,
-;; always start from this 默认的播放目录
-(setq emms-source-file-default-directory "~/mp3")
-(setq emms-playlist-buffer-name "音乐")
+7 Debian资源 
 
-;;;emms快捷键设置
-(global-set-key (kbd "C-c e l") 'emms-playlist-mode-go)
-(global-set-key (kbd "C-c e s") 'emms-start)
-(global-set-key (kbd "C-c e e") 'emms-stop)
-(global-set-key (kbd "C-c e n") 'emms-next)
-(global-set-key (kbd "C-c e p") 'emms-pause)
-(global-set-key (kbd "C-c e f") 'emms-play-playlist)
-(global-set-key (kbd "C-c e o") 'emms-play-file)
-(global-set-key (kbd "C-c e d") 'emms-play-directory-tree)
-(global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
-
-3.
-apt-get install mpg123
-下载mpg123.el 
-http://www.gentei.org/~yuuji/software/mpg123el/mpg123.el
-存放到~/.emacs.d/
-
-4.在.emacs中添加下面一行
-(add-to-list 'load-path "~/.emacs.d/")
-(require 'mpg123)
+7.1. 163的安装镜像
+http://mirrors.163.com/debian/dists/Debian6.0.2/main/installer-i386/current/images/
+（其中hd-media是硬盘安装）
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 
 
----------------------------------------------
-(add-to-list 'load-path "~/.emacs.d/emms-3.0/")     
-(require 'emms-setup)
-  (emms-standard)
-  (setq emms-player-list '(emms-player-mplayer)
-        emms-player-mplayer-command-name "mplayer"
-        emms-player-mplayer-parameters '("-slave"))
-  (setq emms-repeat-playlist nil
-        emms-source-file-default-directory "~/music/"
-        emms-lyrics-dir "~/music/"
-        emms-lyrics-coding-system nil
-        emms-playlist-buffer-name "*EMMS*")
-  
-;;;emms快捷键设置
-(global-set-key (kbd "C-c e l") 'emms-playlist-mode-go)
-(global-set-key (kbd "C-c e s") 'emms-start)
-(global-set-key (kbd "C-c e e") 'emms-stop)
-(global-set-key (kbd "C-c e n") 'emms-next)
-(global-set-key (kbd "C-c e p") 'emms-pause)
-(global-set-key (kbd "C-c e f") 'emms-play-playlist)
-(global-set-key (kbd "C-c e o") 'emms-play-file)
-(global-set-key (kbd "C-c e d") 'emms-play-directory-tree)
-(global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
+
+
+
+
+
+
+
+
+
 
 
 vim: foldmethod=expr: foldexpr=Fold(v\:lnum)

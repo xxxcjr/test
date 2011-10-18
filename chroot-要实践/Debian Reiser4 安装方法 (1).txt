@@ -1,0 +1,256 @@
+Debian Reiser4 安装方法 (1)2008-06-12 19:44Debian Reiser4 安装方法 
+
+     理由： 
+         看上reiser4的压缩比与性能，并且我想重做个干净的系统(当前系统安装的软件太多了，有4G)。 
+         
+
+     本文研究通过cdebootstrap进行全新系统安装的方法。 
+
+     前提是需要已有一个Linux系统，及一个150M的空白分区(高级一点做法是通过initrd进行)。 
+
+     安装方法是先通过cdebootstrap安装一个最小系统到空白分区，再从空白分区安装最系统到原始分区。 
+
+
+
+     安装过程的注意点： 
+         1.   grub无法引导reiser4文件系统，只能使用lilo,不过lilo的写入速度很慢，不知可有方法可解决此问题。 
+         2.   使用udev的时候，/dev目录也必须有console文件与null文件，不然无法启动。 
+         3.   cdebootstrap安装的最小系统好像比debootstrap要小，只有56M，不会有多余软件。但是cdebootstrap不会安装base-config，后面需要自己对系统的各部分进行手工配置。 
+
+     安装后大小600M左右，使用E17做窗口管理器,源是 deb http://debian.alphagemini.org/ unstable main 
+
+
+     安装后reiser4的使用感受：个人感觉性能比reiser3.6要高，也许只是心理作用。 
+     不过用reiser4是需要胆量的，现在namesys的网站都上不去了，它也没有加到正式的内核中，后面的维护无法保证。 
+     另外在/home分区中使用了reiser4的gzip压缩选项，但感觉好像没有效果，不知是不是已经取消此功能。 
+
+
+
+1.   编译一个支持reiser4的内核: 
+     从www.kernel.org上下载2.6.25.4内核 
+     从http://www.kernel.org/pub/linux/kernel/people/edward/reiser4/reiser4-for-2.6/ 下载reiser4补丁 
+     然后在kernel目录下应用下面命令打补丁 
+     patch -p1 ../reiser4-for-2.6.25.patch 
+
+     编译并选择reiser4支持，重启 
+
+2.   安装cdebootstrap,并在一个新的空白分区上应用cdebootstrap生成一个新文件系统： 
+     我是使用的swap分区(/dev/hda10)。只要有大于150M的分区就可以继续。 
+     先做如下工作: 
+         swapoff                      #    停止swap分区， 
+         vi/etc/fstab                     让系统启动时不自动mount swap分区 
+         fdisk                            修改swap分区的分区类型为83 
+         apt-get install reiser4progs     #    安装reiser4工具以用它创建分区, 
+         apt-get install cdebootstrap     #    安装cdebootstrap工具，以利用它安装新系统 
+
+     如果不准备重装系统，那需要安装lilo。要是准备完全重装则不需要： 
+         apt-get install lilo 
+
+         mkfs.reiser4 /dev/hda10          #    把swap分区变成reiser4分区以安装最小系统 
+         mount   /mnt/tmp /dev/hda10       #    把hda10 mount到/mnt/tmp 
+
+     然后开始安装最小系统，使用下面命令安装: 
+         cdebootstrap -f minimal sid /mnt/tmp http://debian.cn99.com/debian 
+             minimal 表示最小安装,     
+             sid      表示安装的是sid版本, 
+            http://debian.cn99.com/debian    表示使用这个源进行安装 
+
+     安装时间很快，一般几分钟就可以搞好。安装过程使用的空间大小为122M，安装后的空间为64M。 
+
+         
+4.   配置最小系统。先把当前的系统配置复制到最小系统上。 
+     配置包括下面内容：文件系统mount信息、网络信息、设备文件、内核启动文件。 
+         cp -a /dev/* /mnt/tmp/dev                        #    设备文件 
+         cp -a /lib/modules /mnt/tmp/lib                  #    内核模块 
+         cp -a /boot/vmlinuz* /mnt/tmp/boot               #    内核 
+         cp -a /boot/System.map* /mnt/tmp/boot            #    内核map 
+         cp -a /boot/config* /mnt/tmp/boot                #    内核配置
+cp /etc/fstab /mnt/tmp/etc                       #    文件系统mount信息 
+         mkdir /mnt/tmp/etc/network 
+         cp /etc/network/interfaces /mnt/tmp/etc/network #    网络配置 
+         cp /etc/hostname             /mnt/tmp/etc/        #    本机主机名配置 
+         cp /etc/hosts                /mnt/tmp/etc/        #    主机名配置 
+
+
+     然后修改/mnt/tmp/etc/fstab, 把 / 对应的分区修改成hda10 
+
+
+5.   使用chroot切换到/mnt/tmp目录下，安装其它软件让这个分区可以自己启动。 
+     先mount proc再chroot: 
+         mount -t proc proc /mnt/tmp/proc 
+         chroot /mnt/tmp 
+     
+     
+6.   配置/dev/hda10环境, 
+         passwd                           #    设置root口令。 
+
+         apt-get install lilo             #    必须使用lilo. grub不支持从reiser4启动。 
+         liloconf                         #    配置lilo, 设置让它安装在/dev/hda10, 并且不安装到mbr不修改活动分区 
+         lilo                             #    写lilo启动信息到/dev/hda10 
+
+     如果需要对旧/分区(/dev/hda2)进行全新重装，再继续下面命令： 
+         apt-get install reiser4progs     #    
+         apt-get install cdebootstrap     #    用于在/dev/hda2上重装最小系统 
+         apt-get install pppoe pppoeconf sysklogd #    我是使用pppoe安装的，需要安装pppoe 
+         pppoeconf                        #    配置ppp信息 
+
+     修改grub, 本人使用grub4dos引导linux,需要在c:\menu.1st文件中增加下面配置: 
+         title Mini System 
+         rootnoverify (hd0,9) 
+         chainloader +1 
+
+
+         
+
+6.   重起进入 /dev/hda10。 
+
+7.   如果不需要对/dev/hda2进行重装，则 
+     只需要把/dev/hda2分区中内容复制到其它分区, 
+     然后把/dev/hda2创建成reiser4,再把文件复制回就可以。 
+         mount /dev/hda2 /mnt/old 
+         mount /dev/hda5 /mnt/back    #    备份分区,分区不可以是vfat之类的，如果是vfat应该使用tar 进行备份 
+         cp -a /mnt/old   /mnt/back    #    备份 
+         umount /mnt/old 
+         mkfs.reiser4 /dev/hda2 
+         mount /dev/hda2 /mnt/old 
+         cp -a /mnt/back /mnt/old     #    恢复原来的备份 
+
+         恢复好后，设置使用lilo启动/dev/hda2 
+         mount -t proc proc /mnt/old/proc 
+         chroot /mnt/old 
+         liloconf                         #    配置lilo, 设置让它安装在/dev/hda2, 并且不安装到mbr不修改活动分区 
+         lilo                             #    写lilo启动信息到/dev/hda2 
+     修改grub, 本人使用grub4dos引导linux,需要在c:\menu.1st文件中增加下面配置: 
+         title Debian 
+         rootnoverify (hd0,1) 
+         chainloader +1 
+
+     再重启就OK。 
+
+     重启后, /dev/hda10里面的内容就没用了,但可以使用这个文件系统做成一个initrd,以便后面进行系统维护。 
+     先删除此文件系统中无用的文件，一般为 locale、info、man、doc,另外还有vim中自带的文档与无用的插件，还有/var目录下一些apt使用的信息。 
+     清好后 
+     使用这个命令生成initrd文件: 
+         find . | cpio -H newc -o | gzip -9 > /tmp/initrd.img 
+     本人清理后的文件系统是55M，做成的initrd是21M 
+
+8.   如果需要完全重装，先检查pppoe是否可用。 
+         pon dsl-provider                 #    拨号 
+         ifconfig                         #    多试几下，如果还不出现ppp设备那表示不可用，使用plog 查看出错信息 
+     
+
+     如果ppp不可用，继续解决ppp问题直到可用。
+    一般ppp不可用的原因之一是eth0没有启动，可以使用 
+         ifconfig eth0 192.168.0.1 255.0.0.0 up   启动网卡 
+     再重复上面的流程。 
+
+9.   pppoe可用后，使用cdebootstrap安装新系统： 
+
+     先备份原来的/etc目录和/root /home目录，再格/dev/hda2 
+         mkfs.reiser4 /dev/hda2       
+         mount /dev/hda2 /mnt/tmp 
+         cdebootstrap -f minimal sid /mnt/tmp http://debian.cn99.com/debian 
+
+     把系统文件复制到新系统： 
+         cp -a /dev/* /mnt/tmp/dev                        #    设备文件 
+         cp -a /lib/modules /mnt/tmp/lib                  #    内核模块 
+         cp -a /boot/vmlinuz* /mnt/tmp/boot               #    内核 
+         cp -a /boot/System.map* /mnt/tmp/boot            #    内核map 
+         cp -a /boot/config* /mnt/tmp/boot                #    内核配置 
+
+         cp /etc/fstab /mnt/tmp/etc                       #    文件系统mount信息 
+         mkdir /mnt/tmp/etc/network 
+         cp /etc/network/interfaces /mnt/tmp/etc/network #    网络配置 
+         cp /etc/hostname             /mnt/tmp/etc/        #    本机主机名配置 
+         cp /etc/hosts                /mnt/tmp/etc/        #    主机名配置 
+
+     然后chroot到新系统: 
+         mount -t proc proc /mnt/tmp/proc 
+         chroot /mnt/tmp 
+         passwd                                           @    设置新口令 
+
+10   安装基本软件包： 
+         apt-get install aptitude                         #    安装包管理工具 
+         apt-get install vim                              #    安装vim 
+         apt-get install pppoe pppoeconf sysklogd locales 
+         dpkg-reconfigure locales                         #    配置locale,一般只需要选择en.UTF8、zh_CN,* zh_TW.*就可以。 
+
+         apt-get install libc6-i686                       #    使用libc的686优化版本 
+         apt-get install console-data                     #    安装键位图 
+
+
+         然后进行配置，主要是pppoe与lilo 
+         pppoeconf                                        #    配置ppp 
+
+         安装lilo并配置让它引导/dev/hda2分区: 
+         apt-get install lilo                             
+         liloconf 
+         lilo 
+
+         安装udev并去掉/dev目录下的多余设备文件，只留/dev/console与/dev/null。 
+         apt-get install udev 
+         rm -rf /dev/* 
+         exit 
+         cp -a /dev/console /mnt/tmp/console 
+         cp -a /dev/null /mnt/tmp/null 
+
+         reboot 
+
+11   重启后进入/dev/hda2, 安装其它软件包 
+         apt-get install xserver-xorg-video-fbdev xserver-xorg-input-kdb #    安装Xwindow驱动，选择video的驱动很重要，如果不选择那安装Xwindow时会需要所有的驱动。 
+         apt-get install roxterm                          #    安装X终端 
+         apt-get install xorg                             #    安装Xwindow 
+         apt-get install xinit                            #    安装startx程序 
+         apt-get install iceweasel                        #    firefox 
+         apt-get install pcmanfm                          #    轻量级的文件管理器 
+         apt-get install mplayer                          #    播放器 
+         apt-get install wine                             #    windows程序模拟器 
+         apt-get install fcitx                            #    中文输入法 
+
+         然后再安装窗口管理器，我使用的是e17,源是:
+            deb http://debian.alphagemini.org/ unstable main 
+         安装: 
+             apt-get install e17 
+         如果是使用gnome的话，那用下面命令安装: 
+             apt-get install gnome-desktop-environment 
+         如果使用kde,那则是 
+             apt-get install kdebase 
+
+12. 恢复其它配置文件： 
+         从原来的/etc目录下恢复备份文件，一般下面文件可能比较有用： 
+             /etc/apt/source.list     apt源配置 
+             /etc/X11/xorg.conf       Xwindows的配置 
+             ~/.xinitrc               X启动脚本 
+             ~/.vimrc                 vimrc配置文件 
+我的xinitrc内容是：export XMODIFIERS='@im=fcitx'
+export XIM=fcitx
+export LC_CTYPE=zh_CN.UTF8
+fcitx&
+exec enlightenment_start 
+ 
+其它配置:
+
+字体安装与配置，参考：
+http://hi.baidu.com/wushuangk/blog/item/d763612572fdfb6535a80f14.html
+vim配置文件vimrc内容，同样在本空间有
+
+alsa配置：
+alsa需要安装alsa包alsa-utils，同时需要内核中正确配置驱动
+如果alsa不出声，先使用alsamixer把所有声音调到最大。
+如果还不出声
+那创建/etc/asound.conf 内容如下：
+pcm.!default { type hw card 0 device 0 }
+ctl.!default { type hw card 0 }
+
+主机名配置,主要是下面两个文件，假如我机器的主机名是Wushang,那需要把它添加到下面两个文件，修改好后重启生效：
+lizl@Wushuang:~$ cat /etc/hostname 
+Wushuang
+lizl@Wushuang:~$ cat /etc/hosts 
+127.0.0.1 localhost
+127.0.0.1 Wushuang
+
+
+
+然后重启
+
+到此安装完成

@@ -1,0 +1,135 @@
+1.安装cdebootstrap
+# apt-get install cdebootstrap
+
+2.建立安装目录
+# mkdir /media/kfreebsd
+
+3.安装最小系统
+# cdebootstrap -f minimal kfreebsd /media/kfreebsd http://debian.cn99.com/debian
+(# cdebootstrap -f minimal sid /media/kfreebsd http://debian.cn99.com/debian)
+(# debootstrap sid /media/kfreebsd http://ftp.debian.org/debian/)
+
+4.配置最小系统
+# echo "proc /media/kfreebsd/proc proc none 0 0" >> /etc/fstab 
+# mount /dev /media/kfreebsd/dev -o bind 
+(# cp -a /dev/* /media/kfreebsd/dev)
+# cp /etc/hosts /media/kfreebsd/etc/hosts
+# chroot /media/kfreebsd /bin/bash
+
+ chroot # cd /dev; /sbin/MAKEDEV generic; cd -
+ chroot # apt-setup # 创建 /etc/apt/sources.list 文件
+ chroot # vi /etc/apt/sources.list # 将源指向 unstable
+ chroot # dselect  # 可以使用 aptitude，安装 mc 和 vim :-)
+
+5.设置chroot登录
+输入 chroot /sid-root /bin/bash 非常简单，但这将保留当前的所有环
+境变量，你可能并不希望这样并且有时还会出问题。更好的方法是，在别
+的虚拟终端上执行另一个登录进程，登录到 chroot 目录。
+
+在默认的 Debian 系统中，从 tty1 到 tty6 运行 Linux 控制台，tty7
+运行 X Window 系统，在本例中，我们将 tty8 设置成 chroot 控制台。
+按照用 chroot 来运行不同版本的 Debian, 第 8.6.35.1 节中的描述创
+建好 chroot 系统后，就可以在主系统的 root shell 中输入：
+
+     main # echo "8:23:respawn:/usr/sbin/chroot /sid-root "\
+            "/sbin/getty 38400 tty8" >> /etc/inittab
+     main # init q    # 重启 init
+
+想在 chroot 下安全地运行最新版的 X 和 GNOME 吗？完全可以！下面的
+例子将实现在虚拟终端 vt9 下运行 GDM。
+
+首先，按照用 chroot 来运行不同版本的 Debian, 第 8.6.35.1 节中描
+述的方法安装好 chroot 系统，从主系统的 root 下拷贝关键配置文件到
+chroot 系统。
+
+     main # cp /etc/X11/XF86Config-4 /sid-root/etc/X11/XF86Config-4
+     main # chroot /sid-root # or use chroot console
+     chroot # cd /dev; /sbin/MAKEDEV generic; cd -
+     chroot # apt-get install gdm gnome x-window-system
+     chroot # vi /etc/gdm/gdm.conf # do s/vt7/vt9/ in [servers] section
+     chroot # /etc/init.d/gdm start
+
+在此，编辑 /etc/gdm/gdm.conf，使其在 vt7 到 vt9 上创建虚拟终端。
+
+现在可以很容易地能过切换 Linux 虚拟终端来实现在主系统的 X 环境和
+chroot 系统的 X 环境之间转换，例如使用 Ctrl-Alt-F7 和
+Ctrl-Alt-F9。酷吧！
+
+[FIXME] 在 chroot 系统下 gdm 的 init 脚本中添加一条注释和一条链
+接。
+
+
+折腾gentoo
+
+# mkdir /media/gentoo/ 
+
+安装stage tarball
+在这里http://www.gentoo.org/main/en/mirrors.xml?style=printable下载到stage3-i686-20110614.tar.bz2
+
+解开Stage Tarball
+#cd /media/gentoo
+# tar xvjpf stage3-i686-20110614.tar.bz2 .
+
+到我们的Gentoo镜像列表。选择一个离你最近的镜像，打开snapshots/目录。然后选择最新的Portage快照（portage-latest.tar.bz2）并按D来下载它。
+
+解开Portage快照
+# tar xvjf /mnt/gentoo/portage-latest.tar.bz2 -C /mnt/gentoo/usr
+
+(没有对/etc/make.conf进行设置)
+
+安装Gentoo基本系统
+在/etc/make.conf最后添加一行：
+GENTOO_MIRRORS="ftp://ftp.sjtu.edu.cn/mirror/gentoo"
+
+拷贝DNS信息
+cp -L /etc/resolv.conf /mnt/gentoo/etc/
+
+挂载/proc和/dev文件系统
+# mount -t proc none /mnt/gentoo/proc
+# mount -o bind /dev /mnt/gentoo/dev
+
+chroot到新环境里
+# chroot /mnt/gentoo /bin/bash
+# env-update
+>> Regenerating /etc/ld.so.cache...
+# source /etc/profile
+# export PS1="(chroot) $PS1"
+
+更新Portage树
+# emerge --sync
+
+验证系统profile
+# eselect profile list
+
+切换profile,我选择的3是一个gnome桌面
+# eselect profile set 3
+
+(没有配置USE变量)
+
+打开/etc/locale.gen，在里面添加这么一行
+zh_CN.UTF-8 UTF-8
+
+设置时区
+# cp /usr/share/zoneinfo/Asia/Hong_Kong /etc/localtime 
+
+配置内核
+安装内核源码
+# emerge gentoo-sources
+# cd /usr/src/linux
+# make menuconfig
+(基本是按照手册http://www.gentoo.org/doc/zh_cn/handbook/handbook-x86.xml?style=printable&full=1#book_part1_chap2乱配置)
+
+编译内核
+# make && make modules_install
+
+安装内核
+# cp arch/i386/boot/bzImage /boot/kernel-2.6.38-gentoo-r6
+
+内核模块
+(没安装)
+
+安装vim
+# emerge vim
+
+# emerge xorg-x11
+# emerge xorg-server

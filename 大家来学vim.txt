@@ -1,883 +1,906 @@
-" Last Modified: 2011��06��11�� ������ 17ʱ04��09�� [Athena]
+" Last Modified: 2011-10-14 星期五 23:10:07 [Athena]
 
 
-��ҁ�W Vim
+大家來學 Vim
 
-һ���v�Ï��µľ�݋��
-����� EdwardG.J. Lee 
-Email: edt1023@info.sayya.org 
+一個歷久彌新的編輯器
+        李果正 EdwardG.J. Lee 
+        Email: edt1023@info.sayya.org 
 
 
-2005�� 2�� 19��
+2005年 2月 19日
 
-Ŀ� 
-1�M���ȿ��� 
-    1.1��ʲ�N�xVim�� 
-    1.2��̎ץVim(elvis)��
-    1.3���g���b 
+目录 
+1進來先看看 
+    1.1為什麼選Vim？ 
+    1.2何處抓Vim(elvis)？
+    1.3編譯安裝 
         1.3.1 Vim 
         1.3.2 elvis 
         1.3.3 nvi-m17n
-    1.4��ǰ���� 
-        1.4.1���Bģʽ��Normal mode��
-        1.4.2����ģʽ��Insert mode�� 
-        1.4.3������ģʽ��Cmdline mode or Command-line mode�� 
-        1.4.4����ģʽ��Visual mode�� 
-        1.4.5�x��ģʽ��Select mode�� 
-        1.4.6 Exģʽ��Ex mode�� 
-    1.5�����̾���stepbystep
-        1.5.1�������Ё��_�n 
-        1.5.2���M��vim�����_�n 
-        1.5.3�����ļ� 
-        1.5.4��n���x�_ 
-2�Θ˵��Ƅ� 
-    2.1�������Θ��Ƅ� 
-    2.2�M�A���Θ��Ƅ� 
-    2.3������Ƅ� 
-3������݋ָ�� 
-    3.1��N�~��ģʽ��additional mode�� 
-        3.1.1�����ȴ�ģʽ��operator-pending mode��
-        3.1.2ȡ��ģʽ��replace mode��
-        3.1.3���볣�Bģʽ��insert normal mode��
-        3.1.4���뷴��ģʽ��insert visual mode�� 
-        3.1.5�����x��ģʽ��insert select mode�� 
-    3.2�M�����ģʽ��ָ�� 
-    3.3�h��ָ�� 
-    3.4ȡ����߀ԭ 
-    3.5���ϔ�Ŀ�� 
-    3.6�������Ź��� 
-4�}�u��yank�� 
-    4.1ָ���f�� 
-    4.2 Register���n�^ 
-        4.2.1 register�ķN� 
-    4.3����ָ�� 
-    4.4���y�s֢ 
-        4.4.1��mouse���I�ļ��N����߀�І᣿ 
-        4.4.2ܛ�w�g����copy�r��������������´�yҮ�� 
-5�ь�����Q 
-    5.1�ь� 
-    5.2��������ь�������Vim���У� 
-    5.3��Q��substitute�� 
-    5.4���`���� 
-    5.5 Vim��축��`�ĔU�书�� 
-        5.5.1С��Ӣ����ĸ 
-        5.5.2��Ӣ����ĸ 
-        5.5.3��������Ŀ�� 
+    1.4勤前教育 
+        1.4.1常態模式（Normal mode）
+        1.4.2插入模式（Insert mode） 
+        1.4.3命令列模式（Cmdline mode or Command-line mode） 
+        1.4.4反白模式（Visual mode） 
+        1.4.5選擇模式（Select mode） 
+        1.4.6 Ex模式（Ex mode） 
+    1.5基本教練：stepbystep
+        1.5.1由命令列來開檔 
+        1.5.2先進入vim後再開檔 
+        1.5.3編寫文件 
+        1.5.4存檔、離開 
+2游標的移動 
+    2.1基本的游標移動 
+    2.2進階的游標移動 
+    2.3特殊的移動 
+3基本編輯指令 
+    3.1五種額外模式（additional mode） 
+        3.1.1操作等待模式（operator-pending mode）
+        3.1.2取代模式（replace mode）
+        3.1.3插入常態模式（insert normal mode）
+        3.1.4插入反白模式（insert visual mode） 
+        3.1.5插入選擇模式（insert select mode） 
+    3.2進入插入模式的指令 
+    3.3刪除指令 
+    3.4取代及還原 
+    3.5加上數目字 
+    3.6簡單重排功能 
+4複製（yank） 
+    4.1指令說明 
+    4.2 Register緩衝區 
+        4.2.1 register的種類 
+    4.3天大的指令 
+    4.4疑難雜症 
+        4.4.1那mouse中鍵的剪貼功能還有嗎？ 
+        4.4.2軟體間互相copy時，常常都搞得天下大亂耶！ 
+5搜尋、替換 
+    5.1搜尋 
+    5.2更方便的搜尋操作（Vim才有） 
+    5.3替換（substitute） 
+    5.4書籤功能 
+    5.5 Vim對於書籤的擴充功能 
+        5.5.1小寫英文字母 
+        5.5.2大寫英文字母 
+        5.5.3阿拉伯數目字 
         5.5.4 :marks
-6�Йn����n���o���؏� 
-    6.1�_�n��һЩ���� 
-    6.2���n��݋ 
-    6.3�x�_ 
-    6.4Vim�ļ��ܹ��� 
-        6.4.1vim -x [�n��]
-        6.4.2�M�� vim��݋�n���У����� :Xָ�� 
-    6.5�o���؏� 
-7���N��ʾ������ҕ������ 
-    7.1��ʾָ�� 
-    7.2ҕ������ 
-8 shell�������ϵ�y 
-    8.1 shell���� 
-    8.2����ϵ�y 
-9 set�����O�� 
-    9.1ԓ�ں�̎�O���أ� 
-        9.1.1 Vim���O���n 
-        9.1.2 elvis���O���n 
-        9.1.3 nvi-m17n���O���n 
-    9.2��ε�֪Ŀǰ���O�� 
-    9.3���Nset�����f�� 
-    9.4�P� softtabstop[sts]
-    9.5 Vim��modeline
-    9.6�P����� 
-    9.7�ҵ��O���n 
-        9.7.1 .vimrc���� 
-        9.7.2 .gvimrc���� 
-        9.7.3 .vimĿ䛹��� 
-10Ҏ�t��ʾʽ���\�� 
-    10.1������ƥ�� 
-    10.2�н���Ԫ��metacharacter, or character classes�� 
-    10.3ȫ���Ե�ָ�� 
-    10.4 &���׃�� 
-    10.5 greedy���� 
-11��Vim�ۯB��folding���� 
-    11.1�ք��ۯB 
-        11.1.1�ۯB�Įa�� 
-        11.1.2�ۯB�Ĳ��� 
-        11.1.3�ۯB��ӛ�� 
-    11.2�Ԅ��ۯB 
-        11.2.1�Կs�О����� 
-        11.2.2������ı�ʾ�������� 
-        11.2.3���Z�������� 
-        11.2.4���Ƿ�����^������ 
-        11.2.5���ļ��ϵĘ��I������ 
-12 Vim tags��ʹ�� 
-    12.1���N��ʽ�a����tag���� 
-    12.2 tags�n���ĸ�ʽ 
-    12.3 tag�n�����u�� 
-    12.4һ��� tagʹ�� 
-    12.5 Vim�����f���ļ����u�� 
+6叫檔、存檔、緊急回復 
+    6.1開檔的一些花招 
+    6.2多檔編輯 
+    6.3離開 
+    6.4Vim的加密功能 
+        6.4.1vim -x [檔名]
+        6.4.2進入 vim編輯檔案中，可用 :X指令 
+    6.5緊急回復 
+7各種標示方法及窗口操作 
+    7.1標示指令 
+    7.2窗口操作 
+8 shell命令及求助系統 
+    8.1 shell命令 
+    8.2求助系統 
+9 set功能設定 
+    9.1該在何處設定呢？ 
+        9.1.1 Vim的設定檔 
+        9.1.2 elvis的設定檔 
+        9.1.3 nvi-m17n的設定檔 
+    9.2如何得知目前的設定 
+    9.3各種set功能說明 
+    9.4關於 softtabstop[sts]
+    9.5 Vim的modeline
+    9.6關於折行 
+    9.7我的設定檔 
+        9.7.1 .vimrc範例 
+        9.7.2 .gvimrc範例 
+        9.7.3 .vim目錄範例 
+10規則表示式的運用 
+    10.1基本的匹配 
+    10.2中介字元（metacharacter, or character classes） 
+    10.3全域性的指令 
+    10.4 &替代變數 
+    10.5 greedy陷阱 
+11把Vim折疊（folding）？ 
+    11.1手動折疊 
+        11.1.1折疊的產生 
+        11.1.2折疊的操作 
+        11.1.3折疊的記憶 
+    11.2自動折疊 
+        11.2.1以縮行為依據 
+        11.2.2以特殊的表示法為依據 
+        11.2.3以語法為依據 
+        11.2.4以是否更改過為依據 
+        11.2.5以文件上的標誌為依據 
+12 Vim tags的使用 
+    12.1各種程式碼專用tag工具 
+    12.2 tags檔案的格式 
+    12.3 tag檔案的製作 
+    12.4一般的 tag使用 
+    12.5 Vim線上說明文件的製作 
         12.5.1 doctags 
-        12.5.2��Vim�e�^�������f�� 
-13 Vim script���� 
-    13.1һЩ���ε� macro 
-        13.1.1���I���� 
-        13.1.2�s������ 
-        13.1.3���x������ 
-        13.1.4������Č��� 
-    13.2 Vim script���Z�� 
-14 Vim������ܛ�w����� 
-    14.1���]������ܛ�w����� 
+        12.5.2由Vim裡頭作線上說明 
+13 Vim script簡介 
+    13.1一些簡單的 macro 
+        13.1.1按鍵對應 
+        13.1.2縮寫對應 
+        13.1.3定義新命令 
+        13.1.4新命令的屬性 
+    13.2 Vim script的語法 
+14 Vim和其他軟體的配合 
+    14.1和郵件、新聞軟體的配合 
         14.1.1mutt+vim
         14.1.2slrn+vim 
-    14.2�;��g��ʽ����� 
-    14.3��TEX/LATEX����� 
-    14.4�� Java����� 
-15 Vim tips���\ 
-16 GNU�����ļ��S���Cԭ�� 
-�ڙ��� 
-�����Y�� 
-���� 
+    14.2和編譯程式的配合 
+    14.3和TEX/LATEX的配合 
+    14.4和 Java的配合 
+15 Vim tips集錦 
+16 GNU自由文件許可證原文 
+授權聲明 
+參考資料 
+索引 
 
------------------------------Ŀ¼����-------------------------------
+-----------------------------目录结束-------------------------------
 
-��1��
+第1章
 
-�M���ȿ���
+進來先看看
 
-�a������S����߀�]�ҵ���ֵľ�݋�������S����W vi�������X�ßo�����֣�����ڴ����һЩ���˵��ĵã�ϣ���܌��@Щ�������c���������SҲ�p��һ�c FAQ�ɣ�
-��Ҫ�����Ԓ���������ǰ݅���J�� vi�� emacs/xemcas߀�y�W�����l�������Ҫ��Ϥ��݋�������й����أ�������߅��߅�W������Ҫ�õ����ȌW�������ľͷ�һ߅��ֻҪ������һЩ���õ��Ĺ��ܣ��ֺα�Ҫ���N�����أ���������ʹ�î��н������l�FһЩ�¹��ܣ��@�֕��R��׌���oٍ���ˡ� 
+鑑於仍有許多人還沒找到順手的編輯器，而許多想學 vi的人又覺得無從下手，因此在此提出一些個人的心得，希望能對這些朋友有點幫助。或許也減少一點 FAQ吧！
+真要深入的話，大多數的前輩都認為 vi比 emacs/xemcas還難學。但誰又真的需要熟悉編輯器的所有功能呢？你大可以邊用邊學啊！需要用到的先學，其它的就放一邊，只要能善用一些常用到的功能，又何必要那麼深入呢？而且您在使用當中經常會發現一些新功能，這又會馬上讓您給賺到了。 
 
-1.1��ʲ�N�x Vim��
-������Ҫ��ԭ���ǿ������_̎�����ģ������� elvis, vile, nvi�����ķ��涼���І��} (nvi-m17n�İ汾�ѿ������_̎�� Big5���ģ��������Բ��� Vim1���� )����������S�����Iϵ�y���� Vim���á���Ȼ���������Ҫ����֧Ԯ��Ԓ��Ҳ���hʹ�� elvis��vile�t�� emacs��ζ������ nvi����������ԭζ���ˣ����ԭʼ vi�ĕ��������ķ��g�� O��Reilly������λ����һ�c�ĕ��ַ��������ˡ������x�� Vim�����󣬼����� elvis�������������ų⡹���ġ���һ��ԭ�� Vim���H������ܛ�w�� Free Software4����Ҳ�Ǵ���ܛ�w�� CharityWare5��������ٝ�����u�ȵê����׺���������Ѿ�݋���� :�������ýԾ��������_ AIDS������Ҫʹ�î�Ȼ�����M����Ҫ���ٝ����Ȼ�ǲ��㏊������������u���Ъ�����õģ� 
+    1.1為什麼選 Vim？
+最最重要的原因是可以正確處理中文！其它如 elvis, vile, nvi在中文方面都會有問題 (nvi-m17n的版本已可以正確處理 Big5中文，但功能仍不及 Vim1完整 )。另外就是許多作業系統都有 Vim可用。當然如果您不需要中文支援的話，也建議使用 elvis。vile則有 emacs的味道，而 nvi大概是最忠於原味的了！至於原始 vi的書已有中文翻譯（ O’Reilly），各位到大一點的書局翻翻就有了。所以選定 Vim做對象，兼述及 elvis，至少她不「排斥」中文。另一個原因， Vim不僅是自由軟體（ Free Software4），也是慈善軟體（ CharityWare5），如有贊助或評比得獎（幾乎是年年最佳編輯器獎 :），所得皆救助烏干達 AIDS孤兒。您要使用當然是免費，您要捐款贊助當然是不勉強啦！但如果有評比有獎金可拿的， 
 
-��ȥͶ��һƱ���ǹ��o���ˡ����⣬�����W·ُ��������͸�^ ICCF�ľW� http://iccf-holland.org/click.html��ӆُ���@�� Amazon����һЩٝ����o ICCF����ȫ�����໨��һë�X������ Vim��Ҏ�t��ʾʽ (regular express)�H��������Ҳ�ɽ��@���C���W regexp��������� sed, awk, perl, less, grep. . .��Ҳ��Ҫ�õ������c���T regexp���������� Linux(Un*x)������������á��W�� regexp�������c������ Windowsϵ�y�е��Ҍ����ߵġ�����Ǵ���ܛ�w���V�Y�ƾ�������B���ķ��w��֧Ԯ�������Ρ���Ҳ�������İ汾���c�ʣ����ֲ���̫�� (�� xemacs�ö������� )���@�N�ɐ۵�ܛ�w���ܲ������᣿ 
+您去投她一票就是功德無量了。另外，如果想網路購書，可以透過 ICCF的網頁 http://iccf-holland.org/click.html來訂購，這樣 Amazon會付一些贊助金給 ICCF，完全不會多花您一毛錢。另外 Vim的規則表示式 (regular express)頗完整，您也可借這個機會學 regexp，因為您在 sed, awk, perl, less, grep. . .中也是要用到，早點習慣 regexp，您生活在 Linux(Un*x)的世界會更美好。學了 regexp您會有點看不起 Windows系統中的找尋工具的。由於是慈善軟體，廣結善緣，因此連中文繁體都支援，不簡單。但也因此最近的版本有點肥，但又不會太肥 (比 xemacs好多了啦！ )。這麼可愛的軟體，能不用她嗎？ 
 
-1.2��̎ץ Vim(elvis)�� 
-http://www.vim.org/ 
-http://vim.sf.net/download.php 
-ftp://ftp.vim.org/pub/vim/
+    1.2何處抓 Vim(elvis)？ 
+ http://www.vim.org/ 
+ http://vim.sf.net/download.php 
+ ftp://ftp.vim.org/pub/vim/
 
-�҂��Լ������ mirroվץ�����SҲ혱�ץ Win32�ĿɈ��Йn�؁��� windowsϵ�y��ʹ�á��e���� runtime�nҲҪץ����t���o���ҵ���Ҫ�ęn������С� 
-http://elvis.the-little-red-haired-girl.org/
-Ҳ��ԇԇ elvis����ȻҲ������ܛ�w���� 
-ftp://ftp.cs.berkeley.edu/ucb/4bsd/ 
-ftp://ftp.foretune.co.jp/pub/tools/nvi-m17n/ 
+找個自己中意的 mirro站抓。或許也順便抓 Win32的可執行檔回來在 windows系統中使用。別忘了 runtime檔也要抓，否則會無法找到需要的檔案來執行。 
+        http://elvis.the-little-red-haired-girl.org/
+也可試試 elvis（當然也是自由軟體）。 
+            ftp://ftp.cs.berkeley.edu/ucb/4bsd/ 
+            ftp://ftp.foretune.co.jp/pub/tools/nvi-m17n/ 
 
-nvi-m17nҲ����һԇ��Ŀǰ�ѿ���֧Ԯ���ġ�
-Ŀǰ���µİ汾�� Vim�� 6.1��elvis�� 2.2h-beta��nvi�� 1.79����Ȼ�����ĵ����c�Ƿ��� Vim�� 
+nvi-m17n也可以一試，目前已可以支援中文。
+            目前最新的版本， Vim是 6.1，elvis是 2.2h-beta，nvi是 1.79。當然，本文的重點是放在 Vim。 
 
-1.3���g���b
-ֻ�v���c��������£� 
+    1.3編譯安裝
+只講重點，避免囉嗦！ 
 
-1.3.1 Vim 
-1. configure�r���ϣ� 
+        1.3.1 Vim 
+1. configure時加上： 
 --enable-multibyte 
 --enable-xim 
 --enable-fontset 
 --enable-gui=gtk 
---enable-perlinterp��Ƕ�� perl��Ԓ 
---enable-pythoninterp��Ƕ�� python��Ԓ 
-GUI���кÎ׷N�x�񣬵����hʹ�� gtk+�����^������ 
+--enable-perlinterp需嵌入 perl的話 
+--enable-pythoninterp需嵌入 python的話 
+GUI可有好幾種選擇，但建議使用 gtk+，比較穩定。 
 
 
-2. ~/.vimrc���룺 
+2. ~/.vimrc加入： 
 set enc=big5 
-set guifontset=Ӣ�����ͣ���������
-�O�� guifontset�Ͳ����O guifont��t������ʹ�� 
-guifont���@�Ӿ��Ҳ������������ˣ� console�»� xterm
-�µ�Ԓ���Ϳ�����ʲ�N���;��@ʾʲ�N���ͣ��� guifontset�o�P��
+set guifontset=英文字型，中文字型
+設了 guifontset就不能設 guifont否則會優先使用 
+guifont，這樣就找不到中文字型了！ console下或 xterm
+下的話，就看您用什麼字型就顯示什麼字型，和 guifontset無關。
 
-Ӣ������Ҫ�ù̶��֣��҂��˵Č��H�O������ (1024x768)�� 
+英文字型要用固定字，我個人的實際設定例子 (1024x768)： 
 set guifontset=-b&h-*-medium-r-normal-*-*-120-*-*-m-*-*-*, 
 \-arphic-*mingti2l*-medium-r-normal-*-*-190-*-*-c-*-big5-0 
 
-Windows���İ�o���O guifontset��ֻҪ�O guifont���ɡ�������
-���O���n�� \Program Files\Vim\_vimrc�����磺 
+Windows中文版無需設 guifontset，只要設 guifont即可。而且他
+的設定檔是 \Program Files\Vim\_vimrc。例如： 
 
 set guifont=Andale_Mono:H11:W6
-�� 
-set guifont=�����w :H11:W6
+或 
+set guifont=細明體 :H11:W6
 
-��� UTF-8���a���ļ���������Ҫָ���������w���������_�@ʾ���ġ� 
-3. localeҪ�O�� zh_TW.Big5����˼��������ϵ�y�� i18n
-֧ԮҪ�������҂��˵��O�����£� 
+對於 UTF-8編碼的文件，可能需要指定「細明體」才能正確顯示中文。 
+
+3. locale要設成 zh_TW.Big5，意思就是您的系統的 i18n 支援要完整，我個人的設定如下： 
 
 unset LC_ALL 
 export LC_CTYPE=zh_TW.Big5 
 
-1.3.2 elvis 
-elvis�]ʲ�N���f�ģ� GUI�汾Ҫ���� XA+CV���@ʾ��ݔ�����ģ������߀��֧Ԯ i18n/XIM������ console/rxvt�t�����@ʾ��ݔ�����ġ�����������^�{������Ո man elvis�� 
+        1.3.2 elvis 
+elvis沒什麼好說的， GUI版本要靠靠 XA+CV來顯示及輸入中文，因為他還不支援 i18n/XIM。但在 console/rxvt下則可以顯示、輸入中文。至於其他外觀調整，就請 man elvis。 
 
-1.3.3 nvi-m17n 
-nvi���� *BSDϵ�y�Ę˜���䣬 m17n(multilingualization,ȡǰ m���� n�����е� 17��Ӣ����ĸ���ϳ� m17n)�t���ձ������޸ĵİ汾��ĿǰҲ����������ģ������ϵ�y��Ҳ�� nvi-m17n��Ԓ�������O�� /.nexrc���£� 
+        1.3.3 nvi-m17n 
+nvi是在 *BSD系統的標準配備， m17n(multilingualization,取前 m及後 n及其中的 17個英文字母，合成 m17n)則是日本朋友修改的版本，目前也可以用於中文，如果您系統上也有 nvi-m17n的話，可以設定 /.nexrc如下： 
 set noskipdisplay 
 set displayencoding=big5 
 set inputencoding=big5 
 set fileencoding=big5 
 set autodetect=tw 
 
-1.4��ǰ���� 
+    1.4勤前教育 
+Vim的基本模式（ basic mode）可有六種： 
 
-Vim�Ļ���ģʽ�� basic mode���������N�� 
+        1.4.1常態模式（ Normal mode） 
+您一進入vim就是處於這常態模式，只能下按鍵指令，不能輸入編輯文字。這些指令可能是游標移動的指令，也可能是編輯指令或尋找替換指令。 
 
-1.4.1���Bģʽ�� Normal mode�� 
-��һ�M��vim����̎��@���Bģʽ��ֻ���°��Iָ�����ݔ�뾎݋���֡��@Щָ��������Θ��Ƅӵ�ָ�Ҳ�����Ǿ�݋ָ�������Qָ� 
+        1.4.2插入模式（ Insert mode）
+按 i就會進入插入模式，此時才可以鍵入文字，寫您的文章，按 Esc又會回到正常模式。此時在狀態列會有 -INSERT -字樣。 
 
-1.4.2����ģʽ�� Insert mode��
-�� i�͕��M�����ģʽ���˕r�ſ����I�����֣����������£��� Esc�֕��ص�����ģʽ���˕r�ڠ�B�Е��� -INSERT -�֘ӡ� 
+        1.4.3命令列模式（ Cmdline mode or Command-line mode）
+按冒號： (別忘了 Shift鍵)就會進入命令列模式，左下角會有一個冒號：出現可下 ex6指令。也是按 Esc回命令列模式。反正正常狀態都是處於常態模式，這樣才不會把您辛苦打字的文章給隨便搞亂掉。搜尋時的 /及 ?按鍵也是屬於命令列模式。 6vi, ex, sed都是衍化自 ed。ed是一個很古老的行編輯器，就好像 DOS下的 edline一樣。當然 DOS下的 edline也是學 ed而來的，但功能可就不能同日而語了！有興趣可 man ed學看看，有些時候會只有 ed可以用（當機救助的時候）。 ex的操作和 ed，除了多了個冒號外，幾乎是一樣的。 
 
-1.4.3������ģʽ�� Cmdline mode or Command-line mode��
-��ð̖�� (�e���� Shift�I)�͕��M��������ģʽ�����½Ǖ���һ��ð̖�����F���� ex6ָ�Ҳ�ǰ� Esc��������ģʽ������������B����̎춳��Bģʽ���@�ӲŲ�������������ֵ����½o�S���y�����ь��r�� /�� ?���IҲ�ǌ��������ģʽ�� 6vi, ex, sed�����ܻ��� ed��ed��һ���ܹ��ϵ��о�݋�����ͺ��� DOS�µ� edlineһ�ӡ���Ȼ DOS�µ� edlineҲ�ǌW ed�����ģ������ܿɾͲ���ͬ�ն��Z�ˣ����dȤ�� man ed�W��������Щ�r���ֻ�� ed�����ã����C�����ĕr�򣩡� ex�Ĳ����� ed�����˶��˂�ð̖�⣬�׺���һ�ӵġ� 
+        1.4.4反白模式（ Visual mode）
+這就是把需要處理的文字反白起來，等待處理的模式，底部狀態最會有 -VISUAL -或 -VISUAL LINE -或 -VISUAL BLOCK -字樣。詳細會在第 7章，頁 26，做介紹。 
 
-1.4.4����ģʽ�� Visual mode��
-�@���ǰ���Ҫ̎�������ַ����������ȴ�̎����ģʽ���ײ���B����� -VISUAL -�� -VISUAL LINE -�� -VISUAL BLOCK -�֘ӡ�Ԕ�����ڵ� 7�£�� 26������B�� 
+        1.4.5選擇模式（ Select mode）
+和反白模式的異同待瞭解。 
 
-1.4.5�x��ģʽ�� Select mode��
-�ͷ���ģʽ�Į�ͬ���t�⡣ 
+        1.4.6 Ex模式（ Ex mode）
+這和命令列模式是一樣的，但下了命令後不會返回，會留在行編輯器 ex的狀態，有一個冒號在那兒，等待輸入命令。由 gQ按鍵可以進入 Ex模式，輸入 visual可以返回正常模式。
+    其它還有五種的額外模式（ additional mode）！這裡不準備說明，會在第 3.1節，頁 10做介紹。反正，使用 Vim的無上心法就是，有問題先考慮按 Esc鍵回到常態模式再說。 
 
-1.4.6 Exģʽ�� Ex mode��
-�@��������ģʽ��һ�ӵģ������������᲻�����أ��������о�݋�� ex�Ġ�B����һ��ð̖���ǃ����ȴ�ݔ������� gQ���I�����M�� Exģʽ��ݔ�� visual���Է�������ģʽ��
-����߀����N���~��ģʽ�� additional mode�����@�e���ʂ��f�������ڵ� 3.1����� 10����B��������ʹ�� Vim�ğo���ķ����ǣ��І��}�ȿ��]�� Esc�I�ص����Bģʽ���f�� 
+    1.5基本教練： step by step 
 
-1.5�����̾��� step by step 
+        1.5.1由命令列來開檔 
+vim test.txt或 gvim test,txt，如果您的系統 vi是 vim的連結檔話，就可以直接用 vi test.txt。以下就直接用 vim代表 vi，gvim，elvis，因操作是一樣的有不同的地方會加注說明。 
 
-1.5.1�������Ё��_�n 
-vim test.txt�� gvim test,txt���������ϵ�y vi�� vim���B�Y�nԒ���Ϳ���ֱ���� vi test.txt�����¾�ֱ���� vim���� vi��gvim��elvis���������һ�ӵ��в�ͬ�ĵط�����ע�f���� 
+        1.5.2先進入 
+vim後再開檔進入 vim後，使用冒號命令 :e test.txt，就可以編輯 test.txt這個檔。第 1.5.1小節及第 1.5.2小節這兩個開檔法，如果test.txt不存在的話，就會開一個以test.txt為名的新檔案。如果是 gvim，可由 icon(gtk版本才有 )或功能表來叫出 .le browser來選看看您要編輯哪一個檔，但如果您是初學的話不建議您這麼做， vi就是以按鍵快速聞名，這是她的優點，您還是學起來吧，不然沒有 GUI的時候會很不習慣的。 
 
-1.5.2���M�� 
-vim�����_�n�M�� vim�ᣬʹ��ð̖���� :e test.txt���Ϳ��Ծ�݋ test.txt�@���n���� 1.5.1С������ 1.5.2С���@�ɂ��_�n�������test.txt�����ڵ�Ԓ���͕��_һ����test.txt�������n��������� gvim������ icon(gtk�汾���� )���ܱ���г� .le browser���x������Ҫ��݋��һ���n����������ǳ��W��Ԓ�����h���@�N���� vi�����԰��I���������@�����ă��c����߀�ǌW�����ɣ���Ȼ�]�� GUI�ĕr����ܲ����T�ġ� 
+        1.5.3編寫文件
+進入 vim後，按 i進入插入模式，就可以編寫您的文件了。在 vim游標的移動可以由方向鍵來移動。 Backspace鍵可消去前一個字元，中文的話是一個中文字。 Del鍵可刪除游標所在處的字元（中文字）。
+原始 vi是不能在插入模式隨意移動游標的，得進入正常模式才能移動，因此就常常要按 Esc來變換模式。 vim及 elvis都打破了這個規矩。 
 
-1.5.3�����ļ�
-�M�� vim�ᣬ�� i�M�����ģʽ���Ϳ��Ծ��������ļ��ˡ��� vim�Θ˵��Ƅӿ����ɷ����I���Ƅӡ� Backspace�I����ȥǰһ����Ԫ�����ĵ�Ԓ��һ�������֡� Del�I�Ʉh���Θ�����̎����Ԫ�������֣���
-ԭʼ vi�ǲ����ڲ���ģʽ�S���Ƅ��Θ˵ģ����M������ģʽ�����Ƅӣ���˾ͳ���Ҫ�� Esc��׃�Qģʽ�� vim�� elvis���������@��Ҏ�ء� 
+        1.5.4存檔、離開
+如果您寫好您的文件，就可以按 Esc回到正常模式，然後 :w就會存檔（注意，是冒號命令），但還不會離開 vim，要離開可按 :q，就可以了！也可以合起來用， :wq，就樣就會存檔後離開。怎麼樣，也不會很難吧！只不過操作方式和別的編輯器不一樣罷了，這樣豈不是很有個性。 :-) 盡量記住按鍵的意義，才不必死背，如 e是 edit(編輯 )，w是 write(寫入 )，q是 quit(停止、離開)。
 
-1.5.4��n���x�_
-��������������ļ����Ϳ��԰� Esc�ص�����ģʽ��Ȼ�� :w�͕���n��ע�⣬��ð̖�������߀�����x�_ vim��Ҫ�x�_�ɰ� :q���Ϳ����ˣ�Ҳ���Ժ������ã� :wq���͘Ӿ͕���n���x�_�����N�ӣ�Ҳ�������y�ɣ�ֻ���^������ʽ�̈́e�ľ�݋����һ���T�ˣ��@���M���Ǻ��Ђ��ԡ� :-) �M��ӛס���I�����x���Ų����������� e�� edit(��݋ )��w�� write(���� )��q�� quit(ֹͣ���x�_)��
+這裡要提醒大家一下，許多 distributions中會編譯一個小型的 vim，啟動會比較快一點，但缺乏許多本文要用到的功能，因此，建議您使用 vim/gvim，而暫時避免使用 vi，或者就把 vi直接連結到正常的 vim上去。 Slackware Linux的話，他的 vi是連結到 elvis的，也請使用 vim/gvim為指令，或改變 vi的連結。而 *BSD系統，使用的很可能就是 nvi，這些請使用時注意一下，以免和文中內容所述不符。如果不確定自己是使用哪一種版本的 vi，可以進入 vi後按冒號 :後再輸入 ver，然後按 Enter，就會得知是哪一種版本的 vi，如果是 vim的話，還會顯示前有 +/–號的各功能，有 +號的，表示有編譯進去， –號的表示沒有這項功能。
 
-�@�eҪ���Ѵ��һ�£��S�� distributions�Е����gһ��С�͵� vim�����ӕ����^��һ�c����ȱ���S�౾��Ҫ�õ��Ĺ��ܣ���ˣ����h��ʹ�� vim/gvim�������r����ʹ�� vi�����߾Ͱ� viֱ���B�Y�������� vim��ȥ�� Slackware Linux��Ԓ������ vi���B�Y�� elvis�ģ�ҲՈʹ�� vim/gvim��ָ����׃ vi���B�Y���� *BSDϵ�y��ʹ�õĺܿ��ܾ��� nvi���@ЩՈʹ�Õrע��һ�£���������Ѓ�������������������_���Լ���ʹ����һ�N�汾�� vi�������M�� vi�ᰴð̖ :����ݔ�� ver��Ȼ�ᰴ Enter���͕���֪����һ�N�汾�� vi������� vim��Ԓ��߀���@ʾǰ�� +/�C̖�ĸ����ܣ��� +̖�ģ���ʾ�о��g�Mȥ�� �C̖�ı�ʾ�]���@헹��ܡ�
+好了，這是就編輯的整個過程。下回開始是詳述各部份的功能，把 Vim解剖開來講，您可以馬上現學現賣。由於 vi/vim的操作方式很有個性，因此，用了一次就會記住有這麼一個功能，想忘也忘不了，但有時按鍵難免會忘記，有這麼一種功能大概是忘不了的，查了幾次指令就可以記得住了。 
 
-���ˣ��@�Ǿ;�݋�������^�̡��»��_ʼ��Ԕ�������ݵĹ��ܣ��� Vim�����_���v���������R�ϬF�W�F�u����� vi/vim�Ĳ�����ʽ���Ђ��ԣ���ˣ�����һ�ξ͕�ӛס���@�Nһ�����ܣ�����Ҳ�����ˣ����Еr���I�y�����ӛ�����@�Nһ�N���ܴ���������˵ģ����ˎ״�ָ��Ϳ���ӛ��ס�ˡ� 
+-----------------------------第1章结束-------------------------------
 
------------------------------��1�½���-------------------------------
+第 2章
 
-�� 2��
+游標的移動
 
-�Θ˵��Ƅ�
+本節所述皆是在 common-mode(c-mode，在 Vim又名 normal-mode，就是剛進入 vim，不能輸入文字的狀態 )下的移動，原始的 vi只能在 c-mode移動游標，在 insert-mode只做文字的輸入，而不做游標的移動。當然 Vim及 elvis的方向鍵是不論在那一種 mode皆可移動自如。 
 
-�������������� common-mode(c-mode���� Vim���� normal-mode�����Ǆ��M�� vim������ݔ�����ֵĠ�B )�µ��Ƅӣ�ԭʼ�� viֻ���� c-mode�Ƅ��Θˣ��� insert-modeֻ�����ֵ�ݔ�룬�������Θ˵��Ƅӡ���Ȼ Vim�� elvis�ķ����I�ǲ�Փ����һ�N mode�Կ��Ƅ����硣 
+    2.1基本的游標移動 
+h 左，或 Backspace或方向鍵。  
+j 下，或 Enter或 +（要 Shift鍵），或方向鍵。  
+k 上，或方向鍵或 –（不必 Shift鍵）。  
+l 右，或 Space或方向鍵。  
 
-2.1�������Θ��Ƅ� 
-h �󣬻� Backspace�����I��  
-j �£��� Enter�� +��Ҫ Shift�I���������I��  
-k �ϣ������I�� �C������ Shift�I����  
-l �ң��� Space�����I��  
-Ctrl+f �� PageDown��퓣� Forward����ǰ���·�퓣���  
-Crtl+b�� PageUp��퓣� Backward�����ᡢ�Ϸ�� )��
+H 光标移动到当前窗口的顶部，4H表示把光标移动到距离窗口顶部4行的位置
+M 光标移动到当前窗口的中间
+L 光标移动到当前窗口的底部
 
-ʹ��hjkl�I���Ƅ��Ǟ���ʹ�ֲ����x�_���օ^���I�P����Ĳ�λ�����Լӿ���ֵ��ٶȣ������λ�����T���Ǿ�ʹ�÷����I�ɣ��䌍��һ�����T�����ᣬ��춾�݋������Ч�ʕ��кܴ�Ď������������S�๤��վ�� viֻ��ʹ�� hjkl���Ƅӷ�ʽ����˿��ܵ�Ԓ���M����Ϥ hjkl���Θ��Ƅӡ� Backspace�� Space���Ƅӷ�ʽ�ǵ������׻���β�r�����У��������I�� hl�I���Ƅӄt�����׻���β�r���^�m��Ҳ�������С��D�ۓQ�еĹ����� Vim�ĔU�书�ܣ� elvis�o�˹��ܡ� 
-jk��ʹ�÷����I�������Ƅ��Θ˕��M��������ͬһ��λ��ʹ�� Enter��+���C�������Ƅӣ��Θ˕������ϣ��£�һ�еĵ�һ���ǿհ���Ԫ̎��
-�������c�}�s����λ�͕��rʹ�÷����I���ƄӾͺ��������ˣ����������� Vim���ف��v���ɡ� 
+Ctrl+f 即 PageDown翻頁（ Forward，向前、下翻頁）。  
+Crtl+b即 PageUp翻頁（ Backward，向後、上翻頁 )。
 
-2.2�M�A���Θ��Ƅ� 
+Vim还可移动光标所在行相对于屏幕的位置。
 
-0 �ǔ�Ŀ�� 0������Ӣ����ĸ o������ Hmoe�I���������ף������հ���Ԫ����  
-. �������׵�һ���ǿհ���Ԫ��ע�⣬Ҫ Shift�I��  
-$ ������β���� End�I��Ҫ Shift�I��  
-G �����nβ��ȫ������һ�еĵ�һ���ǿհ���Ԫ̎��  
-gg �����n�ף�ȫ�ĵ�һ��֮��һ���ǿհ���Ԫ̎���� 
+zt 将当前行置于屏幕顶端
+zz 将当前行置于屏幕中间
+zb 将当前行置于屏幕底端
+ctrl-e 所在行向上移
+ctrl-y 所在行向下移
+    使用hjkl鍵的移動是為了使手不必離開打字區（鍵盤中央的部位），以加快打字的速度，如果各位不習慣，那就使用方向鍵吧！其實，一旦習慣了以後，對於編輯工作的效率會有很大的幫助，而且有許多工作站的 vi只能使用 hjkl的移動方式，因此可能的話，盡量熟悉 hjkl的游標移動。 Backspace及 Space的移動方式是到了行首或行尾時會折行，但方向鍵或 hl鍵的移動則在行首或行尾時您繼續按也不會折行。轉折換行的功能是 Vim的擴充功能， elvis無此功能。 
 
-��Ҏ�t��ʾʽ�� regular expression���У� .��ƥ�����ף� $��ƥ����β�� 
-gg�� Vim�ĔU�书�ܣ��� elvis��ԭʼ vi�п��� 1G�������n�ף��ǔ��� 1����Ӣ���� l���� G֮ԭ���� goto��ָ����ָ����Ŀ��֮���ף��粻ָ����Ŀ���t�A�O������һ�С� 
-w������һ���֣� word�����ס���Ȼ��ָӢ�Ć��֡� Wͬ�ϣ���������һЩ���c��̖�� e������һ������β�� Eͬ�ϣ���������һЩ���c��̖�� b����ǰһ�������ס� Bͬ�ϣ���������һЩ���c��̖�� H����ΞĻ픵�һ���ǿհ���Ԫ�� M����ΞĻ���g��һ���ǿհ���Ԫ�� L����ΞĻ�׵�һ���ǿհ���Ԫ���@�� PageDown��PageUp��һ�ӣ����ă��݁K
-δ�ӣ�ֻ���Θ��ڄӶ��ѡ� n|������ n����Ԫ (��)̎��ע�⣬Ҫ�� Shift�I�� n�Ǐ��^����ġ� :n������ n�����ס��� nG�� 
+jk及使用方向鍵的上下移動游標會盡量保持在同一欄位。使用 Enter，+，–的上下移動，游標會移至上（下）一行的第一個非空白字元處。
+好像有點複雜，各位就暫時使用方向鍵來移動就簡單明白了！等您愛上了 Vim後再來講究吧。 
 
-2.3������Ƅ� 
+    2.2進階的游標移動 
 
-)������һ�����ӣ� sentence���ס� (������һ�����ӣ� sentence���ס� sentence�����ӣ����� .!?��^�� }������һ�����䣨 paragraph���ס� {������һ�����䣨 paragraph���ס� paragraph�����䣩���Կհ��О�^�� 
-%�@��ƥ�� {}��[]��()�õģ������Θ��� {��ֻҪ�� %���͕��ܵ���ƥ��� }�ϡ� 
-�� 2���Θ˵��Ƅ� 2.3.������Ƅ�
-��߀��һЩ Vim�����ⰴ�I�����@�����������ف��f������t��λ�����^���ۻ��ˡ� 
+0 是數目字 0而不是英文字母 o。或是 Hmoe鍵，移至行首，（含空白字元）。  
+. 移至行首第一個非空白字元，注意，要 Shift鍵。  
+$ 移至行尾，或 End鍵。要 Shift鍵。  
+G 移至檔尾（全文最後一行的第一個非空白字元處）  
+gg 移至檔首（全文第一行之第一個非空白字元處）。 
 
------------------------------��2�½���-------------------------------
+'t 跳转到标记t所在的行
+`t 跳转到标记t所在的行并精确到列 
 
-�� 3��
+在規則表示式（ regular expression）中， .是匹配行首， $是匹配行尾。 
+gg是 Vim的擴充功能，在 elvis或原始 vi中可用 1G來移至檔首（是數字 1不是英文字 l）。 G之原意是 goto，指移至指定數目行之行首，如不指定數目，則預設是最後一行。 
 
-������݋ָ��
+w移至次一個字（ word）字首。當然是指英文單字。 W同上，但會忽略一些標點符號。 e移至後一個字字尾。 E同上，但會忽略一些標點符號。 b移至前一個字字首。 B同上，但會忽略一些標點符號。 H移至螢幕頂第一個非空白字元。 M移至螢幕中間第一個非空白字元。 L移至螢幕底第一個非空白字元。這和 PageDown，PageUp不一樣，內文內容並未動，只是游標在動而已。 n|移至第 n個字元 (欄)處。注意，要用 Shift鍵。 n是從頭起算的。 :n移至第 n行行首。或 nG。 
 
-�@����Ԫ���_ʼ�M�����}�ˡ��¾�݋ָ����ڳ��Bģʽ��������һ�M�� Vim�r��ģʽ��ֻ����ָ������I�����֡����ӡ��ģ����Ո��һ�µ�һ����Ԫ�ă��ݡ��@����Ԫ�f���ǻ����ľ�݋ָ���Щ���^����ľ�݋ָ����̫�Ђ����ˣ����ԕ�������һ����Ԫ���f���� 
+    2.3特殊的移動 
 
-3.1��N�~��ģʽ�� additional mode��
+    )移至下一個句子（ sentence）首。 (移至上一個句子（ sentence）首。 sentence（句子）是以 .!?為區格。 }移至下一個段落（ paragraph）首。 {移至上一個段落（ paragraph）首。 paragraph（段落）是以空白行為區格。 
 
-�@�eҪ������ģʽ��Ո������ 1.4����� 4�������N�~��ģʽ����B�����µ��¹����ЙC�����ϡ���ʲ�N�����@�N��ģʽ���@���M���Ǻ��׾͸�죿�䌍һ�㾎݋����̫����һЩģʽ����ֻҪ�ڸ��Nģʽ���H��ȥ�����״ξ͕�֪���@Щģʽ�����ã���������ȥӛ�������@Щģʽ�ͻ���ģʽ�����B���P�S�ġ� 
+%這是匹配 {}，[]，()用的，例如游標在 {上只要按 %，就會跑到相匹配的 }上。 
 
-3.1.1�����ȴ�ģʽ�� operator-pending mode�� 
-�@�䌍��һ��ĳ��Bģʽһ�ӣ�ֻ���^��ָ�ڳ��Bģʽ����ĳЩ��݋ָ��ȴ����������Ġ�B�� 
+另還有一些 Vim的特殊按鍵，但這得留待最後再來說明，否則各位恐怕會頭昏眼花了。 
 
-3.1.2ȡ��ģʽ�� replace mode��
+-----------------------------第2章结束-------------------------------
 
-3.1.3���볣�Bģʽ�� insert normal mode��
-�@��һ���������ģʽ���ڲ���ģʽ�r���M��ݔ���B������ Ctrl+O�͕��M����볣�Bģʽ���ͳ��Bģʽһ�ӣ�ֻ���^���������µ�ָ�����֕��R�Ϸ���ԭ���Ĳ���ģʽ�^�mݔ�����֡���B�Е��� -(insert) -�֘ӣ���С����С̖�ġ� 
-
-3.1.4���뷴��ģʽ�� insert visual mode��
-
-�@�Ͳ��볣�Bģʽһ�ӣ�ֻ���^�ڰ� Ctrl+O�������е��Ƿ��׵� Ctrl+V�� V�� v���M�뷴��ģʽ���ȷ���ģʽ�Y���֕�����ԭ���Ĳ���ģʽ����B�Е��� -(insert) VISUAL -�֘ӡ� 
-
-3.1.5�����x��ģʽ�� insert select mode��
-�@�Ͳ��뷴��ģʽһ�ӣ�ֻ���^�M������x��ģʽ�����Ƿ���ģʽ����B�Е��� -(insert) SELECT -�֘ӡ� 
-
-3.2�M�����ģʽ��ָ�� 
-
-ָ�� Rָ��r��̎�Ġ�B��Ո������ 3.4����� 12���ڠ�B�Е��� -REPLACE -�֘ӡ� 
-i���Θ�������Ԫǰ�_ʼݔ������ (insert)�� 
-a���Θ�������Ԫ���_ʼݔ������ (append)�� 
-o���Θ����������_һ���Ё�ݔ������ (open)�� 
-I�������_ʼݔ�����֡���֮����ָ��һ���ǿհ���Ԫ̎��Ҫ�������ĵ�һ����Ԫ̎
-�_ʼݔ�����֣���ʹ�� 0i�� gI(Vim���� )�� 
-A����β�_ʼݔ�����֡��@�����ã������ع��Θ��ڴ��е�ʲ�N�ط���ֻҪ�� A�͕�
-����β������ݔ�����֡� 
-O���Θ����������_һ���Ё�ݔ�����֡� 
-J����һ�����н������� (Joint)�� �K�o������ split���ܣ����ڲ���ģʽ�°� Enter���_�ɣ���Ȼ������� macro��Ԓ�������ж��x��ʹ�� J�r���A�O����ȥ���е� EOL(End Of Line)��Ԫ���������нӿp�g������һ���հ���Ԫ���@����Ӣ�����T���s�����ĕ�������_���������հ���Ԫ����ʹ�� gJ���� J��ָ����@�� Vim�ĔU�书�ܣ� elvis���m�á�Ҫ���������ݣ��Ʌ��������f�������Ź��ܵ� Vim script��Ո���S����һ���n����ԇ�������⿴�����f��̫�����ˡ� 
-
-3.3�h��ָ�� 
+第 3章
 
-x�h���Θ�����֮̎��Ԫ��������ָһ�������֡��� Vim�� elvis����� Del�I�� 
-X�h���Θ�ǰ֮��Ԫ������ʹ�� Backspace�I���������ڲ���ģʽ�� Vim�������_ʹ�����σɂ�ָ������ģ����hȥһ�������֡� elvis�t���У�һ��������Ҫ�h�ɴΣ���ʹ�� xx�� 
-dd�h��һ���� (delete line)�� dw�h��һ���� (delete word)�������m������ġ� dG�h���nβ�� d1G�h���n�ס��� dgg(ֻ����� Vim)�� D�h����β���� d$�����Θ�����̎��Ԫ���� d0�h�����ף��� d.�������Θ�����̎��Ԫ����Ո�ؑ�һ�� $�� .�����������x������
-�������� d$�� d.�Ą������@���� vi(m)�ɐ�֮̎�� 
+基本編輯指令
 
-3.4ȡ����߀ԭ 
+這個單元就開始進入主題了。下編輯指令都是在常態模式，就是您一進入 Vim時的模式，只能下指令，不能鍵入文字。如果印象模糊，請瞄一下第一個單元的內容。這個單元說的是基本的編輯指令，有些比較特殊的編輯指令，因為太有個性了，所以會獨立成一個單元來說明。 
 
-rȡ���Θ�����֮̎��Ԫ�� R�M��ȡ��ģʽ�� replace mode����ȡ����Ԫ���� Esc��ֹ�� ccȡ�����Ѓ��ݡ���� S��ɡ� cw��Qһ��Ӣ���� (word)�����Ĳ��m�á� (change) .�Θ�����̎��Ԫ֮��С�����Q����Ȼ����������ġ��e���� Shift�� Cȡ������β�����Θ�����̎������ֶ�������Q���� c$�� c0ȡ�������ף��� c.�� s��Qһ����Ԫ������ݔ����ִ����� R��ͬ�� R�Ǹ��wʽ��ȡ���� s�t�ǲ���ʽ��
-ȡ���������H�Ԍ�򞿴�����ߣ���С���� s�� u�@��̫��Ҫ�ˣ����� undo�����y�� vi�H֧Ԯһ�� undo��Vim�� elvis�Ͳ�ֻ
-�ˣ� Vim�׺��Ǜ]�����Ƶġ� 
-U���Θ˛]�x�_����֮ǰ���؏����о�݋������ 
-Crtl+r�@��Ҳ�Ǻ���Ҫ������ redo�I�� 
+    3.1五種額外模式（ additional mode）
 
-Vim���Ђ��Եģ����ڳ��Bģʽ���� r���͕�ͣ�����e�������I����Ҫ�������Ԫ��ϣ�����@�������˵ģ���Ҫɵ������Ҳ�������e���s���I����������Ԫ�ɣ� :-)Vim�п���������֣�Ҳ���ǿ�����Qһ�������֣� elvis�t���С���Ȼ���� Vim��Ҫ�O�� big5/cp950�Ĳ��С����N�ӣ��Л]�п��^����Ђ��Ե�ȡ����ʽ���ڣ� r���� replace���� 
-
-3.5���ϔ�Ŀ��
+    這裡要對基本模式（請參考第 1.4節，頁 4）外的五種額外模式做介紹，以下的章節會有機會碰上。為什麼會有這麼多模式？這樣豈不是很易就搞混？其實一般編輯不必太在意一些模式，您只要在各種模式下親自去操作幾次就會知道這些模式的作用，不必特意去記憶他，這些模式和基本模式都有連帶關係的。 
 
-ร��}�� Vim�İW̎�ˣ��@�� Vimһ���ǳ��}���Ĺ��ܣ�ֻ��һ�҄e�o��̖����ȻͬԴ�� ed��sed�Ȳ��ڴ��ޣ��������������ڴ󲿷ݵ�ָ��ǰ���ϔ�Ŀ�֣�����Ҫ̎��״ε���˼�������Ì������f�����^����� 
-5dd �h���Θ�����̎�����������������Ѓ��ݡ���ɣ�  
-3r ���� 3r�ᣬ���I��һ��Ӣ���֣��t������Ԫ�ԕ��������I���Ӣ��ȡ����ֻҪ  
-locale�O�����_������Ҳͨร�  
-5J �����кρ��һ�С�  
-3x �h��������Ԫ������Ҳͨ��  
-5i A Ȼ�ᰴ Esc�������傀 A������Ҳ���ԣ�  
-2i sys Esc ���� syssys������Ҳ���ԣ�  
-5G �Θ����������У��Ǐęn���_ʼ���㡣�� :5������ͬ��  
-5l �����ҵ��傀��Ԫ̎����Ȼ j�ǿ����÷����Iȡ���ġ� 
+        3.1.1操作等待模式（ operator-pending mode） 
+這其實和一般的常態模式一樣，只不過是指在常態模式下了某些編輯指令，等待其他動作的狀態。 
 
-�����Ƅ�ָ������� 2�£�� 7�������Լ��ϔ�Ŀ�ց����ƣ�����Ҳͨร�������ָ��͔�Ŀ�ֽY�ϣ���������λȥ�l��ɣ�����Ҫ����Ո���H�Բ���������ʹ�� Vim����Ҫ�ӄ��X����и���Ĳ�����ʽ����һ�ο����úܾ�ร������f���W��X���ˣ����X����Ǟ���͵�С� :-) 
+        3.1.2取代模式（ replace mode）
 
-3.6�������Ź��� 
+        3.1.3插入常態模式（ insert normal mode）
+這是一個很特殊的模式，在插入模式時，進入輸入狀態，但按 Ctrl+O就會進入插入常態模式，和常態模式一樣，只不過執行完所下的指令後又會馬上返回原來的插入模式繼續輸入文字。狀態列會有 -(insert) -字樣，是小寫有小號的。 
 
-.����������һ�� shiftwidth���A�O�� 8����Ԫ�������O���� 
-.����������һ�� shiftwidth���A�O�� 8����Ԫ�������O���� :set 
-shiftwidth?�ɵ�֪Ŀǰ���O��ֵ�� :set shiftwidth=4���R�����O
-�� 4����Ԫ�� shiftwidth�ɺ����� sw���ߣ��e���� Shift�I�� 
+        3.1.4插入反白模式（ insert visual mode）
 
-:ce(nter)�����������С�ע����ð̖��� 
-:ri(ght)�������ֿ��ҡ� 
-:le(ft)�������ֿ������^���С������ң��ǅ��� textwidth(tw)���O������� tw
+這和插入常態模式一樣，只不過在按 Ctrl+O後所執行的是反白的 Ctrl+V或 V或 v而進入反白模式，等反白模式結束又會返回原來的插入模式。狀態列會有 -(insert) VISUAL -字樣。 
 
-�]���O�����A�O�� 80�������� 80����Ԫ�鿂���Ȟ�˜ʁ��÷š���Ȼ��Ҳ��
-���� swһ���R�����O�� 
-gqap�������ţ��� gqip���ڶ�����λ�εط�������ʹ�á������ĵ����Ҋ������ 
-gqq�������š� 
-gqQȫ�����ţ������Θ�����̎�Ķ����_ʼ�������nβ���Կհ��О������g �������ŵ�����Ҳ�� textwidth���@�e��������ָ���I�����֕r�]�а� Enter�I����һֱ�� keyin���@�ӕ��γ�һ�����L��һ�У��mȻΞĻ�ϕ��������������У��������ᣬ�t����ÿһ��������� EOL��gq���Ź����� Vim���еĹ��ܡ� ��������� visual mode����ӛ�����Ĳ��ݣ�ֻҪ�� gq�͕�ֻ���ű���ӛ�Ĳ��ݡ�Ո���������µĘ�ʾָ��һ����
-������ gq����һ������������ָ����� d�� y�Ǫ����Ąh�����}�u��ָ��һ�ӣ����ԣ���Ȼ�ǿ��Լ��ϔ�Ŀ�ּ��Կ��ƣ��������ָһ���õģ����磺 
-gq3q .�������� 
-gq2ap .���Ńɂ����� 
-gq5j .�����Θ��������� (�e���� j�������Ƅӣ� 5j���������Ƅ����У�������
+        3.1.5插入選擇模式（ insert select mode）
+這和插入反白模式一樣，只不過進入的是選擇模式，而非反白模式。狀態列會有 -(insert) SELECT -字樣。 
 
-������̎�������� ) 
-gq} . well���@��ʲ�N�ۣ� 
-gq) .�@����ɶ�N�ۣ�Ո�}��һ�µ� 2�µĵ� 2.3�����Ƅ�һ�����K�H����һ
+    3.2進入插入模式的指令 
 
-��򞿴�����������ĸ壬ͨ������һ�����䡣���ŵĹ��ܱ����Ǿ�݋������Ҫ���ܣ������ĕ��Ű�ܛ�w�Ĺ����������ε�����Ҳ�Ǻܷ��㣬�� 
-����Ķ��ԣ�̎���ϵö໨Щ���򣬌��ϣ�����������Ź��ܵ����ѣ������d Vim script��ʹ�ã� 
-http://info.sayya.org/~edt1023/vim/format.vim
-�@���޸����ձ����ѵ�ؕ�I��������� $VIMRUNTIME/pluginĿ��£������_�� vim�͕���Ч����� J�� gqap�������]���ĵļ�������Ȼ�� Vimֻ�ǂ����־�݋�������Ҫ���Mһ�����Ű棬��Ҫ�� o.ce��ĕ�̎��ܛ�w������Mһ���Č��I TEX/LATEX/texinfo/tro./gro.�Ű�ܛ�w��̎���� 
+    指下 R指令時所處的狀態。請參考第 3.4節，頁 12。在狀態列會有 -REPLACE -字樣。 
+i在游標所在字元前開始輸入文字 (insert)。 
+a在游標所在字元後開始輸入文字 (append)。 
+o在游標所在行下開一新行來輸入文字 (open)。 
+I在行首開始輸入文字。此之行首指第一個非空白字元處，要從真正的第一個字元處
+開始輸人文字，可使用 0i或 gI(Vim才有 )。 
+A在行尾開始輸入文字。這個好用，您不必管游標在此行的什麼地方，只要按 A就會
+在行尾等著您輸入文字。 
+O在游標所在行上開一新行來輸入文字。 
+J將下一行整行接至本行 (Joint)。 並無相對的 split功能，可在插入模式下按 Enter來達成，當然如果您熟 macro的話，可自行定義。使用 J時，預設會消去本行的 EOL(End Of Line)字元，且上下行接縫間會留下一個空白字元，這符合英文習慣，卻對中文會造成困擾，欲不留空白字元，可使用 gJ（大寫 J）指令，但這是 Vim的擴充功能， elvis不適用。要和中文相容，可參考底下會說明的重排功能的 Vim script。請您隨便找一個檔案來試看看，光看文字說明太抽象了。 
 
-------------------------------��3�½���------------------------------
+    3.3刪除指令 
 
-�� 4��
+x刪除游標所在處之字元，在中文指一個中文字。在 Vim及 elvis亦可用 Del鍵。 
+X刪除游標前之字元。不可使用 Backspace鍵，除非是在插入模式。 Vim可以正確使用以上兩個指令於中文，會刪去一個中文字。 elvis則不行，一個中文字要刪兩次，即使用 xx。 
+        dd刪除一整行 (delete line)。 dw刪除一個字 (delete word)。不能適用於中文。 dG刪至檔尾。 d1G刪至檔首。或 dgg(只能用於 Vim)。 D刪至行尾，或 d$（含游標所在處字元）。 d0刪至行首，或 d.（不含游標所在處字元）。請回憶一下 $及 .所代表的意義，您就
+    可以理解 d$及 d.的動作，這就是 vi(m)可愛之處。 
 
-�}�u�� yank�� 
+    3.4取代及還原 
 
-yank��ʲ�N��˼�����Ɇ���Ո��һ���ֵ�ɣ��ͺ��������t�ί��еġ��ιޡ�����˼�����ǲ��ǽС��ιޡ���֪��������ָ��һ�°ɣ��������� Vim�У��������}�u copy����˼���@�� Vim��˼��߉݋�e�����ǡ��Ρ� yank���������š� put��ȥ���䌍�}�u��ָ����� yһ�����ѣ���ʲ�NҪ������һ����Ԫ���f���أ���� Vim�}�u���N�ϵĹ��܌���̫�����ˣ�����ϵ�����Ԫ��B�Ĕ�Ŀ�֣��� Vim�Ȳ��ľ��n�^���Ĵ�������ʹ�õ�Ԓ�������l�F��ԭ�� Vim�����e߀���������������� 
+        r取代游標所在處之字元。 R進入取代模式（ replace mode），取代字元至按 Esc為止。 cc取代整行內容。或大寫 S亦可。 cw替換一個英文字 (word)，中文不適用。 (change) .游標所在處字元之大小寫互換。當然不能用於中文。別忘了 Shift！ C取代至行尾，即游標所在處以後的字都會被替換。或 c$。 c0取代至行首，或 c.。 s替換一個字元為您所輸入的字串。和 R不同， R是覆蓋式的取代， s則是插入式的
+取代，您可親自實驗看看。ㄟ！是小寫的 s。 u這個太重要了，就是 undo，傳統的 vi僅支援一次 undo，Vim及 elvis就不只
+了， Vim幾乎是沒有限制的。 
+U在游標沒離開本行之前，回復所有編輯動作。 
+Crtl+r這個也是很重要，就是 redo鍵。 
 
-4.1ָ���f�� 
+Vim很有個性的，您在常態模式按了 r她就會停在那裡等主人鍵入所要替代的字元，希望您這個當主人的，不要傻呼呼的也楞在那裡，趕快鍵入您的新字元吧！ :-)Vim中可用於中文字，也就是可以替換一個中文字， elvis則不行。當然您的 Vim是要設在 big5/cp950的才行。怎麼樣！有沒有看過如此有個性的取代方式？ㄚ！ r就是 replace啦！ 
 
-yy �}�u�Θ����������С����һ�� Y��  
-2yy �}�u���У� y2yҲ���ԡ��ߣ�Ո�eһ�����ò��ã� :-)  
-y. �}�u�����ף��� y0�������Θ�����̎��Ԫ��  
-y$ �}�u����β�����Θ�����̎��Ԫ��  
-yw �}�uһ�� word��  
-y2w �}�u�ɂ��֡�  
-yG �}�u���nβ��  
-y1G �}�u���n�ס�  
-p С�� p�����N���Θ��ᣨ�£���  
-P �� P�����N���Θ�ǰ���ϣ������е��}�u���� p�� P�r�ǲ���ʽ���N���£��ϣ� 
-һ�С������е��}�u�t���N���Θ�����֮̎�ᣨǰ����  
-"ayy �����������}�u�� a���n�^��  a�ɞ� 26��Ӣ����ĸ�е�һ���������С����Ԓ��ԭ�ȵă��ݕ������������Ǵ󌑵�Ԓ�� append�����ã����у��ݸ��ӵ�ԭ�ȃ���֮�ᡣ 
-"�� Enter�I���ڵ���һ��ͬ�Ϸ�̖�� ditto marks������Ȼ��Ҫ�� shift�Iͬ�r���ġ� 
-"ap�� a���n�^�ă����N�ϡ�
-�@�����n�^���g�Z�� Vim�Q�� registers��Vim�U�����ஔ��Ĺ��ܡ����� d��c��s��x��y��ָ���׃��h���ă��ݶ��Ƿ��� registers�еġ����磺���� dd�h����һ�У�Ҳ�ǿ���ʹ�� p���N�ϵġ�ֻҪ���ھ��n�^�ă��ݶ�����ʹ�� p���N�ϣ�����һ��Ҫ y�����ă��ݲ����� p��������J�� p�� pasteҲ���ԣ��J���� put�����^���_�� 
-5"ayy �}�u���Ѓ����� a���n�^�� 
-5"Ayy ���}�u���и��� a����֮�ᣬ�F�� a����ʮ�Ѓ����ˣ��ߣ���Ҫ��һֱ�� a�����J��ֻ�� a������ม� 26��Ӣ����ĸ�����Եģ������\���£������l�X Vim������С��
+    3.5加上數目字
 
-���}���ˣ���ӛ�l���l�ĕr�����N�k�� :reg��ð̖����͕��г����� registers�Ĵ�̖�����ݡ����F�ھ�ԇ�����������ף����N߀�Д�Ŀ�֡������̖�ľ��n�^��ԭ���������h�����}�u���ă��ݾ��A�O���� "�@�����n�^��Ȼ�������� 0,1,2,. . .9��Ҳ�����f���� p����ʲ�N��Ԓ����ȡ�� "���n�^�ă��ݡ�
+喔！騷到 Vim的癢處了，這是 Vim一個非常騷包的功能，只此一家別無分號（當然同源的 ed，sed等不在此限）。就是您可以在大部份的指令前加上數目字，代表要處理幾次的意思。以下用實例來說明比較清楚。 
+5dd 刪除游標所在處（含）起算以下五行內容。妙吧！  
+3r 按了 3r後，您鍵入一個英文字，則三個字元皆會被您所鍵入的英文取代。只要  
+locale設定正確，中文也通喔！  
+5J 將五行合併成一行。  
+3x 刪除三個字元。中文也通。  
+5i A 然後按 Esc，插入五個 A。中文也可以！  
+2i sys Esc 插入 syssys。中文也可以！  
+5G 游標移至第五行，是從檔首開始起算。和 :5作用相同。  
+5l 移至右第五個字元處，當然 j是可以用方向鍵取代的。 
 
-%ָ����Ŀǰ��݋�ęn���� 
+所有移動指令（參考第 2章，頁 7）都可以加上數目字來控制，中文也通喔！其它的指令和數目字結合，就留待各位去發掘吧！最重要的是請您親自操作看看，使用 Vim常常要動動腦筋，會有更妙的操作方式，想一次可以用很久喔！有人說，學電腦的人，動腦筋就是為了偷懶。 :-) 
 
-#ָ����ǰһ�ξ�݋�ęn����߀��������ѽ���@������һ������B�� 
+    3.6簡單重排功能 
 
-Tab�aȫ�Ĺ��ܣ� elvisҲ�У����г� registers�б�������t�]�У���������ӛ���������X�������e������ elvis���aȫ�����K�] Vim���� 
+.整行向右移一個 shiftwidth（預設是 8個字元，可重設）。 
+.整行向左移一個 shiftwidth（預設是 8個字元，可重設）。 :set 
+shiftwidth?可得知目前的設定值。 :set shiftwidth=4可馬上重設
+為 4個字元。 shiftwidth可簡寫成 sw。ㄟ，別忘了 Shift鍵！ 
 
-4.2 Register���n�^
+:ce(nter)本行文字置中。注意是冒號命令！ 
+:ri(ght)本行文字靠右。 
+:le(ft)本行文字靠左。所謂置中、靠左右，是參考 textwidth(tw)的設定。如果 tw
 
-��Vim�e�^�����S�಻ͬ�Nľ��n�^�����磺�÷�һ�����n���� bu.ers���n�^��Ո������ 6.2����� 22�����n�����ݲ�������h���� yank���ÓQ���o PutҪ�õ� registers���n�^������߀�нo���`Ҫ�õ� marks���n�^��Ո������ 5.4����� 20�����mȻ�@Щ���ݲ�һ���Ƿ��� RAMӛ���w�ȣ��е������Ӳ���n���ϣ���Ҫ�r�ŏęn����ȡ�����@�eͨͨ���������Ǿ��n�^���Է������⡣ 
+沒有設定，預設是 80，就是以 80個字元為總寬度為標準來置放。當然您也可
+以如 sw一樣馬上重設。 
+gqap整段重排，或 gqip，在段落中位何地方都可以使用。和中文的配合見下述。 
+gqq本行重排。 
+gqQ全文重排，是以游標所在處的段落開始重排至檔尾。以空白行為段落的間 隔。重排的依據也是 textwidth。這裡的重排是指您鍵入文字時沒有按 Enter鍵，就一直在 keyin，這樣會形成一個很長的一行（雖然螢幕上會替您做假性折行），重排後，則會在每一行最後加入 EOL。gq重排功能是 Vim才有的功能。 如果是利用 visual mode所標記起來的部份，只要按 gq就會只重排被標記的部份。請參考第七章的標示指令一節。
+基本上 gq就是一個獨立的重排指令，就像 d或 y是獨立的刪除、複製的指令一樣，所以，當然是可以加上數目字加以控制，或和其他指一起用的，例如： 
+    gq3q .重排三行 
+    gq2ap .重排兩個段落 
+    gq5j .重排游標以下五行 (別忘了 j是向下移動， 5j就是向下移動五行，包括游
 
-4.2.1 register�ķN� 
+標所在處就是六行 ) 
+    gq} . well，這是什麼哇？ 
+        gq) .這又是啥麼哇？請複習一下第 2章的第 2.3特殊移動一節。並親自做一
 
-VIM����ļĴ��������������濽�����ı�����¼�ĺꡢ���õ���ǩ�ȵȣ�һ��ı༭����ֻ��һ�����а壨MS Office�����˶�����а壩����VIM��Emacs�༭���еĶ�Ĵ�������ʵ�ֶ�����а�Ĺ��ܡ�VIM���о���Ĵ���:
+下實驗看看。在中文文稿，通常就是一個段落。重排的功能本不是編輯器的主要功能，而是文書排版軟體的工作，但簡單的重排也是很方便，對 
+於中文而言，處理上得多花些工夫，對於希望有中文重排功能的朋友，可下載 Vim script來使用： 
+            http://info.sayya.org/~edt1023/vim/format.vim
+            這是修改自日本朋友的貢獻。把他置於 $VIMRUNTIME/plugin目錄下，重新開啟 vim就會生效，對於 J及 gqap都會考慮中文的細節。當然， Vim只是個文字編輯器，如果要做進一步的排版，需要由 o.ce類的文書處理軟體，或更進一步的專業 TEX/LATEX/texinfo/tro./gro.排版軟體來處理。 
 
-�����Ĵ���	"	���һ��ɾ��/�޸�/�滻�������ı������������Ĵ���
-10�����ּĴ���	0-9	��������ɾ�����ı�������Щ�Ĵ�������Щ�Ĵ�����ѭ��ʹ��
-			�ģ���ÿ�δ������ݵ��Ĵ���1ʱ��ԭ�е����ݻ����δ��뵽
-			��һ���Ĵ����С�
-Сɾ���Ĵ���	-	ɾ����������һ��ʱ��������Ĵ���
-26�������Ĵ���	a-zA-Z  ��Сд�޹ء���Щ�Ĵ��������ڿ�������ɾ���Ȳ�����ָ��ʹ�á�
-�ĸ�ֻ���Ĵ���  :.%#	������;��
-����ʽ�Ĵ���	=	������;��
-ѡ����ϷżĴ��� *+~	������ϵͳ���а彻�����Լ������ϷŲ��������ݡ�
-�ڶ��Ĵ���	_	�ŵ�����������ݶ�����������������ɾ���򿽱�ʱ��Ӱ�������Ĵ�����
-���һ������ģʽ�Ĵ��� /	�������һ���������������ʽ��
+------------------------------第3章结束------------------------------
 
-    ʹ��:reg������Կ������мĴ����е����ݣ�ʹ��"+y����"*y���Խ�visual mode��ѡ��
-�����ݿ�����ϵͳ���а壬ʹ��"+p����"*p���Խ����а��е�����ճ����VIM�У��������
-mswin���ԵĻ�����insert mode��ʹ��Ctrl-x��Ctrl-v��Ctrl-c�ˡ�
+第 4章
 
-4.3����ָ�� 
+複製（ yank） 
 
-.�@��ʲ�N���ڣ���Ӣ�ľ��c�����]�e������Ӣ�ľ��c��ʲ�N��˼�����}ǰ�εľ�݋�������@��ָ��̫�����ˣ�ֻҪ�Ǿ�݋�������Ƅ��Θ˲��㣬ð̖����Ҳ���㣩�����԰�Ӣ�ľ��c�����}��Ҫ���}�״ζ����ԡ�
+yank是什麼意思？有疑問的請查一下字典吧！就好像是中醫治療中的「拔罐」的意思啦（是不是叫「拔罐」？知道的朋友指正一下吧）！反正在 Vim中，她就是複製 copy的意思。這在 Vim的思考邏輯裡，就是「拔」 yank起來，「放」 put上去。其實複製的指令就是 y一個而已，為什麼要獨立成一個單元來說明呢？因為 Vim複製、貼上的功能實在太獨特了，再配合第三單元介紹的數目字，及 Vim內部的緩衝區（寄存器）來使用的話，您會發現，原來 Vim肚子裡還暗藏著秘密武器。 
 
-���磺������ yy��Ȼ�ᰴ p�͕��}�u���N��һ���У����Ҫ���}�@��������Ԓ���Ϳ��԰� .��Ҳ���԰��Θ��Ƶ������ط����ٰ������� dd��dw��r��cw�Ⱦ�݋ָ������@�Ӂ����}�������Ҫ���}��ĳЩ��݋�����r��ǧ�fǧ�fһ��Ҫ�뵽���@�Nһ��Ӣ�ľ��c���}ָ��ڣ���Ӛ������һ��Ҫ�����@��ָ� 
+    4.1指令說明 
 
-4.4���y�s֢ 
+yy 複製游標所在行整行。或大寫一個 Y。  
+2yy 複製兩行， y2y也可以。ㄟ，請舉一反三好不好！ :-)  
+    y. 複製至行首，或 y0。不含游標所在處字元。  
+y$ 複製至行尾。含游標所在處字元。  
+yw 複製一個 word。  
+y2w 複製兩個字。  
+yG 複製至檔尾。  
+y1G 複製至檔首。  
+p 小寫 p代表貼至游標後（下）。  
+P 大寫 P代表貼至游標前（上）。整行的複製，按 p或 P時是插入式的貼在下（上） 
+一行。非整行的複製則是貼在游標所在處之後（前）。  
+"ayy 將本行文字複製到 a緩衝區。  a可為 26個英文字母中的一個，如果是小寫的話，原先的內容會被清掉，如果是大寫的話是 append的作用，會把內容附加到原先內容之後。 
+"是 Enter鍵隔壁的那一個同上符號（ ditto marks），當然是要和 shift鍵同時按的。 
+"ap將 a緩衝區的內容貼上。
+這個緩衝區的術語在 Vim稱為 registers，Vim擴充了相當多的功能。您用 d、c、s、x、y等指令改變或刪除的內容都是放在 registers中的。例如：您用 dd刪除的一行，也是可以使用 p來貼上的。只要是在緩衝區的內容都可以使用 p來貼上，不是一定要 y起來的內容才能用 p。因此您認為 p是 paste也可以，認為是 put可能較正確。 
+5"ayy 複製五行內容至 a緩衝區。 
+5"Ayy 再複製五行附在 a內容之後，現在 a中有十行內容了！ㄟ！不要我一直用 a您就認為只有 a可以用喔。 26個英文字母都可以的，交叉運用下，您會發覺 Vim肚量不小。
 
-4.4.1��mouse���I�ļ��N����߀�І᣿
-��Ȼ߀�У������� console�� Xterminal�ж����ò��`����Ȼ�� windows�µ�Ԓ�Ͳ������ˣ������� Shift+Insert�����档 Ctrl+v�� Vim���������ã��� windows�¾Ͳ���ȥ�韩���ˡ� 
+            問題來了！忘記誰是誰的時候怎麼辦？ :reg（冒號命令）就會列出所有 registers的代號及內容。您現在就試著按看看。咦！怎麼還有數目字、特殊符號的緩衝區，原來您剛剛刪除（複製）的內容就預設放在 "這個緩衝區，然後依序是 0,1,2,. . .9。也就是說您按 p不加什麼的話，是取出 "緩衝區的內容。
 
-4.4.2ܛ�w�g���� copy�r��������������´�yҮ��
-Ҫ�O�� :set paste���@�� Vim�ĔU�书�ܣ� elvis�]�С����� elvis���N�k��ֻ�� :set noai1�ˡ��� GUI�İ汾���������@�N���Ρ�
+%指的是目前編輯的檔案。 
 
-���ѣ���˯���ˆ᣿��Ҫ�������ˣ���ֻҪ�_���n�����H�Բ���һ�¾������I��������� mouse���Ǹ�����᣿��Ҋ�ã� yyp���}�u�N��һ���б��^�죬߀���� mouse�������^�죿������ԇ������ 
-1set�Ĺ����Ȳ���ȥ���������ڵھ����TӑՓ�� 
+#指的是前一次編輯的檔案。還有其它的呀！這會在下一節做介紹。 
 
------------------------------��4�½���-------------------------------
+Tab補全的功能， elvis也有，但叫出 registers列表的命令則沒有，您得自行記憶在您的腦袋瓜子裡。而且 elvis的補全能力並沒 Vim強。 
 
-�� 5��
+    4.2 Register緩衝區
 
-�ь�����Q
+            在Vim裡頭，有許多不同種類的緩衝區，例如：置放一整個檔案的 bu.ers緩衝區（請參考第 6.2節，頁 22）；檔案內容操作，如刪除、 yank、置換，給 Put要用的 registers緩衝區；另外還有給書籤要用的 marks緩衝區（請參考第 5.4節，頁 20）。雖然這些內容不一定是放在 RAM記憶體內，有的是置於硬碟檔案上，需要時才從檔案存取，但這裡通通把他當做是緩衝區，以方便理解。 
 
-�ь�����Q�Ĺ��܎׺���ÿ����݋���؂�Ĺ��ܣ����� Vim���Л]������ĵط��أ���Ȼ�У������ˣ� Vim�ǂ���ʮ��ľ�݋����������ĵط��Ǻ�Ҏ�t��ʾʽ�� regular expression,���Q regexp���Y����һ�𡣺��ε��f����һ�N pattern�ı�ʾ�����ڈ��Є��������ь�����Q�r���͕������@�� patternȥ�ң����з��� pattern�ĵط��͕����������µĄ��������@����Ԫ�e����ӑՓ regexp�����ڵ�ʮ��̽ӑ���������^���XÛ��Ŀǰ�͕���ʹ�� regexp����Ҫ��ʲ�N��ֱ���I��ʲ�N�͌��ˡ� 
-5.1�ь� 
-/�� c-mode�������£��� /�͕������·����Fһ�� /��Ȼ���I����Ҫ���ҵ��ִ���
-���� Enter�͕��_ʼ�ҡ� ?�� /��ͬ��ֻ�� /����ǰ���£��ң� ?�t�����ᣨ�ϣ�
-�ҡ� 
-n�^�m���ҡ� 
-N�^�m���ң����򣩡� 
-5.2��������ь������� Vim���У� 
-*�����Θ�����֮̎ word��Ҫ��ȫ���ϣ��� 
-#ͬ�ϣ��� *����ǰ���£��ң� #�t�����ᣨ�ϣ��ҡ� 
-g*ͬ *�������ݷ��ϼ��ɡ� 
-g#ͬ #�������ݷ��ϼ��ɡ� n,N֮�^�m�����I���m�á� 
+        4.2.1 register的種類 
 
-�� 5���ь�����Q 5.3.��Q�� SUBSTITUTE�� 
-5.3��Q�� substitute�� 
+VIM里面的寄存器可以用来保存拷贝的文本、记录的宏、设置的书签等等，一般的编辑器都只有一个剪切板（MS Office加入了多个剪切板），而VIM和Emacs编辑器中的多寄存器可以实现多个剪切板的功能。VIM中有九类寄存器:
+
+无名寄存器	"	最近一次删除/修改/替换操作的文本都会放入这个寄存器
+10个数字寄存器	0-9	拷贝或者删除的文本存入这些寄存器，这些寄存器是循环使用
+的，在每次存入内容到寄存器1时，原有的内容会依次存入到
+后一个寄存器中。
+小删除寄存器	-	删除内容少于一行时放入这个寄存器
+26个命名寄存器	a-zA-Z  大小写无关。这些寄存器可以在拷贝或者删除等操作中指定使用。
+    四个只读寄存器  :.%#	特殊用途。
+表达式寄存器	=	特殊用途。
+选择和拖放寄存器 *+~	用于与系统剪切板交互，以及接收拖放操作的内容。
+黑洞寄存器	_	放到这里面的内容都被丢弃，这样可以删除或拷贝时不影响其它寄存器。
+最后一次搜索模式寄存器 /	保存最后一次搜索的正则表达式。
+
+使用:reg命令可以看到所有寄存器中的内容，使用"+y或者"*y可以将visual mode下选择
+的内容拷贝到系统剪切板，使用"+p或者"*p可以将剪切板中的内容粘贴到VIM中，如果打开了
+mswin特性的话则在insert mode下使用Ctrl-x，Ctrl-v，Ctrl-c了。
+
+    4.3天大的指令 
+
+.這是什麼？ㄚ，是英文句點啦！沒錯，就是英文句點。什麼意思？重複前次的編輯動作。這個指令太高明了，只要是編輯動作（移動游標不算，冒號命令也不算）都可以按英文句點來重複，要重複幾次都可以。
+
+    例如：您按了 yy，然後按 p就會複製、貼上一整行，如果要重複這個動作的話，就可以按 .，也可以把游標移到其它地方後再按。其它 dd，dw，r，cw等編輯指令都可以這樣來重複。如果您要重複做某些編輯動作時，千萬千萬一定要想到有這麼一個英文句點重複指令。ㄚ，拜託啦！您一定要常用這個指令。 
+
+    4.4疑難雜症 
+
+        4.4.1那mouse中鍵的剪貼功能還有嗎？
+當然還有，不管在 console或 Xterminal中都照用不誤。當然在 windows下的話就不能用了，可以用 Shift+Insert來代替。 Ctrl+v在 Vim中另有作用，在 windows下就不必去麻煩它了。 
+
+        4.4.2軟體間互相 copy時，常常都搞得天下大亂耶！
+要設成 :set paste。這是 Vim的擴充功能， elvis沒有。那在 elvis怎麼辦？只好 :set noai1了。在 GUI的版本應不會有這種情形。
+
+朋友！您睡著了嗎？不要被嚇到了，您只要開個檔案，親自操作一下就能心領神會。那用 mouse不是更方便嗎？不見得， yyp來複製貼上一整行比較快，還是用 mouse來拉比較快？您可以試看看。 
+1set的功能先不必去理它，會在第九章專門討論。 
+
+-----------------------------第4章结束-------------------------------
+
+第5章
+
+搜尋、替換
+
+搜尋、替換的功能幾乎是每個編輯器必備的功能，那在 Vim中有沒有特殊的地方呢？當然有，您忘了， Vim是個性十足的編輯器。最特殊的地方是和規則表示式（ regular expression,簡稱 regexp）結合在一起。簡單的說她是一種 pattern的表示法，在執行動作，如搜尋或替換時，就會依據這個 pattern去找，所有符合 pattern的地方就會執行您所下的動作。在這個單元裡暫不討論 regexp，會在第十章來探討，以免搞得頭昏腦脹。目前就暫不使用 regexp，您要找什麼就直接鍵入什麼就對了。 
+    5.1搜尋 
+/在 c-mode的情形下，按 /就會在左下方出現一個 /，然後鍵入您要尋找的字串，
+按個 Enter就會開始找。 ?和 /相同，只是 /是向前（下）找， ?則是向後（上）
+找。 
+n繼續尋找。 
+N繼續尋找（反向）。 
+    5.2更方便的搜尋操作（ Vim才有） 
+*尋找游標所在處之 word（要完全符合）。 
+#同上，但 *是向前（下）找， #則是向後（上）找。 
+g*同 *，但部份符合即可。 
+g#同 #，但部份符合即可。 n,N之繼續尋找鍵仍適用。 
+
+    5.3替換（ substitute） 
 :[range]s/pattern/string/[c,e,g,i]1 
-range ָ���ǹ����� 1,7ָ�ĵ�һ���������У� 1,$ָ�ĵ�һ��������һ�У�Ҳ 
-������ƪ���£�Ҳ���� %������߀ӛ�Æ᣿ %��Ŀǰ��݋�����£� # 
-��ǰһ�ξ�݋�����¡�  
-pattern ����Ҫ����Q�����ִ��������� regexp����ʾ��  
-string �� pattern�� string��ȡ����  
-c  con.rm��ÿ����Qǰ��ԃ����  
-e ���@ʾ error��  
-g  globe����ԃ����������Q��  
-i  ignore���ִ�С����  
+range 指的是範圍， 1,7指從第一行至第七行， 1,$指從第一行至最後一行，也 
+就是整篇文章，也可以 %代表。還記得嗎？ %是目前編輯的文章， # 
+是前一次編輯的文章。  
+pattern 就是要被替換掉的字串，可以用 regexp來表示。  
+string 將 pattern由 string所取代。  
+    c  con.rm，每次替換前會詢問。  
+e 不顯示 error。  
+g  globe，不詢問，整行替換。  
+i  ignore不分大小寫。  
 
-g��Ŷ���Ҫ�ӵģ���tֻ����Qÿһ�еĵ�һ�������ִ������Ժ������ã��� cgi����ʾ���ִ�С����������Q����QǰҪԃ���Ƿ���Q�� 
-[���� ]:%s/Edwin/Edward/g
-�@����ƪ���µ� Edwin�͕���Q�� Edward��
-���M�A���ь�����Q���������f�� regexp�ĕr��߀����Ԕ����Ŀǰֻ֪����������÷��Ϳ����ˣ��䌍���@�Ӿͷǳ������ˡ� :-) 
-5.4���`����
-�@���� Vim��һ���������������ε��f���������������е�ĳ̎����ӛ̖�� marks����Ȼ���ܵ������ط�ȥ��݋���ں����@�� mark�r�֕��ص�ԭ̎����ɣ� 
-mx x���� 26��С��Ӣ����ĸ���@���Θ�����̎�͕��� mark�� 
-��x�ص����`ԭ�O��λ�á� ���� backwardquote������ Tab�I������һ���� 
-��x�ص����`�O�������ס� ���� forwardquote���� Enter�I������һ����
-�@�e�e�����ε��ӣ�Ո�S���_һ���F�ɵęn�������Θ��Ƶ���һ��λ�ã�Ȼ�ᰴ ma���� mark���ٰ��� G�Ƶ��nβ��Ȼ�ᰴ ��a���F����ʲ�N�ط��� 
-1����̖�����@���O����ǿ���ʡ�Եģ�������¹�ͬ�˽�ጡ�������� :opt[ion]����ʾ�I�� :opt�� :option���߽Կɡ� 
-�� 5���ь�����Q 5.5. VIM��축��`�ĔU�书�� 
-5.5 
-Vim��축��`�ĔU�书�� 
+g大概都是要加的，否則只會替換每一行的第一個符合字串。可以合起來用，如 cgi，表示不分大小寫，整行替換，替換前要詢問是否替換。 
+[實例 ]:%s/Edwin/Edward/g
+這樣整篇文章的 Edwin就會替換成 Edward。
+更進階的搜尋、替換的例子在說明 regexp的時候還會再詳述。目前只知道最基本的用法就可以了！其實光這樣就非常好用了。 :-) 
+    5.4書籤功能
+這又是 Vim的一個秘密武器，簡單的說，您可以在文章中的某處做個記號（ marks），然後跑到其它地方去編輯，在呼叫這個 mark時又會回到原處。妙吧！ 
+mx x代表 26個小寫英文字母，這樣游標所在處就會被 mark。 
+‘x回到書籤原設定位置。 ‘是 backwardquote，就是 Tab鍵上面那一個。 
+’x回到書籤設定行行首。 ’是 forwardquote，是 Enter鍵隔壁那一個。
+這裡舉個簡單的子，請隨便開一個現成的檔案，把游標移到任一個位置，然後按 ma做個 mark，再按大寫 G移到檔尾，然後按 ’a看現在在什麼地方？ 
+1方括號代表這個設定項是可以省略的，往後的章節同此解釋。如果寫成 :opt[ion]，表示鍵入 :opt及 :option兩者皆可。 
 
-5.
-5.1С��Ӣ����ĸ
+    5.5 Vim對於書籤的擴充功能 
 
-ֻ����춆�һ�n���ȡ� 
+        5.5.1小寫英文字母
 
-5.
-5.2��Ӣ����ĸ
+只作用於單一檔案內。 
 
-������춸��n���g������ mA���� viminfo�мo����@���n����λ�ã��Y�� vim��Ȼ���ن��� vim���� ��A�͕��ص���������ӛ���ǂ��n��������λ�� (vim���Ԅ��_������ A��ӛ�ęn�� )���e���ɣ�Ո�����R����������֪������ :-) 
+        5.5.2大寫英文字母
 
-5.
-5.3��������Ŀ��
+可作用於各檔案間。例如 mA會在 viminfo中紀錄下這個檔案及位置，結束 vim，然後再啟動 vim，按 ’A就會回到當初做標記的那個檔案及所在位置 (vim會自動開啟做有 A標記的檔案 )。別懷疑，請自行馬上做個實驗就知道啦！ :-) 
+
+        5.5.3阿拉伯數目字
+
+可作用於前次編輯的十個檔案。數目字的用法比較特殊， ’0是回到前一次編輯檔案中離開前的最後位置， ’1則是回到前二次編輯檔案的最後位置，依此類推。您不必使用 m來標示， vim會自動記憶。很玄吧！其實這是 viminfo的功能，您要認真追究的話，請 :h viminfo-.le-marks。viminfo關掉，就沒這個功能了！所謂前次指的是前次啟動的 vim。不管是哪一種的書籤，到達 mark處(或檔案 )，想返回原來的位置 (或檔案 )，可以按 Ctrl + O。 
+
+        5.5.4 :marks
+
+得知目前所有書籤的列表。 
+  
+-----------------------------第5章结束-------------------------------
+
+第6章
+
+叫檔、存檔、緊急回復
+
+ㄟ，是不是在灌水呀！怎麼開個檔也成一個單元？那您就錯了，在 Vim裡叫檔的花樣可多了，而且又可以多檔編輯，各編輯中的檔案還可以互通訊息，這裡面學問可大著呢！ Vim就更騷包了，也學人家檔案可以加密，雖說是噱頭，但也還滿好用的。 
+    6.1開檔的一些花招 
+vim +檔名這樣開檔後，游標會落在檔案最後一行的行尾，在檔案屁屁後幹什麼
+呢？方便您可以繼續編輯嘛！ :-) vim +n檔名開檔後，游標會落在第 n行的行首。 vim +/string檔名還記得嗎？ /就是尋找指令，這樣進入檔案後游標就會落在第一個找到
+的 string上，還可以按 n繼續找 string哦！喔， string還可以使用 regexp來表示喔。 
+    6.2多檔編輯
+        多檔編輯會有兩種情形，一種是在進入 vim前所用的參數就是多個檔（這種情形稱為 argument list）。另一種情形是進入 vim後另外再開其它的檔（稱為 bu.er list）。不過都可以統稱為 bu.er。 
+        第 6章叫檔、存檔、緊急回復 6.2.多檔編輯 
+:n 編輯下一個檔案。  
+:2n 編輯下二個檔案。  
+:N 編輯前一個檔案。注意，這種用法只能用於 argument list的情形。  
+:e檔名 這是在進入 vim後，在不離開 vim的情形下再開其它檔案。只要您要 
+編輯的檔案是在目前目錄， Tab補全鍵還是可以使用。  
+
+        :e#或 Ctrl+.編輯前一個檔案，用於兩檔互相編輯時相當好用。這種用法不管是 argument list或 bu.er list檔案間皆可使用。還記得嗎？ #代表的是前一次編輯的檔案。 
+                        :.les或 :buffers或 :ls，會列出目前 bu.er中的所有檔案。在 elvis中可使用 :b來叫出 bu.ers。在 bu.ers中，減號 –表示這個 bu.er並未載入，不過，不必擔心，載入相當快速的。加號 +表示這個 bu.er已經修改過了。 #代表前一次編輯的檔案， %是目前編輯中的檔案，這兩個代號應該很熟悉了吧！ 
+                        :bn bu.er next。編輯次一個 bu.er的檔案。 :bp bu.er previous。編輯前一個 bu.er的檔案。 :bl bu.er last。編輯 bu.er中最後一個檔案。以上兩個指令 elvis不適
+用。 
+:b檔名或編號移至該檔。
+在 :ls中就會出示各檔案的編號，這個編號在未離開 vim前是不會變的。這個指令在 elvis也
+是可以使用。當然 :e#編號也是可以的，這樣的用法則是所有 vi clone都通用了。如果您是使
+        用 Vim的 GUI，那就在功能表上就會有 Bu.ers這個選項，可以很容易的知道及移動各 bu.er
+間。 
+        第 6章叫檔、存檔、緊急回復 	6.3.離開 
+    :bd(elete) 	bu.er在未離開 vim前是不會移除的，可使用這個指令移除。其實移
+    除她幹什麼呢？ vim是您在叫用時才會載入的，因此這些 bu.ers並不
+是像 cache一般要佔記憶體的。 
+
+:e!檔名這樣也是會開檔，但會放棄目前編輯檔案的改變，否則如果檔案已有變
+動， vim預設是不讓您隨便離開的。 :e!後不接什麼的話，代表捨棄一
+切修改，重新載入編輯中檔案。 
+
+:f或 Ctrl+g顯示目前編輯的檔名、是否經過修改及目前游標所在之位置。 
+    :f檔名改變編輯中的檔名。 (.le) 
+:r檔名在游標所在處插入一個檔案內容。 (read) 
+:35 r檔名將檔案插入至 35行之後。 
+gf這是 vim的特殊叫檔法，會叫出游標所在處的 word為名的檔案，當
+
+然，這個檔案要在目前目錄內，否則會開新檔案。哦！好像有點給他複雜，主要原因是偶文筆不好啦！不過您何不選個順手的來用就可以了，選定了，以後就是使用他，這樣就不會那麼複雜了。 :-) 
+    6.3離開 
+:q如本文有修改而沒存檔，會警告，且無法離開。 (quit) 
+:q!捨棄所有修改，強迫離開。 
+:wq存檔後離開。縱使檔案未曾修改也是會再存一次檔。 
+:x也是存檔後離開，但如果檔案沒有修改，則不會做存檔的動作。 
+ZZ和 :x完全一樣，隨您高興用哪一個。 
+:w檔名另存他檔。不加檔名就是寫入原檔。 (write) 
+
+:q及 :q!是對目前編輯中的檔案作用，如果多檔編輯的情形並不會離開 vim，這時可下 :qa或 :qa!來整個離開 vim。a就是 all的意思。 :指令 !，這個 !的意思是強迫中止目前正在編輯的動作，而去執行所下的指令。各位應該到目前為止碰過好幾次了吧！ 
+        第 6章叫檔、存檔、緊急回復 6.4. VIM的加密功能 
+    6.4 Vim的加密功能 
+        6.4.1 
+vim -x [檔名 ]
+
+這樣進入 vim後會要求輸入密碼。以後加密過的檔案由 vim開啟時會自動要求輸入密碼。否則無法開啟。其它的編輯器當然是無法開啟的。 
+
+        6.4.2進入 
+vim編輯檔案中，可用 :X指令
 
 
-�������ǰ�ξ�݋��ʮ���n������Ŀ�ֵ��÷����^���⣬ ��0�ǻص�ǰһ�ξ�݋�n�����x�_ǰ������λ�ã� ��1�t�ǻص�ǰ���ξ�݋�n��������λ�ã�������ơ�������ʹ�� m���ʾ�� vim���Ԅ�ӛ���������ɣ��䌍�@�� viminfo�Ĺ��ܣ���Ҫ�J��׷����Ԓ��Ո :h viminfo-.le-marks��viminfo�P�����͛]�@�������ˣ����^ǰ��ָ����ǰ�Ά��ӵ� vim����������һ�N�ĕ��`�����_ mark̎(��n�� )���뷵��ԭ����λ�� (��n�� )�����԰� Ctrl + O�� 
-5.5.4 :marks
-��֪Ŀǰ���Е��`���б��� 
-�� 6��
+        小心！ vim一開檔就會有個 .檔名 .swp這個檔，是為了緊急回復用的，一般是在您所開檔案的所在目錄，這是個隱藏檔， ls要有 -a參數才看得到，您加密的功能並沒有作用在這個 swp檔，因此 root還是知道您在寫些什麼關於他的壞話的。 :-)當然啦！山不轉，路轉，路不轉，人轉，您也是可以把 swap的功能關掉的 :set noswf就行了！但如果您編輯的是大檔案，則不建議您把 swap關掉，這樣會很吃記憶體的。 
+        elvis的話，其暫存檔是統一集中存放在 /var/tmp/*.ses，權限是檔案所有者始能讀寫。 Vim的早期版本，其 *.swp檔是依原檔案的權限來設定的，最近的版本則從善如流，已經改成檔案所有人始能讀寫，就是 -rw——-啦！ 
+    6.5緊急回復 
+vim -r檔名，或進入 vim後，下 :recover檔名，來回復。 
 
-�Йn����n���o���؏�
+-----------------------------第6章结束-------------------------------
 
-�ߣ��ǲ����ڹ�ˮѽ�����N�_���nҲ��һ����Ԫ���������e�ˣ��� Vim�e�Йn�Ļ��ӿɶ��ˣ������ֿ��Զ��n��݋������݋�еęn��߀���Ի�ͨӍϢ���@�e��W���ɴ����أ� Vim�͸��}���ˣ�Ҳ�W�˼ҙn�����Լ��ܣ��m�f�����^����Ҳ߀�M���õġ� 
-6.1�_�n��һЩ���� 
-vim +�n���@���_�n�ᣬ�Θ˕����ڙn������һ�е���β���ڙn��ƨƨ���ʲ�N
-�أ������������^�m��݋� :-) vim +n�n���_�n�ᣬ�Θ˕����ڵ� n�е����ס� vim +/string�n��߀ӛ�Æ᣿ /���ǌ���ָ��@���M��n�����Θ˾͕����ڵ�һ���ҵ�
-�� string�ϣ�߀���԰� n�^�m�� stringŶ��ร� string߀����ʹ�� regexp����ʾม� 
-6.2���n��݋
-���n��݋���ЃɷN���Σ�һ�N�����M�� vimǰ���õą������Ƕ����n���@�N���ηQ�� argument list������һ�N�������M�� vim���������_�����ęn���Q�� bu.er list�������^�����Խy�Q�� bu.er�� 
-�� 6�½Йn����n���o���؏� 6.2.���n��݋ 
-:n ��݋��һ���n����  
-:2n ��݋�¶����n����  
-:N ��݋ǰһ���n����ע�⣬�@�N�÷�ֻ����� argument list�����Ρ�  
-:e�n�� �@�����M�� vim�ᣬ�ڲ��x�_ vim�����������_�����n����ֻҪ��Ҫ 
-��݋�ęn������ĿǰĿ䛣� Tab�aȫ�I߀�ǿ���ʹ�á�  
+第7章 各種標示方法及窗口操作
 
-:e#�� Ctrl+.��݋ǰһ���n������춃ən���ྎ݋�r�ஔ���á��@�N�÷������� argument list�� bu.er list�n���g�Կ�ʹ�á�߀ӛ�Æ᣿ #��������ǰһ�ξ�݋�ęn���� 
-:.les�� :buffers�� :ls�����г�Ŀǰ bu.er�е����Йn������ elvis�п�ʹ�� :b���г� bu.ers���� bu.ers�У��p̖ �C��ʾ�@�� bu.er�Kδ�d�룬���^�����ؓ��ģ��d���ஔ���ٵġ���̖ +��ʾ�@�� bu.er�ѽ��޸��^�ˡ� #����ǰһ�ξ�݋�ęn���� %��Ŀǰ��݋�еęn�����@�ɂ���̖��ԓ����Ϥ�˰ɣ� 
-:bn bu.er next����݋��һ�� bu.er�ęn���� :bp bu.er previous����݋ǰһ�� bu.er�ęn���� :bl bu.er last����݋ bu.er������һ���n�������σɂ�ָ�� elvis���m
-�á� 
-:b�n����̖����ԓ�n��
-�� :ls�о͕���ʾ���n���ľ�̖���@����̖��δ�x�_ vimǰ�ǲ���׃�ġ��@��ָ���� elvisҲ
-�ǿ���ʹ�á���Ȼ :e#��̖Ҳ�ǿ��Եģ��@�ӵ��÷��t������ vi clone��ͨ���ˡ��������ʹ
-�� Vim�� GUI���Ǿ��ڹ��ܱ��Ͼ͕��� Bu.ers�@���x헣����Ժ����׵�֪�����ƄӸ� bu.er
-�g�� 
-�� 6�½Йn����n���o���؏� 	6.3.�x�_ 
-:bd(elete) 	bu.er��δ�x�_ vimǰ�ǲ����Ƴ��ģ���ʹ���@��ָ���Ƴ����䌍��
-������ʲ�N�أ� vim�����ڽ��Õr�ŕ��d��ģ�����@Щ bu.ers�K��
-���� cacheһ��Ҫ��ӛ���w�ġ� 
+    這一個章多了一種模式，那便是 visual mode（以下簡稱 v-mode）v-mode下的反白區（反黑區？ ._.）在本文就統一稱為標示區，不知各位是否有更好的中文名稱？ㄟㄟㄟ，窗口操作和標示有什麼關係？為什麼擺在這裡說明？ㄚ，是因為這兩個單元內容都不多，沒地方擺，所以就將就湊在一起的啦！亂點鴛鴦譜就請各位見諒。 
 
-:e!�n���@��Ҳ�Ǖ��_�n�������ŗ�Ŀǰ��݋�n���ĸ�׃����t����n������׃
-�ӣ� vim�A�O�ǲ�׌���S���x�_�ġ� :e!�᲻��ʲ�N��Ԓ������Η�һ
-���޸ģ������d�뾎݋�Йn���� 
+    7.1標示指令 
+v 小寫 v，這是屬於字元標示（ character visual），按下 v後您就可以移動游標， 游標走過的地方就會標示起來。再按一次 v或按 Esc鍵就會結束 v-mode。  
+V 大寫 V，這是行標示（ line visual），按下 V後會整行標示起來（包括行首前空白的部分），您移動上下鍵，會標示多行。再按一次 V或 Esc鍵就會結束v-mode。  
+Ctrl+v 這是區塊標示（ blockwise visual），可縱向標示矩形區域。再按一次 Ctrl+v 就會結束 v-mode。結束 v-mode 的方式亦可使用 Esc鍵，或統一使用  
+Ctrl+c。Windows系統下 Ctrl+v是複製鍵，可以使用 Ctrl+Q來替代。  
+d 刪除標示區內容。  
+y 複製標示區內容。  
+c 替換標示區內容。 
+標示區內容大小寫互換。  
+gq 重排標示區內容。請注意，這是要先標示好才按的。 "ay還能不能用呢？當然可 
+以，這樣就會把標示區內容存於 a緩衝區中。可以用 "ap來貼上。  
+Shift+> 標示區內容向右移一個 Tab。  
+Shift+< 標示區內容向左移一個 Tab。 
 
-:f�� Ctrl+g�@ʾĿǰ��݋�ęn�����Ƿ��^�޸ļ�Ŀǰ�Θ�����֮λ�á� 
-:f�n����׃��݋�еęn���� (.le) 
-:r�n�����Θ�����̎����һ���n�����ݡ� (read) 
-:35 r�n�����n�������� 35��֮�ᡣ 
-gf�@�� vim������Йn�������г��Θ�����̎�� word�����ęn������
+您想更深入嗎？ :h visual.txt就有詳細的介紹。還有，別忘了有 Tab補全鍵可以用。 
 
-Ȼ���@���n��Ҫ��ĿǰĿ䛃ȣ���t���_�n����Ŷ���������c�o���}�s����Ҫԭ����ż�ĹP�����������^���β��x����ֵā��þͿ����ˣ��x���ˣ��������ʹ�������@�ӾͲ������N�}�s�ˡ� :-) 
-6.3�x�_ 
-:q�籾�����޸Ķ��]��n�������棬�ҟo���x�_�� (quit) 
-:q!�Η������޸ģ������x�_�� 
-:wq��n���x�_���vʹ�n��δ���޸�Ҳ�Ǖ��ٴ�һ�Ιn�� 
-:xҲ�Ǵ�n���x�_��������n���]���޸ģ��t��������n�Ą����� 
-ZZ�� :x��ȫһ�ӣ��S�����d����һ���� 
-:w�n���������n�����әn�����ǌ���ԭ�n�� (write) 
+    7.2.窗口操作 
 
-:q�� :q!�ǌ�Ŀǰ��݋�еęn�����ã�������n��݋�����΁K�����x�_ vim���@�r���� :qa�� :qa!�������x�_ vim��a���� all����˼�� :ָ�� !���@�� !����˼�Ǐ�����ֹĿǰ���ھ�݋�Ą�������ȥ�������µ�ָ���λ��ԓ��Ŀǰ��ֹ���^�Î״��˰ɣ� 
-�� 6�½Йn����n���o���؏� 6.4. VIM�ļ��ܹ��� 
-6.4 Vim�ļ��ܹ��� 
-6.4.1 
-vim -x [�n�� ]
+        7.2.1 打开和关闭视窗
+Ctrl+wn即 :new。開一空的新窗口。這在 Vim會開在原窗口上半方，也就是窗口一分為二。在 elvis GUI界面的話，則是實實在在的另開一個新窗口（可不是另啟動一個 elvis喔！），當然 elvis的 console上也是和 Vim一樣，窗口一分為二。而且在 elvis下，要放開 Ctrl+w後才按 n，否則 elvis會不鳥您的。凡是窗口操作的按鍵都是由 Ctrl+w來起頭的， w就是 window的意思。 
+Ctrl+ws即 :sp(lit)，會開一新窗口，且原檔分屬兩個窗口。 
+Ctrl+wf開一新窗口，並編輯游標所在處之 word為檔名的檔案。 
+Ctrl+wq即 :q結束分割出來的窗口。 
+Ctrl+wc 关闭当前窗口
+Ctrl+wo即 :only!使游標所在之窗口，成為目前唯一顯示的窗口其它窗口會隱藏起來。 
 
-�@���M�� vim���Ҫ��ݔ���ܴa����������^�ęn���� vim�_���r���Ԅ�Ҫ��ݔ���ܴa����t�o���_���������ľ�݋����Ȼ�ǟo���_���ġ� 
+        7.2.2 在视窗间移动
+Ctrl+ww 按顺序在窗口跳转
+Ctrl+wj移至下窗口。 
+Ctrl+wk移至上窗口。還記得 hjkl的按鍵移動方式嗎？ 
+如果您覺得這樣分割個窗口來編輯檔案不怎麼方便，那您可以利用 X下的虛擬桌面，多開個 rxvt + Vim來做多檔編輯也是可以的啦！不過這樣不僅會多佔記憶體，而且 Vim中好用的書籤功能就沒法使用了。 
 
-6.4.2�M�� 
-vim��݋�n���У����� :Xָ��
+        7.2.3 移动视窗
+Ctrl+wH 即按Ctrl+w再按Shift+h，把当前窗口上移。还记得hjkl的按键移动方式吗？
 
+        7.2.4 改变窗口大小
+Ctrl+w- 行缩小当前窗口，可在加号前加上数字
+Ctrl+w+ 行放大当前窗口，可在减号前加上数字
+Ctrl+< 列放大（或缩小，视窗口的位置而定）
+Ctrl+> 列缩小（或放大，视窗口的位置而定）
+Ctrl+= 平分当前窗口
+Ctrl+_ 最大化当前窗口
 
-С�ģ� vimһ�_�n�͕��Ђ� .�n�� .swp�@���n���Ǟ��˾o���؏��õģ�һ�����������_�n��������Ŀ䛣��@�ǂ��[�ؙn�� lsҪ�� -a�����ſ��õ��������ܵĹ��܁K�]���������@�� swp�n����� root߀��֪�����ڌ�Щʲ�N�P����ĉ�Ԓ�ġ� :-)��Ȼ����ɽ���D��·�D��·���D�����D����Ҳ�ǿ��԰� swap�Ĺ����P���� :set noswf�����ˣ����������݋���Ǵ�n�����t�����h���� swap�P�����@�ӕ��ܳ�ӛ���w�ġ� 
-elvis��Ԓ���䕺��n�ǽyһ���д���� /var/tmp/*.ses�������Ǚn��������ʼ���x���� Vim�����ڰ汾���� *.swp�n����ԭ�n���ę��ށ��O���ģ�����İ汾�t�����������ѽ��ĳən��������ʼ���x�������� -rw����-���� 
-6.5�o���؏� 
-vim -r�n�������M�� vim�ᣬ�� :recover�n�������؏͡� 
+-----------------------------第7章结束-------------------------------
 
-�� 7�� ���N��ʾ������ҕ������
+第8章 
 
-�@һ���¶���һ�Nģʽ���Ǳ��� visual mode�����º��Q v-mode��v-mode�µķ��ׅ^�����څ^�� ._.���ڱ��ľͽyһ�Q���ʾ�^����֪��λ�Ƿ��и��õ��������Q���ߨߨߣ�ҕ�������͘�ʾ��ʲ�N�P�S����ʲ�N�[���@�e�f�����ڣ�������@�ɂ���Ԫ���ݶ����࣬�]�ط��[�����Ծ͌��͜���һ��������y�c�x���V��Ո��λҊՏ�� 
+shell命令及求助系統 
+    8.1 shell命令 
+:!外部指令 執行外部指令。當然您的指令要在 $PATH環境變數內。  
+:!! 執行前一次執行之外部指令。在這裡的 !可不是強迫中止喔！  
+@: 這是 Vim的一個很特殊的指令，可以重複前一次的冒號命令。  
+:sh(ell) 執行 shell。使用 exit回到 vim。 
 
-7.1��ʾָ�� 
+這在 Vim GUI會在原窗口內顯示執行結果，在 elvis GUI則會另開一 xterm窗口。 console或 xterm下的 vim當然就是跳出 vim進入 shell中。至於是用哪一種 shell是可以另外設定的，可由 :set shell=來設定。
+另外，在此補充一下補全的功能。不是只有 Tab鍵的補全功能喔！也可以使用上下方向鍵，叫出歷史指令，叫出歷史指令可用於冒號命令及尋找命令（ /）。例如，您前已下了 :!ps aux這個指令，您可以按 :後就直接按向上方向鍵。別忘了！尋找指令也是可以這樣用喔！ 
+:r !commond這個就妙了！會在游標所在處次一行插入外部指令 commond執行後的輸出內容。例如 :r !date就會插入日期時間。這在 elvis是會插入在游標所在處那一行。 
+:n,mw !commond以 n至 m行內之資料，當做外部指令 commond的 input。這算是相當高級的用法了，初學者大概還用不上，不過印象中留有一個這樣的功能，以後總是會用得上的。 
+K大寫 K會顯示游標所在處之 word的 man page系統線上使用手冊。 
+    8.2求助系統
+原始 vi是沒有 on-line help的，但 Vim及 elvis則有相當豐富的說明系統。 Vim沿用傳統 
+        第 8章 shell命令及求助系統 8.2.求助系統 
+tag的方式來找主題，而 elvis就高明了，是使用 HTML的格式。原來 elvis是可以直接閱讀 HTML檔的，當然不能顯示圖檔，但會標明圖檔的名稱。
+        用過 pe2(3)嗎？好像 F1是救助鍵已讓大家公認。 Vim預設按 F1就會叫出說明檔。 elvis當然沒有，不過您可以自行設定，在 /.elvislib/elvis.rc中加上 
+    map #1 :help.M
+                就可以了。須注意的是 .M是按 Ctrl+v後不放再按 M或 Enter鍵，表示馬上執行。ㄟ， .M是特殊字元，是一個字元，而不是兩個字元，您移動游標在 .M上就知道了，不是我文中的，文中的是直接打出來的兩字元 .M。在 console下要打特殊字元的話，要 Ctrl+Shift+v然後按您要的鍵。 
+        :h name這樣就會叫出 name這個說明檔，如果後面沒接 name，則會叫出 help.txt這個總說明檔（在 evlis是 elvis.html） h是 help的縮寫。ㄟ， name記不清楚時，別忘了 Tab補全。在 Vim的說明檔中，遇有兩個 |圍住的主題，把游標移到上面就可以使用 Ctrl+]來叫出這個主題的說明， Ctrl+t可以回到原來的地方。 elvis中也是可以這樣用。 :q可結束說明檔，回到原編輯檔案。 
+:ver會顯示版本、編譯資訊，編譯時加入之參數也會顯示出來，讓您知道有加入些什麼功能，因為有些功能在編譯時就得加入。其中正號 +表示有此功能，減號 –表示無此功能。 elvis/nvi只能顯示版本資訊，無法顯示編譯資訊。 1
+    在此補充說明一點，各位有沒有覺得 :q很常用到，好了！就依 pe2的習慣設為 F4吧！怎麼設？找上面叫出說明檔怎麼設，您就依樣畫葫蘆就可以了！ Vim的設定檔在 /.vimrc。個人是直接設成 :q!以免麻煩，但要記得存檔喔！ 
+1個人都會編譯出一個全功能的 vim來備用，而且 GUI及 console下使用的各編一個，以加快 console下的啟動速度。 
 
-v С�� v���@�ǌ����Ԫ��ʾ�� character visual�������� v�����Ϳ����Ƅ��Θˣ� 
-�Θ����^�ĵط��͕���ʾ�������ٰ�һ�� v�� Esc�I�͕��Y�� v-mode��  
-V �� V���@���И�ʾ�� line visual�������� V������И�ʾ��������������ǰ 
-�հ׵Ĳ��֣������Ƅ������I������ʾ���С��ٰ�һ�� V�� Esc�I�͕��Y��  
-v-mode��  
-Ctrl+v �@�ǅ^�K��ʾ�� blockwise visual�����ɿv���ʾ���΅^���ٰ�һ�� Ctrl+v 
-�͕��Y�� v-mode���Y�� v-mode �ķ�ʽ���ʹ�� Esc�I����yһʹ��  
-Ctrl+c��Windowsϵ�y�� Ctrl+v���}�u�I������ʹ�� Ctrl+Q�������  
-d �h����ʾ�^���ݡ�  
-y �}�u��ʾ�^���ݡ�  
-c ��Q��ʾ�^���ݡ� 
-��ʾ�^���ݴ�С�����Q��  
-gq ���Ř�ʾ�^���ݡ�Ոע�⣬�@��Ҫ�Ș�ʾ�òŰ��ġ� "ay߀�ܲ������أ���Ȼ�� 
-�ԣ��@�Ӿ͕��ј�ʾ�^���ݴ�� a���n�^�С������� "ap���N�ϡ�  
-Shift+> ��ʾ�^����������һ�� Tab��  
-Shift+< ��ʾ�^����������һ�� Tab�� 
+-----------------------------第8章结束-------------------------------
 
-���������᣿ :h visual.txt����Ԕ���Ľ�B��߀�У��e������ Tab�aȫ�I�����á� 
+第9章 
 
-7.2.ҕ������ 
-
-7.2.1 �򿪺͹ر��Ӵ�
-Ctrl+wn�� :new���_һ�յ���ҕ����
-�@�� Vim���_��ԭҕ���ϰ뷽��Ҳ����ҕ��һ�֞������ elvis GUI�����Ԓ���t�ǌ������ڵ����_һ����ҕ�����ɲ����톢��һ�� elvisร�������Ȼ elvis�� console��Ҳ�Ǻ� Vimһ�ӣ�ҕ��һ�֞���������� elvis�£�Ҫ���_ Ctrl+w��Ű� n����t elvis�����B���ġ�����ҕ�������İ��I������ Ctrl+w�����^�ģ� w���� window����˼�� 
-Ctrl+ws�� :sp(lit)�����_һ��ҕ������ԭ�n�֌كɂ�ҕ���� 
-Ctrl+wf�_һ��ҕ�����K��݋�Θ�����֮̎ word��n���ęn���� 
-Ctrl+wq�� :q�Y���ָ������ҕ���� 
-Ctrl+wo�� :only!ʹ�Θ�����֮ҕ�����ɞ�ĿǰΨһ�@ʾ��ҕ������ҕ�����[�������� 
-
-7.2.2 ���Ӵ����ƶ�
-Ctrl+wj������ҕ���� 
-Ctrl+wk������ҕ����߀ӛ�� hjkl�İ��I�Ƅӷ�ʽ�᣿ 
-������X���@�ӷָҕ������݋�n�������N���㣬������������ X�µ�̓�M���棬���_�� rxvt + Vim�������n��݋Ҳ�ǿ��Ե��������^�@�Ӳ��H������ӛ���w������ Vim�к��õĕ��`���ܾ͛]��ʹ���ˡ� 
-
-7.2.3 �ƶ��Ӵ�
-
-7.2.4 �ı䴰�ڴ�С
-�� 8�� 
-
-shell�������ϵ�y 
-8.1 shell���� 
-:!�ⲿָ�� �����ⲿָ���Ȼ����ָ��Ҫ�� $PATH�h��׃���ȡ�  
-:!! ����ǰһ�Έ���֮�ⲿָ����@�e�� !�ɲ��Ǐ�����ֹร�  
-@: �@�� Vim��һ���������ָ��������}ǰһ�ε�ð̖���  
-:sh(ell) ���� shell��ʹ�� exit�ص� vim�� 
-
-�@�� Vim GUI����ԭҕ�����@ʾ���нY������ elvis GUI�t�����_һ xtermҕ���� console�� xterm�µ� vim��Ȼ�������� vim�M�� shell�С����������һ�N shell�ǿ��������O���ģ����� :set shell=���O����
-���⣬�ڴ��a��һ���aȫ�Ĺ��ܡ�����ֻ�� Tab�I���aȫ����ร�Ҳ����ʹ�����·����I���г��vʷָ��г��vʷָ������ð̖���������� /�������磬��ǰ������ :!ps aux�@��ָ������԰� :���ֱ�Ӱ����Ϸ����I���e���ˣ�����ָ��Ҳ�ǿ����@����ร� 
-:r !commond�@�������ˣ������Θ�����̎��һ�в����ⲿָ�� commond�������ݔ�����ݡ����� :r !date�͕��������ڕr�g���@�� elvis�Ǖ��������Θ�����̎��һ�С� 
-:n,mw !commond�� n�� m�Ѓ�֮�Y�ϣ������ⲿָ�� commond�� input���@�����ஔ�߼����÷��ˣ����W�ߴ��߀�ò��ϣ����^ӡ��������һ���@�ӵĹ��ܣ����ῂ�Ǖ��õ��ϵġ� 
-K�� K���@ʾ�Θ�����֮̎ word�� man pageϵ�y����ʹ���փԡ� 
-8.2����ϵ�y
-ԭʼ vi�Ǜ]�� on-line help�ģ��� Vim�� elvis�t���ஔ�S�����f��ϵ�y�� Vim���Â��y 
-�� 8�� shell�������ϵ�y 8.2.����ϵ�y 
-tag�ķ�ʽ�������}���� elvis�͸����ˣ���ʹ�� HTML�ĸ�ʽ��ԭ�� elvis�ǿ���ֱ����x HTML�n�ģ���Ȼ�����@ʾ�D�n�����������D�n�����Q��
-���^ pe2(3)�᣿���� F1�Ǿ����I��׌��ҹ��J�� Vim�A�O�� F1�͕��г��f���n�� elvis��Ȼ�]�У����^�����������O������ /.elvislib/elvis.rc�м��� 
-map #1 :help.M
-�Ϳ����ˡ��ע����� .M�ǰ� Ctrl+v�᲻���ٰ� M�� Enter�I����ʾ�R�ψ��С��ߣ� .M��������Ԫ����һ����Ԫ�������ǃɂ���Ԫ�����Ƅ��Θ��� .M�Ͼ�֪���ˣ����������еģ����е���ֱ�Ӵ�����ă���Ԫ .M���� console��Ҫ��������Ԫ��Ԓ��Ҫ Ctrl+Shift+vȻ�ᰴ��Ҫ���I�� 
-:h name�@�Ӿ͕��г� name�@���f���n���������]�� name���t���г� help.txt�@�����f���n���� evlis�� elvis.html�� h�� help�Ŀs�����ߣ� nameӛ������r���e���� Tab�aȫ���� Vim���f���n�У����Ѓɂ� |��ס�����}�����Θ��Ƶ�����Ϳ���ʹ�� Ctrl+]���г��@�����}���f���� Ctrl+t���Իص�ԭ���ĵط��� elvis��Ҳ�ǿ����@���á� :q�ɽY���f���n���ص�ԭ��݋�n���� 
-:ver���@ʾ�汾�����g�YӍ�����g�r����֮����Ҳ���@ʾ������׌��֪���м���Щʲ�N���ܣ������Щ�����ھ��g�r�͵ü��롣������̖ +��ʾ�д˹��ܣ��p̖ �C��ʾ�o�˹��ܡ� elvis/nviֻ���@ʾ�汾�YӍ���o���@ʾ���g�YӍ�� 1
-�ڴ��a���f��һ�c����λ�Л]���X�� :q�ܳ��õ������ˣ����� pe2�����T�O�� F4�ɣ����N�O��������г��f���n���N�O���������Ӯ����J�Ϳ����ˣ� Vim���O���n�� /.vimrc��������ֱ���O�� :q!�����韩����Ҫӛ�ô�nร� 
-1���˶������g��һ��ȫ���ܵ� vim����ã����� GUI�� console��ʹ�õĸ���һ�����Լӿ� console�µĆ����ٶȡ� 
-�� 9�� 
-
-set�����O��
-����Ԫ���f�� Vim��΢�{���ܣ����������˵�ϲ�������޶ȵ��{������� Vim�����ஔ��ĔU�䣬�ă���Ҫ������ Vim���O������ elvis�]�е�Ҳ�����������K������һ�W��M��ֻ�f����Ҫ�����õĲ��ݣ������Ŀ��� :h option-list����醡�
-��ϵ�y�ϣ����Ђ� vimrc_example.vim�n�����������@���n�����O��һЩ��Ҫ�õ��ă��ݡ� 
-9.1ԓ�ں�̎�O���أ� 
-9.1.1 Vim���O���n
-���ھ������O�������� :set ai�� :set noai��ai�� autoindent�Ŀs�����@�ӾͿ����R�ϸ�׃�s����O�������x�_ vim����ֻ֏�ԭ�Ҫ�����O���͵��O���O���n�С� vim���O���n�ڣ� 
-~/.exrc 
-~/.vimrc 
-~/.gvimrc GUI�汾 
-$VIM/vimrcϵ�y�A�Oֵ����ò�ȥ�޸� 
-$VIM/gvimrc GUI�汾 
-$VIM\_vimrc Windows�汾 
+set功能設定
+本單元可說是 Vim的微調功能，可依您個人的喜好做有限度的調整。由於 Vim做了相當多的擴充，文內主要是述敘 Vim的設定，但 elvis沒有的也會標明。但並不打算一網打盡，只說明重要、常用的部份，其它的可以 :h option-list來查閱。
+    在系統上，會有個 vimrc_example.vim檔，可以依據這個檔案來設定一些常要用到的內容。 
+    9.1該在何處設定呢？ 
+        9.1.1 Vim的設定檔
+可在線上做設定，例如 :set ai或 :set noai，ai是 autoindent的縮寫，這樣就可以馬上改變縮格的設定，但離開 vim後就又恢復原狀。要永久設定就得設在設定檔中。 vim的設定檔在： 
+    ~/.exrc 
+    ~/.vimrc 
+    ~/.gvimrc GUI版本 
+$VIM/vimrc系統預設值，最好不去修改 
+$VIM/gvimrc GUI版本 
+$VIM\_vimrc Windows版本 
 $VIM\_gvimrc
-��Ҫ�� GUI���O���O�� $HOME/.vimrcҲ�ǿ��Եģ������_�����܌�����Ҫ�޸ĕr�����^�ҵõ��ط��ġ��� $VIM�����e�أ� /usr/share/vim�� /usr/local/share/vim�@�Ǿ��g�r�͛Q���ģ������� $HOME/.bash_profie�� $HOME/.bashrc�����O�� Windows�汾�� $VIM�t�� C:\Vim�@��Ŀ��У�����O�� autoexec.bat�С� 
-�� 9�� set�����O�� 9.2.��ε�֪Ŀǰ���O�� 
-9.1.2 elvis���O���n 
-~/.exrc 
-~/.elvislib/elvis.rc 
-C:\Program Files\elvis\elvis.rc Windows�汾
-�������ϵ�y��ͬ�r�� Vim�� elvis���tʹ�� $HOME/.exrcҪС�ģ����⻥��Ӱ����O������̎�ǿ��԰ѹ�ͬ���O���O�� $HOME/.exrc�e��������һ�£��O���O���n�Еr setǰ��Ȼ�ǲ���ð̖�ġ� 
-9.1.3 nvi-m17n���O���n 
-~/.exrc 
-~/.nexrc 
-9.2��ε�֪Ŀǰ���O�� 
-:set�� :se ���@ʾ���н��^�޸ĵĲ��ݣ����Ǻ��A�Oֵ��һ�ӵĲ��ݡ�  
-:set all �@ʾĿǰ�����O��ֵ���ݡ�  
-:scriptnames �@ʾ���N�O���n������·������n����  
-:set option? �@ʾ option�@�O����Ŀǰֵ��  
-:option ֱ�Ӿ����O������Щ�O����� =������O��ֵ���ݡ�  
-:set nooption ȡ��ԓ�O���� :set�����ǿ��Զ����O���ġ�����  
+                您要把 GUI的設定設在 $HOME/.vimrc也是可以的，但分開來可能對以後要修改時會比較找得到地方改。那 $VIM在哪裡呢？ /usr/share/vim或 /usr/local/share/vim這是編譯時就決定的，但可在 $HOME/.bash_profie或 $HOME/.bashrc中另設。 Windows版本的 $VIM則在 C:\Vim這個目錄中，亦可設在 autoexec.bat中。 
+        第 9章 set功能設定 9.2.如何得知目前的設定 
+        9.1.2 elvis的設定檔 
+    ~/.exrc 
+        ~/.elvislib/elvis.rc 
+    C:\Program Files\elvis\elvis.rc Windows版本
+        如果您的系統上同時有 Vim及 elvis，則使用 $HOME/.exrc要小心，以免互相影響了設定。好處是可以把共同的設定設在 $HOME/.exrc裡。提醒您一下！設在設定檔中時 set前當然是不必冒號的。 
+        9.1.3 nvi-m17n的設定檔 
+    ~/.exrc 
+    ~/.nexrc 
+    9.2如何得知目前的設定 
+:set或 :se 會顯示所有經過修改的部份，就是和預設值不一樣的部份。  
+:set all 顯示目前所有設定值內容。  
+:scriptnames 顯示各種設定檔的所在路徑及其檔名。  
+:set option? 顯示 option這設定的目前值。  
+:option 直接線上設定，有些設定需加 =後加上設定值內容。  
+:set nooption 取消該設定。 :set後面是可以多重設定的。例如  
 
-:set autoindent noconfirm autowrite���@�����N�O���͕�ͬ�r���O��
-����Ȼ���Ը��O���n����׃�O��ֵ���� VimҲ����ʹ�� :opt[ion]��ֱ�Ӿ����O�������г�Ŀǰ���O������ set�@�����ϰ� Enter���ɸ�׃�O�������ֱ���޸���ֵ��ɣ������ᰴ :q�Ϳ����ˡ��ں����f��̎�� Enter�t���г�ԓ���ݵ��f���n�o�����������f�������㣿�ĺ��� 
-:mk[exrc]�t������ ~/.exrc�n 
-:mkv[imrc]�t������ ~/.vimrc�n
-��Ȼ�����ȸ������Ŀǰ����Ŀ���ʲ�N�ط�����������ڼ�Ŀ䛆��ӵ��ǾͲ��Ó����ˣ���t�Ҳ��������� .vimrc�ɲ�Ҫ���Ł��R�ҡ� :-) elvis�ɾ͛]�@�N�����ˣ��������޸� $HOME/.exrc�� $HOME/.elvislib/elvis.rc�� 
-�� 9�� set�����O�� 9.3.���N SET�����f�� 
-9.3���N set�����f��
-����̖�ȵ��ǿs������� Vim������ָ��O��헌������ஔ�࣬���hһ�_ʼʹ�������Č���������Ϥ���ف�ʹ�ÿs�������^�á� 
+:set autoindent noconfirm autowrite，這樣三種設定就會同時重設。
+您當然可以改設定檔來改變設定值。在 Vim也可以使用 :opt[ion]來直接線上設定，會列出目前的設定，在 set這個字上按 Enter即可改變設定，或就直接修改其值亦可，改完後按 :q就可以了。在簡短說明處按 Enter則會叫出該部份的說明檔給您參考，您說方不方便？改好後 
+    :mk[exrc]則會寫入 ~/.exrc檔 
+    :mkv[imrc]則會寫入 ~/.vimrc檔
+                當然您得先搞清楚您目前所在目錄在什麼地方，如果您是在家目錄啟動的那就不用擔心了，否則找不到您的新 .vimrc可不要寫信來罵我。 :-) elvis可就沒這麼方便了，得自行修改 $HOME/.exrc或 $HOME/.elvislib/elvis.rc。 
+        第 9章 set功能設定 9.3.各種 SET功能說明 
+    9.3各種 set功能說明
+方括號內的是縮寫，由於 Vim新增的指令、設定項實在是相當多，建議一開始使用完整的寫法，等熟悉後再來使用縮寫會比較好。 
 autoindent[ai]
-�Ԅӿs�ţ�Ҳ�����f��������Ǐĵ��傀��Ԫ�_ʼ���ģ����� Enter���Θ˾͕�ͣ�ڴ��е��傀��Ԫ̎���A�O�ǲ����_�ġ� 
+自動縮排，也就是說如果本行是從第五個字元開始寫的，您按 Enter後游標就會停在次行第五個字元處。預設是不打開的。 
 autowrite[aw]
-�n��һ�и��Ӿ͕��ԄӴ�n���A�O�����_�� 
-background[bg]��Vim���У�
-���O�� dark�� light���@�ǃɷN��ͬ�� highlight�ɫ�O����ϵ�y�A�O�ă�������һ�� synload.vim�n�У�ԔҊ $VIMRUNTIME/syntax/synload.vim�����^��Ҫ�����ɫ���O����������O�� $HOME/.vimrc�� $HOME/.gvimrc�У�ԭʼ�n�A�O�n�M����Ҫȥ�������ߨߨߣ���ě]���^ $VIMRUNTIME�ò��ã��䌍�@������汾�� Vim���˲������b�°汾�r���f�汾��һЩ�O���� macro�n�ֵ������� $VIMRUNTIME���� $VIM/vimxx��xx���ǰ汾̖�a����������ʹ�õ��� Vim 6.1�棬���N���� $VIM/vim61�����ᰲ�b 6.2��r������ runtime .les�b�� $VIM/vim62���@�ӾͲ������f�� runtime .les�o�w���� 
+檔案一有更動就會自動存檔。預設不打開。 
+background[bg]（Vim才有）
+                                可設成 dark或 light，這是兩種不同的 highlight顏色設定，系統預設的內容是在一個 synload.vim檔中，詳見 $VIMRUNTIME/syntax/synload.vim。不過您要更動顏色的設定，最好是設在 $HOME/.vimrc或 $HOME/.gvimrc中，原始檔預設檔盡量不要去動她。ㄟㄟㄟ，你從沒提過 $VIMRUNTIME好不好！其實這是最近版本的 Vim為了不至安裝新版本時把舊版本的一些設定或 macro檔幹掉，所以 $VIMRUNTIME就是 $VIM/vimxx，xx就是版本號碼啦！例如您使用的是 Vim 6.1版，那麼就是 $VIM/vim61，往後安裝 6.2版時，會把 runtime .les裝在 $VIM/vim62，這樣就不會把舊的 runtime .les給蓋掉。 
 backup[bk]
-�Ƿ�Ҫ backup .le���A�O�����_�� 
-writebackup[wb]��Vim���У�
-�ڌ���n��ǰ�Ȃ��һ�ݣ��� backup�����ò��M��ͬ��Ո :h backup-table���A�O�Ǵ��_�ģ������������Ҫ backup����Ҫ�P�������@���Ŀ�������� backup����Ո�șz��һ�������g�r�ǲ����о��g�Mȥ��Ո :ver�� 
-backupdir[bdir]��Vim���У�
-�O����� backup .le��Ŀ䛡��A�O������݋�ęn��֮����Ŀ䛡� 
-�� 9�� set�����O�� 9.3.���N SET�����f�� 
-binary[bin]��Vim���У�
-�O�ھ�݋���Mλ�n��B���@�Ƿ�ֹ����Mλ�n�r�� EOLҲ���M���Mλ�n���Ǿ͕��ڲ�����������ǈD�n�����o�����^��������ǿɈ��Йn�͟o�������ˣ�����A�O�� o.��elvis���Ԅ��Д��Ƿ����Mλ�n�����ҕ��ֳ����҃ɰ룬��벿���� 16�Mλ�ķ�ʽ�@ʾ���Ұ벿�t���� ASCII�ķ�ʽ���@ʾ�� 
-browsedir[bsdir]��Vim���У�
-�g�[�n����Ŀ䛣� GUI�汾ʼ�С��A�O����һ�Ξg�[��Ŀ䛡����� GUI�汾���ܱ��ϵ� [File] 
-. [Open]�����_��Ŀ䛡� 
-cindent[cin]��Vim���У�
-�� C�r�ܺ��ã� indent��һ�����У����� C��ʽ�a���O���A�O o.����݋ C/C++ code�r���ԄӴ��_�� 
-cmdheight[ch]��Vim���У�
-��B�е��Д����A�Oһ�У����h�O�Ƀ��С� 
-compatible[cp]��Vim���У�
-�O���ԭʼ vi���ݵĠ�B�� vim�ĔU�书�ܕ������ơ��A�O o.�� 
-con.rm[cf]��Vim���У�
-���N�_�J�������A�O o.�� 
+    是否要 backup .le。預設不打開。 
+writebackup[wb]（Vim才有）
+在寫入檔案前先備份一份，和 backup的作用不盡相同，請 :h backup-table。預設是打開的，所以您如果不要 backup，那要關掉的是這個項目，而不是 backup。但請先檢查一下您編譯時是不是有編譯進去，請 :ver。 
+backupdir[bdir]（Vim才有）
+    設定存放 backup .le的目錄。預設在所編輯的檔案之所在目錄。 
+        第 9章 set功能設定 9.3.各種 SET功能說明 
+binary[bin]（Vim才有）
+    設在編輯二進位檔狀態，這是防止存二進位檔時把 EOL也寫進二進位檔，那就會悔不當初，如果是圖檔將會無法再觀看，如果是可執行檔就無法執行了！因此預設是 o.。elvis會自動判斷是否為二進位檔，而且會分成左右兩半，左半部會以 16進位的方式顯示，右半部則是以 ASCII的方式來顯示。 
+browsedir[bsdir]（Vim才有）
+瀏覽檔案的目錄， GUI版本始有。預設是上一次瀏覽的目錄。就是 GUI版本功能表上的 [File] 
+. [Open]會打開的目錄。 
+cindent[cin]（Vim才有）
+    寫 C時很好用， indent比一般敏感，專為 C程式碼而設。預設 o.。編輯 C/C++ code時會自動打開。 
+cmdheight[ch]（Vim才有）
+狀態列的行數，預設一行，建議設成兩行。 
+compatible[cp]（Vim才有）
+    設為和原始 vi相容的狀態， vim的擴充功能會被抑制。預設 o.。 
+    con.rm[cf]（Vim才有）
+    各種確認動作。預設 o.。 
 directory[dir] 
-swap�n��ŵ�Ŀ䛡�ǰ���Ԫ�����f���� 
-.leformat[ff]��Vim���У�
-�@�ǌ���n���r�÷� EOL(end of line)����ʽ 
-dos���� 0x0D0A����С� 
-unix���� 0x0A����С� 
-mac���� 0x0D����С�
+swap檔存放的目錄。前面單元已有說明。 
+.leformat[ff]（Vim才有）
+這是寫入檔案時置放 EOL(end of line)的形式 
+dos是以 0x0D0A來斷行。 
+unix是以 0x0A來斷行。 
+mac是以 0x0D來斷行。
 
-�A�O�Ը�ϵ�yƽ���������� Linux��Ȼ�� unix��ʽ�� 
-�� 9�� set�����O�� 9.3.���N SET�����f�� 
-.leformats[ffs]��Vim���У�
-��ָ�������������d��ęn����ʽ���{�� .������ :set ffs=unix,dos ff=unix
-�t�A�O�� unix��ʽ�������x����� dos��ʽ�ęn�������Ԅ��{���� dos��ʽ���@�Ӵ�n�r�͕��� dos��ʽ��n����B�Е��@ʾ�������˕r��Ҫ�ĳ� unix��ʽ���� :set ff=unixȻ���n�͕��D�� unix��ʽ����֮��Ȼ��������@���O��Ҳ���������� .�� .s���O�� unix�����x�� dos��ʽ�ęn���r��ÿ��β�����F .M�@����Ԫ������ 0x0D�������@�r�vʹ :set ff=unixҲ�������ˣ�ֻ�� :%s/.M//g����ȥ�@�� .M���ߣ�߀ӛ�����N��Q�᣿���ǰ� .M�Q�ɛ]���������� .M���N�������߀ӛ�ðɣ���һ��ǰ��Ć�Ԫ�ɣ� Hey�������N֪���� 0x0Dѽ���ðɣ����V��һ�����أ������Θ��Ƶ� .M�ǂ�λ�ã�Ȼ�ᰴ ga�ڠ�B�о͕��@ʾ 10��16��8�Mλ��ֵ����������ԪҲ�ǿ�������@ʾ�� a���� ascii����˼�����@�� Vim�ĔU�书�ܣ� elvis�]�С� elvis�vʹ�d�� dos��ʽ�ęn����Ҳ�Ǖ��ԄӰ� .M�[�������� 
+預設以各系統平檯而定，在 Linux當然是 unix形式。 
+        第 9章 set功能設定 9.3.各種 SET功能說明 
+.leformats[ffs]（Vim才有）
+    可指定多個，會依載入的檔案形式來調整 .。例如 :set ffs=unix,dos ff=unix
+                                    則預設為 unix格式，但如讀入的是 dos格式的檔案，會自動調整為 dos格式，這樣存檔時就會以 dos格式存檔（狀態列會顯示）。。此時如要改成 unix格式，可 :set ff=unix然後存檔就會轉成 unix格式，反之亦然。如果不這樣設，也就是您不管 .或 .s都設成 unix，那讀入 dos格式的檔案時在每行尾會出現 .M這個字元（就是 0x0D啦！）這時縱使 :set ff=unix也來不及了！只好 :%s/.M//g來消去這個 .M。ㄟ，還記得怎麼替換嗎？就是把 .M換成沒有啦！而且 .M怎麼打出來的還記得吧！翻一翻前面的單元吧！ Hey，你怎麼知道是 0x0D呀！好吧！告訴您一個密秘，您把游標移到 .M那個位置，然後按 ga在狀態列就會顯示 10，16，8進位的值。其它的字元也是可以如此顯示。 a就是 ascii的意思。但這是 Vim的擴充功能， elvis沒有。 elvis縱使載入 dos格式的檔案，也是會自動把 .M隱藏起來。 
 ignorecase[ic]
-���ҕr���ִ�С�����@�����ĕ�������_���A�O o.�� 
-incsearch[is]��Vim���У�
-�ӏ�ʽ���ҹ��ܣ����I�� patern�r�����������Ƅ���Ŀǰ�I��֮ patern�ϡ��A�O o.�� 
-hlsearch[hls]��Vim���У�
-���ҕr�������ִ������ױ�ʾ���A�O o.���������ʹ�� vim���A�O�� vimrc�n��Ԓ�����O�� F8�I���ГQ�� 
+    尋找時不分大小寫，這對中文會造成困擾。預設 o.。 
+incsearch[is]（Vim才有）
+    加強式尋找功能，在鍵入 patern時會立即反應移動至目前鍵入之 patern上。預設 o.。 
+hlsearch[hls]（Vim才有）
+    尋找時，符合字串會反白表示。預設 o.。如果您是使用 vim的預設的 vimrc檔的話，可設在 F8鍵來切換。 
 textwidth[tw]
-��һ�N wordwrap�Ĺ��ܣ���������֮�̶�ÿ�е������Ԫ���ȡ����^�ˌ��Ⱦ͕��Ԅ����У��@����������У�Ҳ�����f������̎������ EOL���A�O�� 0��Ҳ���Ǜ]�� wordwrap�Ĺ��ܡ� 
-wrapmargin[wm]
-�� textwidth������ͬ��ֻ���Ǐ���ҕ��߅��������Ҫ�ׂ���Ԫ�����С��A�O�� 0�� 
-�� 9�� set�����O�� 9.3.���N SET�����f�� 
-wrap
-�@Ҳ�����й��ܣ�����ֻ��ΞĻЧ�������У����H�ρK�]�в��� EOL�� 
+是一種 wordwrap的功能，從左起算之固定每行的最大字元寬度。超過此寬度就會自動折行，這可是真的折行，也就是說在折行處會插入 EOL。預設是 0，也就是沒有 wordwrap的功能。 
+wrapmargin[wm] 和 textwidth作用相同，只是是從右窗口邊向左算起要幾個字元起折行。預設是 0。 
+wrap 這也是折行功能，可是只是螢幕效果的折行，實際上並沒有插入 EOL。 
 wrapscan[ws]
-�@�����Л]���P�S����ָ���ҕr�������nβ�r���Ƿ�Ҫ�ęn���^�m�ҡ��A�O��Ҫ�� 
-paste��Vim���У�
-�@�Ƿ�ֹ�������N�rλ�Õ������_��ǰ���Ԫ�����f���� 
-ruler[ru]��Vim���У�
-���ڠ�B���@ʾ�Θ�����֮̎���Р�B���A�O�����_�������h���_������߅֮��̖�����x���£� 
-Top�n����һ����ΞĻ��Ҋ������ 
-Bot�n������һ����ΞĻ��Ҋ������ 
-All�n����β����һ��ΞĻ�����ȡ�
+這和折行沒有關係，是指尋找時，找至檔尾時，是否要從檔首繼續找。預設是要。 
+paste（Vim才有）
+這是防止在做剪貼時位置會不正確，前面單元已有說明。 
+ruler[ru]（Vim才有）
+會在狀態列顯示游標所在處之行列狀態，預設不打開，但建議打開。最右邊之代號的意義如下： 
+Top檔案第一行在螢幕可見範圍。 
+Bot檔案最後一行在螢幕可見範圍。 
+All檔案首尾皆在一個螢幕範圍內。
 
-����������N���Σ��t���@ʾ�����ٷֱ�λ�á� 
-statusline[stl]��Vim���У�
-��B���@ʾ�ĸ�ʽ��ʹ���A�O�Ϳ����ˣ���������}��һ�µ�Ԓ���Ǿ�Ո�� :h stl�� 
+如非以上三種情形，則會顯示相對百分比位置。 
+statusline[stl]（Vim才有）
+狀態列顯示的格式，使用預設就可以了，如果您想騷包一下的話，那就請您 :h stl。 
 shiftwidth[sw]
-ָ�� .�Ƅ����Ѓ��ݕr��һ���Ƅӵ���Ԫ���ȣ�һ����ʹ�� Tab��ֵ���������@���O������׃�� 
+    指由 .移動整行內容時，一次移動的字元寬度，一般是使用 Tab的值，但可由這個設定來改變。 
 tabstop[ts]
-һ�� Tab�I���ȡ��A�O�� 8����Ԫ���ȡ���ò�Ҫ�S��ģ����������Ė|����������݋������x�r������_�����Q�@�����}�� Vim���зN softtabstop�� modeline�ęC�ƣ������¸�����Ԕ���f���� 
+一個 Tab鍵寬度。預設是 8個字元寬度。最好不要隨便改，以免您寫的東西由其它編輯器來閱讀時造成困擾，為解決這個問題， Vim另有種 softtabstop及 modeline的機制，在以下各節會詳細說明。 
 showcmd[sc]
-�ڠ�B���@ʾĿǰ�����е�ָ�δ��ɵ�ָ��Ƭ�������@ʾ������ 
-�� 9�� set�����O�� 9.3.���N SET�����f�� 
+在狀態列顯示目前所執行的指令，未完成的指令片段亦會顯示出來。 
+        第 9章 set功能設定 9.3.各種 SET功能說明 
 showmode[smd]
-�ڠ�B���@ʾĿǰ��ģʽ�������� Insert mode���� Visual mode����Ȼƽ���� normal mode(commond mode)�ǲ��@ʾ�ġ����d��n����ͬ�r�������@���ط��@ʾ�n�����Q���係�Д�������Ԫ���� 
-visualbell[vb]��Vim���У�
-��ΞĻ�W�Ӵ��� beep�� 
+在狀態列顯示目前的模式，例如是 Insert mode或是 Visual mode。當然平常的 normal mode(commond mode)是不顯示的。在載入檔案的同時，會在這個地方顯示檔案名稱及其總行數、總字元數。 
+visualbell[vb]（Vim才有）
+以螢幕閃動代替 beep聲。 
 number[nu]
-�@ʾ��̖��ע�⣬ð̖����Ҳ�� :nu�@���@ʾ�Θ������е���̖�����Ӷ��һ���ֵ�Ԓ�� :#Ҳ�С����^��� ruler���_��Ԓ���ڠ�B�б��͕��@ʾ�Tǰ�Θ�����̎������ֵ�� 
+顯示行號。注意，冒號命令也有 :nu這是顯示游標所在行的行號，您嫌多打一個字的話， :#也行。不過如果 ruler打開的話，在狀態列本就會顯示門前游標所在處的行列值。 
 list
-�@Ҳ��������һ�Nģʽ�� list mode������ Tab�ĵط����� .I�@ʾ������β֮ EOL���@ʾ�� $������׌�������֪�� Tab�����e�������ǲ�����ġ� 
-swap.le[swf]��Vim���У�
-�Ƿ��� swap���ŵ�������O�� noswf��Ԓ���ǌ������� swap.le�a����ͨͨ���d����ӛ���w�С��A�O��Ҫ swap.le�� 
-.leencoding[fe]��Vim���У�
-���ȣ��ȹ���һ�£�žžž �������������������֧Ԯ Taiwan��Ҳ֧Ԯ XIM��Ҳ�����f����ʹ�� xcin-2.5x����ݔ�룬��Ȼ���� xcin-2.3x��� XAҲ�ǿ���������ǰ������Ҫ�� multi_byte���g�Mȥ���@��һ�_ʼ���v�^�ˡ��A�O��ʹ�� ansi��set guifont�� set guifontset����һ�_ʼ�v�^���ڴ˾Ͳ����}�ˡ� 
+    這也可以算是一種模式， list mode。就是 Tab的地方會以 .I顯示，而行尾之 EOL會顯示成 $。可以讓您清楚的知道 Tab在哪裡，折行是不是真的。 
+    swap.le[swf]（Vim才有）
+        是否需 swap至磁碟。如果設為 noswf的話，那將不會有 swap.le產生，通通會載入在記憶體中。預設是要 swap.le。 
+.leencoding[fe]（Vim才有）
+        首先，先鼓掌一下，啪啪啪 ······，因為有支援 Taiwan，也支援 XIM，也就是說可以使用 xcin-2.5x來作輸入，當然您用 xcin-2.3x配合 XA也是可以啦！但前提是您要把 multi_byte編譯進去，這在一開始就講過了。預設是使用 ansi。set guifont及 set guifontset已在一開始講過，在此就不重複了。 
 history[hi]
-ӛ�ð̖����Ěvʷ�o䛙n�����ǿ��������·����I�г�������偡��A�O�� 20�P�� 
-�� 9�� set�����O�� 9.4.�P� SOFTTABSTOP[STS] 
-9.4�P� softtabstop[sts]
-�׺����е� OS��ܛ�w���O�� Tab���� 8����Ԫ�L���@�ѽ��ǂ����Jֵ����ӲҪȥ��׃����Ԓ�������S�಻�㣬�����H���P춳�ʽ�L���S�������J�� 8����Ԫ̫�L�ˣ��ׂ�����ޒȦ���������У����������㡣��� Vim�w�N�����Ƚ��� softtabstop�Ĺ��ܣ������� Vim�������u���һ���ٵ� Tab�����H���ǿհ���Ԫ�M�ɵ� Tab��
-�e�����Ӂ��f�����^����� 
+記錄冒號命令的歷史紀錄檔，就是可以用上下方向鍵叫出來的那鍋。預設是 20筆。 
+        第 9章 set功能設定 9.4.關於 SOFTTABSTOP[STS] 
+    9.4關於 softtabstop[sts]
+幾乎所有的 OS及軟體都設定 Tab就是 8個字元長，這已經是個公認值，您硬要去改變它的話恐怕帶來許多不便，但實際上關於程式風格，許多人又認為 8個字元太長了，幾個巢狀迴圈下來就需折行，反而不方便。因此 Vim體貼您，內建了 softtabstop的功能，就是由 Vim來代您製造出一個假的 Tab，實際上是空白字元組成的 Tab。
+舉個例子來說明比較清楚。 
 set softtabstop=4 
 set shiftwidth=4
-�@�ӕ��� 4���հ���Ԫȡ��һ�� Tab������ Tab�I vim���� 4����ע����ǣ�������������� Tab�I���Ǿ���һ�����H�� Tab�����Ă��հ���Ԫ���ɲ��� 12���հ���Ԫร��ǻ�� Tab�� Space�ġ�
-���}���ˣ�����Ҫ�������� 8��Ԫ�� Tab�r���N�k�����Σ�߀ӛ�����N��������Ԫ�᣿ Ctrl+v Tab�� Ctrl+v I�Ϳ����ˣ��Ǿ�����ٰ��Q�� 8��Ԫ�L֮ Tab����Ȼ�������ɴ� Tab���͵��ˣ� :-)
-��һ������Ć��}Ҳ���ˣ��� Un*xϵ�y����Щ�O���n������ Make.le, snedmail���O���n���������J������ Tab�����������г�ʽ�_�l��ϵ�y��������Ҫ��Ԓ������ǲ�Ҫ�S����� Tabֵ��Ҳ��Ҫʹ�� softtabstop������ʹ�� Vim���ص� modeline�����ƣ�Ո�^�m���x��һ���� 
-9.5 Vim�� modeline
-�@����ʲ�N�ۣ����ε��f�� Vim������ȥ���x����݋�n���ȵ� Vim���ƅ��������@Щ���ƅ����ǌ��ڙn�����]�����e�^�ģ����� sh script���]�������� #���_�^�ģ��� Vim�Ŀ��ƅ����Ϳ��Ԍ����@Щ�]���e�^�� Vim���_�@���n��ͬ�r��Ҳ��ȥ�����Լ���һЩ�О飬��Ȼ����������һ�����f�� Tab���L�̣��� shell����t�������@Щ�]�⡣
-���磬�F�ڰ�һ�� sh script�n�e�^���ڙn������һ�У��O�˂��� 
+這樣會由 4個空白字元取代一個 Tab，您按 Tab鍵 vim就跳 4格，需注意的是，如果您按了三次 Tab鍵，那就是一個實際的 Tab加上四個空白字元，可不是 12個空白字元喔！是混合 Tab及 Space的。
+問題來了！那我要按真正的 8字元的 Tab時怎麼辦？簡單，還記得怎麼按特殊字元嗎？ Ctrl+v Tab或 Ctrl+v I就可以了，那就是如假包換的 8字元長之 Tab。當然，您按兩次 Tab不就得了！ :-)
+    另一個更大的問題也來了！在 Un*x系統的有些設定檔，例如 Make.le, snedmail的設定檔，他們會認真正的 Tab，因此如果您有程式開發或系統管理的需要的話，最好是不要隨意更動 Tab值，也不要使用 softtabstop，可以使用 Vim獨特的 modeline來控制，請繼續研讀下一節。 
+    9.5 Vim的 modeline
+這個是什麼哇？簡單的說， Vim有能力去解讀所編輯檔案內的 Vim控制參數，而這些控制參數是寫在檔案的註解行裡頭的，例如 sh script的註解行是以 #來開頭的，那 Vim的控制參數就可以寫在這些註解裡頭， Vim在開這個檔的同時，也會去控制自己的一些行為，當然，包括了上一節所說的 Tab的長短，而 shell本身則會忽略這些註解。
+例如，現在把一個 sh script檔裡頭，在檔案最後一行，設了個： 
 # vim: ts=2
-�@��һ�������� Tab�����H���@ʾ�����ֻ�Ѓɂ��ո񣬄e������Ȼ������ Tab�������ŵ�Ԓ��������һ�N��݋�����_��֪���ˡ��@�����ðɣ�Ԕ��Ո�M�� vim�� :h modeline�� 
-�� 9�� set�����O�� 9.6.�P�����
-��Ȼ���@�����ܷܺ��㣬���K����ȫȻ�]�����Ƶģ�������Щ����Ҫע�⣺ 
-1.���� 
-modeline�������O�������܌��ڙn���e�^�� vim���������x����
-���磺�� sh script�n�����O�� # vim: set modelines=0�@����
-��ͨ�ġ� 
+這樣一來，按個 Tab，實際上顯示出來會只有兩個空格，別擔心仍然是正港 Tab，不相信的話，可用另一種編輯器打開就知道了。這個好用吧！詳細請進入 vim後 :h modeline。 
+        第 9章 set功能設定 9.6.關於折行
+當然，這個功能很方便，但並不是全然沒有限制的，以下有些限制要注意： 
+1.控制 
+modeline本身的設定，不能寫在檔案裡頭， vim會來不及讀他。
+例如：在 sh script檔案中設定 # vim: set modelines=0這是行
+不通的。 
 
 
 2.
-�@Щ�O�����Ҫ�ڙn�����_�^���У���Yβ���Ѓ��O������t vim�����ԡ� 
+這些設定必須要在檔案的開頭五行，或結尾五行內設定，否則 vim會忽略。 
 
 3.
-�]���̖��Ҫ����һ���հ� (sapce�� Tab�Կ� )���_�����磺 
-/* vim:noai:sw=3 ts=4 */ => C��ʽ�a /*�� vim�g����Ҫ�Ђ��հ� 
+註解符號後要至少一個空白 (sapce或 Tab皆可 )隔開。例如： 
+/* vim:noai:sw=3 ts=4 */ => C程式碼 /*和 vim間至少要有個空白 
 // vim:ts=2 => C++ 
 # vim:ts=2 => sh script, perl, python, tcl 
 " vim:ts=2 => vim script 
 
 
 
-9.6�P�����
-ǰ�����f�^ set wrap�Ϳ������ΞĻ���У����ǅs����һ��Ӣ�Ć����۳Ƀɰ룬���ںܲ����^�����ˣ� Vim���w�N��һ�Σ� :set linebreak(lbr)�͕������@�N���}�l�������ڿհ׻���c��̖�ĵط������У���Ҳ�Ԍ�ΞĻ���У��K�������� EOL��
-��һ����ĕ��Ű�̎���������ǌ���ʽ�a���O��ϵ�y���O���n���@Щ�r�C�������Ԅ����ЁK�����m�� (ָ������ EOL��)�������װь��õă��ݣ����һ����С�ľͶ�Ū�y�ˣ�����ʽһ����һ��һ�����x�ģ���һ���зֳɃɰ룬���x�ĽY���Ͳ�һ���ˣ����Ǽ����ʽ�a�����И��I������һ��ĵ�б�� 1 \�� TEX/LATEX�İٷ�̖ %�������Ű�ܛ�w�� TEX/LATEX������ EOL�����У�������������g������հף��@�� HTML��ʽ�ęn����ͬ����ˣ��������еěQ���r��ҲՈ���]һ�������ġ������á��� 
-9.7�ҵ��O���n
-�������҂��˵��O���n���H�������ã� 
-9.7.1 .vimrc���� 
-" ~/.vimrc by Edward G.J. Lee 
-"�@��ӛ̖���� vim���]�⣬ͨ������ vim�����ԡ� 
+    9.6關於折行
+前面已說過 set wrap就可以造成螢幕折行，可是卻會把一個英文單字折成兩半，實在很不雅觀。好了， Vim再體貼您一次， :set linebreak(lbr)就會避免這種問題發生，會在空白或標點符號的地方來折行，但也仍屬螢幕折行，並不會插入 EOL。
+在一般的文書排版處理，甚至是寫程式碼，設定系統的設定檔，這些時機，可能自動折行並不很適合 (指會插入 EOL的)，很容易把寫好的內容，因為一個不小心就都弄亂了，因為程式一般是一行一行在讀的，把一整行分成兩半，所讀的結果就不一樣了，除非加入程式碼的折行標誌，例如一般的倒斜線 1 \或 TEX/LATEX的百分號 %。而在排版軟體如 TEX/LATEX，插入 EOL的折行，會造成中文字間多出個空白，這在 HTML格式的檔案亦同，因此，在做折行的決定時，也請考慮一下其他的『副作用』。 
+    9.7我的設定檔
+以下是我個人的設定檔，僅供參考用： 
+        9.7.1 .vimrc範例 
+            " ~/.vimrc by Edward G.J. Lee 
+"這個記號就是 vim的註解，通常情形 vim會忽略。 
 " This code is Public Domain 
 " 
 set backspace=indent,eol,start 
-1Vim script�����И��IҲ�ǵ�б�������@����б��������һ�� scriptһ�ӷ��ڱ��е����ᣬ���Ƿ��ڴ�һ�е��_�^̎��ՈС�Ĳ�Ҫ���e�ˡ� 
-�� 9�� set�����O�� 9.7.�ҵ��O���n 
+1Vim script的折行標誌也是倒斜線，但這個倒斜線不是像一般 script一樣放在本行的最後，而是放在次一行的開頭處，請小心不要放錯了。 
+        第 9章 set功能設定 9.7.我的設定檔 
 set autoindent " always set autoindenting on set history=50 " keep 50 lines of command line history set ruler " show the cursor position all the time set showcmd " display incomplete commands 
-set enc=big5 "�n�����a�O�� big5 
-"ʹ�� :update���� :w���Ա������޸ĕr�ŕ���n��ע�⣬�@�� vi�����ݡ� map <F2> :up<CR> map <F3> :up<CR>:q<CR> "��n���x�_ map <F4> :q!<CR> "����n�x�_ map <F5> :bp<CR> "ǰһ�� buffer�n�� map <F6> :bn<CR> "��һ�� buffer�n�� "���I <F7>���� syntax on/off����б���� Vim script�����И��I "��һ�� <F7>�� on��Ԓ���ٰ�һ�΄t�� off���ٰ�һ������ on�� "ԭ�����Еr���ɫ̫�������K��x�� map <F7> :if exists("syntax_on") <BAR> 
+set enc=big5 "檔案編碼設成 big5 
+"使用 :update代替 :w，以便在有修改時才會存檔，注意，這和 vi不相容。 map <F2> :up<CR> map <F3> :up<CR>:q<CR> "存檔後離開 map <F4> :q!<CR> "不存檔離開 map <F5> :bp<CR> "前一個 buffer檔案 map <F6> :bn<CR> "下一個 buffer檔案 "單鍵 <F7>控制 syntax on/off。倒斜線是 Vim script的折行標誌 "按一次 <F7>是 on的話，再按一次則是 off，再按一次又是 on。 "原因是有時候顏色太多會妨礙閱讀。 map <F7> :if exists("syntax_on") <BAR> 
 \ syntax off <BAR><CR> 
 \ else <BAR> 
 \ syntax enable <BAR> 
 \ endif <CR> 
 
-"�� F8���� searching highlight���� highlight�g�ГQ 
+"按 F8會在 searching highlight及非 highlight間切換 
 map <F8> :set hls!<BAR>set hls?<CR> 
 " Toggle on/off paste mode 
 map <F9> :set paste!<BAr>set paste?<CR> 
 set pastetoggle=<F9> 
 
-map <F10> <ESC>:read !date<CR> "�������� 
-map <F11> :%!xxd<CR> "���� xxd�� 16�Mλ�@ʾ 
-map <F12> :%!xxd -r<CR> "�؏������@ʾ 
+map <F10> <ESC>:read !date<CR> "插入日期 
+map <F11> :%!xxd<CR> "呼叫 xxd做 16進位顯示 
+map <F12> :%!xxd -r<CR> "回復正常顯示 
 
 "Default backspace like normal 
 set bs=2 
 
-"Display a status-bar. 
+    "Display a status-bar. 
 "set laststatus=2 
 
-"Show matching parenthese. 
+    "Show matching parenthese. 
 set showmatch 
 
-"�������ɫ�O����Ԕ��Ո :h hi 
+"以下是顏色設定，詳細請 :h hi 
 hi Comment term=bold ctermfg=darkcyan 
 hi Constant term=underline ctermfg=Red 
 hi Special term=bold ctermfg=Magenta 
@@ -885,7 +908,7 @@ hi Identifier term=underline ctermfg=cyan
 hi Statement term=bold ctermfg=Brown 
 hi PreProc term=bold ctermfg=DarkYellow 
 
-�� 9�� set�����O�� 	9.7.�ҵ��O���n 
+        第 9章 set功能設定 	9.7.我的設定檔 
 hi Type term=bold ctermfg=DarkGreen 
 hi Ignore ctermfg=white 
 hi Error term=reverse ctermbg=Red ctermfg=White 
@@ -895,22 +918,22 @@ hi ErrorMsg term=reverse ctermbg=Red ctermfg=White
 hi StatusLine ctermfg=darkblue ctermbg=gray 
 hi StatusLineNC ctermfg=brown ctermbg=darkblue 
 
-set viminfo=��20,\"50 	" read/write a .viminfo file, don��t store more " than 50 lines of registers 
-"�������������O�� 
+    set viminfo=’20,\"50 	" read/write a .viminfo file, don’t store more " than 50 lines of registers 
+"方便中文重排設定 
 set formatoptions=mtcql 
 
-"�O�� modeline 
+"設定 modeline 
 " vim: ts=2: 
 
-9.7.2 .gvimrc���� 
-" ~/.gvimrc by Edward G.J. Lee 
+        9.7.2 .gvimrc範例 
+            " ~/.gvimrc by Edward G.J. Lee 
 " This code is Public Domain 
 " 
-set mousehide "��ݔ�����֕r�[�� mouse 
+set mousehide "當輸入文字時隱藏 mouse 
 map <S-Insert> <MiddleMouse> 
 map! <S-Insert> <MiddleMouse> 
 
-" Only do this for Vim version 5.0 and later. 
+        " Only do this for Vim version 5.0 and later. 
 if version >= 500 
 let c_comment_strings=1 
 if !exists("syntax_on") 
@@ -919,98 +942,100 @@ syntax on
 endif 
 
 hi Comment guifg=DarkBlue hi Constant gui=bold guifg=Magenta guibg=#fffff5f2eed8 hi Special guifg=Blue guibg=#fffff5f2eed8 hi Identifier gui=bold guifg=DarkCyan hi Statement gui=bold guifg=brown hi PreProc gui=bold guifg=black hi Type guifg=darkgreen hi Ignore guifg=bg hi Error guibg=Red gui=bold guifg=White hi Todo guifg=Blue guibg=Yellow hi ErrorMsg guibg=Red gui=bold guifg=White hi Normal guibg=#fffff5f2eed8 hi ModeMsg guifg=DarkBlue guibg=yellow 
-�� 9�� set�����O�� 9.7.�ҵ��O���n 
+        第 9章 set功能設定 9.7.我的設定檔 
 hi StatusLine gui=bold guifg=lightgray guibg=DarkBlue 
 hi StatusLineNC gui=bold guifg=lightgray guibg=brown 
 hi Cursor guibg=green guifg=NONE 
 hi lCursor guibg=Cyan guifg=NONE 
 
 endif 
-"׌ ex(:) mode�r����ݔ������ (gvim) 
+"讓 ex(:) mode時可以輸入中文 (gvim) 
 set imcmdline 
-"׌ xcin�� insert mode���Ԅӳ��F (gvim) 
+"讓 xcin在 insert mode不自動出現 (gvim) 
 set imdisable 
 
-9.7.3 .vimĿ䛹���
-�䌍��һЩ�O���n���˼�Ŀ��µ� .vimrc�� .gvimrc�⣬�����÷�춼�Ŀ��µ�һ����Ŀ� .vim����Ŀ䛽Y�����Է� $VIMRUNTIME�@��ϵ�y�ϵĽY�������磬�ҵ� .vim�Y�����£� 
-edt1023:~$ tree .vim 
+        9.7.3 .vim目錄範例
+                其實，一些設定檔除了家目錄下的 .vimrc及 .gvimrc外，可以置放於家目錄下的一個子目錄 .vim，其目錄結構可以仿 $VIMRUNTIME這個系統上的結構。例如，我的 .vim結構如下： 
+    edt1023:~$ tree .vim 
 .vim 
-|--filetype.vim 
+    |--filetype.vim 
 |--plugin 
-| |--format.vim 
-| ��--tex.vim 
+    | |--format.vim 
+    | ‘--tex.vim 
 |--syntax 
-| |--lily.vim 
-| ��--svg.vim 
-��--view 
+    | |--lily.vim 
+    | ‘--svg.vim 
+‘--view 
 
-��--~=+bg5.txt= 
+    ‘--~=+bg5.txt= 
 3 directories, 6 files
-���У� filetype.vim����ϵ�y�� filetype.vim�d�����w�^ȥ��Ҳ���Ǽ�Ŀ䛵ĕ��ȃ�ʹ�á� format.vim�� tex.vim���M�� vim�R�ϕ��d��� Vim script����Ҫ����������ż� TEX/LATEX�Ű�ϵ�y��݋�r�ķ���ָ����I�� lily.vim�t�� GNU LilyPond�@�����V�Ű�ϵ�y�n�����Z���ɫ���x�n�� svg.vim�t�� SVG�����D�n���Z���ɫ���n�ӏ��档�� view�ǂ���Ŀ��µ�����ʲ�N�أ��@���� :mkviewָ��r�����һЩ��B�n���� :loadviewҪ��������Ո������ 11�£��� 11.1.3С����� 51���@���n�ǂ��[�ؙn�� 
+                                其中， filetype.vim會在系統的 filetype.vim載入後蓋過去，也就是家目錄的會先優使用。 format.vim及 tex.vim是進入 vim馬上會載入的 Vim script，主要用於中文重排及 TEX/LATEX排版系統編輯時的方便指令、按鍵。 lily.vim則是 GNU LilyPond這個樂譜排版系統檔案的語法顏色定義檔， svg.vim則是 SVG向量圖檔的語法顏色定檔加強版。那 view那個子目錄下的又是什麼呢？這是下 :mkview指令時所存的一些狀態檔，在 :loadview要參考到，請參考第 11章，第 11.1.3小節，頁 51，這個檔是個隱藏檔。 
 
-�� 10��
+-----------------------------第9章结束-------------------------------
 
-Ҏ�t��ʾʽ���\��
+第10章
 
-�ڱ�ϵ������һ�_ʼ���f���ˌW Vim����혱�WҎ�t��ʾʽ�� regular expression�����º��Q regexp�����Ǟ�ʲ�N���F�ڲŁ��v�أ���� regexp�f����Ҳ�㲻���y������Ҫ����ȥʹ�õ�Ԓ���Еr���R�Ͽ�����һ���}�s�� regexp���fЩʲ�N�ģ������������� regexp�顸����������������� Vim���w��߀�]һ������ͼ��� regexp��Ԓ��������Ć�Ԫ���¾͛]�˿��ˣ��� regexp�����и��ҵ� extensions���@Ҳ�Ǵ��ҕ��η;��ԭ��֮һ�����^���Ǵ�ͬС����ֻ��ע��һ�¾Ϳ����ˡ�
-Ŀǰ�Ȳ��ع܄e�����N�f����׌ Vim���r�ȳɞ��҂��ġ��˜ʡ�����������������ʽ�� regexp��ԓ�Ϳ����|���ͨ�������҂��M���Ɍ���ȥ�t�⡣��Ȼ��СС��һƪ�����Ǜ]���k��Ԕ�M��B��ֻ�ܓ����c���f���ˡ������Ɇ����� :h pattern���� Un*xϵ�y�п� man 7 regex������ man ed��man sed��man grep��man awk��man perlre�e��Ҳ�Ǖ��fЩ regexp����Ҫע��� Vim��ĵط������� perl�� regexp��ԓ�����������ˣ��������ϵ�y�]�� perl�Ǒ�ԓ�ǡ�ϡ�Є���ˣ� :-)�ߨߨߣ� Vimֻ��һ����݋�����ɲ��Ǫ����ĳ�ʽ�Z�� (�mȻ���Ƚ��� Vim script�����c���� )�� 
-10.1������ƥ�� 
-* ָǰ����ס����Ԫ����Ԫ���ϣ����F 0�λ� 0�����ϡ�  
-\+ �� *������ͬ�������������F 0�Ρ�  
-\= ָǰ����ס����Ԫǡ�ó��F 0�� 1�Ρ�  
-\| �@�Ƕ��x������ or����˼���� \|���_�� pattern����һ�����ϵ�Ԓ������ϡ�  
+規則表示式的運用
 
-\+, \=, \|������һ�� \������ԓ��Ԫ�� Vim�;����������x����һ��� regexp���� +, ?, |�Ϳ����ˣ�ֻ��������һ�£��������ˣ�ӛס \+�ǲ��ɔ��ģ����o���Ǻܾ��_��ֻ�ǎ�����ӛ�������� elvis�� ed����ʹ�� \?��ƥ����F 0�� 1�Σ������� \=���@�eҪ�ǳ�С�ģ� 
-�� 10��Ҏ�t��ʾʽ���\�� 10.1.������ƥ�� 
-[���� ]dg*ָ *ǰ����ס����Ԫ g���F 0�λ� 0�����ϡ�Ҳ�����f d(���F 0��)��dg, dgggg, dgggggggg���Ƿ����@�� pattern�����������ָ�� /dg*���Ƿ����@�� pattern���ִ��������ҳ�����������ڴ��Q��Ҫ�ǳ�С���ˣ��� extended�е� dҲ�Ǖ����ÓQ���ġ��������� :%s/dg*/test/g��Ԓ���� extended�@���֕��Q�� extentestetest�� 
-shell��ʹ�õ�ͨ����Ԫ�� pattern matching notation�� regexp�ǲ�ͬ����˼�� dg*�� shell���ǽ���� dg�_�^�������ִ����@�Ͳ����� d�ڃ��ˣ�Ҳ�����f�� shell�У� *�Ǵ�����һ��Ԫ���ִ����@�ڳ����|�����Ѻ����׾͸�죬Ոǧ�fС�ġ� 
-[���� ]dg\+ dg, dgg, dgggggg�Է��ϣ��� d�t�����ϡ������ dg\=��Ԓ����ֻ�� d��dg�@�ɂ������ˡ� 
-[���� ]:%s/The\|All/test/gȫ����ֻҪ�� The�� All��������Q�� test��ע�⣬��������� ThereҲ�Ǖ�����Q�� testre��Ҫ��α����@�N�����أ�������������޶�ʹ�÷��� 
-[���� ]/123-\=4567�@�ӕ��ҳ��� 123�C4567�� 1234567����Ȼ 123�C456789Ҳ�Ǖ����ҳ����� 
-[...] ��Ԫ���ϣ���ʾ����̖��������Ԫ�е�����һ����  
-[...] �@������ [.. . ]���a������������̖����Ԫ������һ����  
-. ���Q����Ԫ�����һ��һ��Ԫ��ָ��������ָǰ����֮��Ԫ���ͺ��� shell�е� ? 
-һ�ӡ����Ҫָ��������Ӣ�ľ��c��Ҫ�� \�� escape�������f \.�@�r�� .�Ǵ����� 
-�����c�������� regexp�е��������x�������� \*��ͬ��  
+在本系列文章一開始就說明了學 Vim可以順便學規則表示式（ regular expression，以下簡稱 regexp），那為什麼到現在才來講呢？因為 regexp說簡單也算不很難，但您要深入去使用的話，有時會馬上看不出一個複雜的 regexp在說些什麼的，就曾有人形容 regexp為「有字天書」！而且在 Vim整體都還沒一個概念就加入 regexp的話，那後面的單元恐怕就沒人看了！而 regexp各家有各家的 extensions，這也是大家視為畏途的原因之一，不過總是大同小異，只需注意一下就可以了。
+目前先不必管別家怎麼說，就讓 Vim暫時先成為我們的「標準」，以後碰到其它程式的 regexp應該就可以觸類旁通。以下我們盡量由實例去瞭解。當然，小小的一篇文章是沒有辦法詳盡介紹，只能撿重點來說明了。如有疑問，可 :h pattern或在 Un*x系統中可 man 7 regex，甚至 man ed，man sed，man grep，man awk，man perlre裡面也是會說些 regexp，但要注意和 Vim差異的地方！其中 perl的 regexp應該是最完整的了，如果您的系統沒有 perl那應該是「稀有動物」了！ :-)ㄟㄟㄟ！ Vim只是一個編輯器，可不是獨立的程式語言 (雖然，內建的 Vim script是有點好用 )！ 
+    10.1基本的匹配 
+* 指前所綁住的字元或字元集合，出現 0次或 0次以上。  
+\+ 和 *作用相同，但不包括出現 0次。  
+\= 指前所綁住的字元恰好出現 0或 1次。  
+\| 這是多選，就是 or的意思，被 \|隔開的 pattern，任一個符合的話就算符合。  
 
-[���� ] 
+\+, \=, \|會加上一個 \，是因該字元在 Vim就具有特殊意義，在一般的 regexp中是 +, ?, |就可以了，只是提醒您一下，以免搞混了！記住 \+是不可數的！用辭不是很精確，只是幫助您記憶啦！在 elvis及 ed中是使用 \?來匹配出現 0或 1次，而不是 \=，這裡要非常小心！ 
+        第 10章規則表示式的運用 10.1.基本的匹配 
+[實例 ]dg*指 *前所綁住的字元 g出現 0次或 0次以上。也就是說 d(出現 0次)，dg, dgggg, dgggggggg都是符合這個 pattern。如果您下尋找指令 /dg*，那符合這個 pattern的字串都會被找出來。如果用在代換就要非常小心了，像 extended中的 d也是會被置換掉的。例如您下 :%s/dg*/test/g的話，那 extended這個字會換成 extentestetest。 
+shell中使用的通用字元為 pattern matching notation和 regexp是不同的意思。 dg*在 shell中是解為以 dg開頭的任意字串，這就不包括 d在內了，也就是說在 shell中， *是代表任一字元或字串，這在初接觸的朋友很容易就搞混，請千萬小心。 
+[實例 ]dg\+ dg, dgg, dgggggg皆符合，但 d則不符合。如果是 dg\=的話，就只有 d、dg這兩個符合了。 
+[實例 ]:%s/The\|All/test/g全文中只要是 The或 All都會被替換成 test。注意，如果文中有 There也是會被替換成 testre！要如何避免這種情形呢？下面會另述及限定使用法。 
+[實例 ]/123-\=4567這樣會找出， 123–4567及 1234567。當然 123–456789也是會被找出來。 
+            [...] 字元集合，表示中括號中所有字元中的其中一個。  
+                        [...] 這是上述 [.. . ]的補集，表非中括號內字元的其中一個。  
+. 除換行字元外的任一單一字元。指本身，非指前所綁之字元。就好像 shell中的 ? 
+        一樣。如果要指定真正的英文句點，要用 \來 escape，就是說 \.這時的 .是代表真 
+正句點，而不是 regexp中的特殊意義。其他如 \*亦同。  
+
+[實例 ] 
 [Aa] 
-A�� a���е�һ���� 
+A或 a其中的一個。 
 [12345] 
-12345���е�һ����Ŀ�֡����� [1�C5]����ʾ���B�m�ԵĔ�Ŀ�ֻ���Ԫ���� �C�����_�������^β�������Ϳ����ˡ� [0�C9]�ͱ� 0�� 9�Ĕ�Ŀ�֣� [a�Cd]�ʹ��� abcd�Ă�Ӣ����ĸ 
-�� 10��Ҏ�t��ʾʽ���\�� 10.1.������ƥ�� 
-[���� ]W[0-9]*\.cc�@���������f�� W�_�^����� 0�C9����һ���������Ŀ�ֻ򲻽�ʲ�N��Ȼ����һ�����c�������� cc������ W.cc��W1.cc��W2.cc��W345.cc��W8976543287.cc�Է��ϡ����Ҫ��ʾ W�� .cc�g�Aһ�����ϵĔ�Ŀ�֣�Ҫ���� W[0-9][0-9]*\.cc�� 
-[���� ].*�@����������Ԫ���ִ�����ʲ�N���]�У��X��D��������ǰ��Ķ��x��һ�¡���Ȼ�@�ǲ������Q����Ԫ�ġ� 
-[���� ] 
-[.M]������ M�����������Ԫ�� 
-[.Tt]���� T�� t�����������Ԫ�� 
-[.0-9]�����ǔ�Ŀ��֮��Ԫ�� 
-[.a-zA-Z]������Ӣ����ĸ֮��Ԫ��
+12345其中的一個數目字。可用 [1–5]來表示。連續性的數目字或字元可用 –來隔開，寫出頭尾來代表就可以了。 [0–9]就表 0到 9的數目字， [a–d]就代表 abcd四個英文字母 
+        第 10章規則表示式的運用 10.1.基本的匹配 
+                                [實例 ]W[0-9]*\.cc這個例子是說以 W開頭，後接 0–9其中一個或多個數目字或不接什麼，然後是一個句點，最後是 cc。所以 W.cc，W1.cc，W2.cc，W345.cc，W8976543287.cc皆符合。如果要表示 W及 .cc間夾一個以上的數目字，要寫成 W[0-9][0-9]*\.cc。 
+    [實例 ].*這代表任意字元或字串，或什麼都沒有，腦筋急轉彎，對照前面的定義想一下。當然這是不包括換行字元的。 
+[實例 ] 
+    [.M]　表除 M以外的任意字元。 
+    [.Tt]　表 T及 t以外的任意字元。 
+    [.0-9]　表非數目字之字元。 
+    [.a-zA-Z]　表非英文字母之字元。
 
-ע�⣬ .Ҫ������̖�ȣ��������_�^�ĵط�����t���к��⡣ .ƥ�����ף�ָ���Ὁס���ִ������F�����ײŷ��ϡ� $ƥ����β��ָ��ǰ��ס���ִ������F����β�ŷ��ϡ����Q����Ԫ�����������׵� .ָ���� .�@����Ԫ����������β�� $��ָ $�����@����Ԫ�� [���� ]/.What�@��ֻ�������׵� What�ŕ����ҳ�����ע�⣡ Whatever, What��sҲ�Ǖ����ҳ���������� /What$�t������β�� What�ŕ����ҳ����� 
-[���� ].$�@��ʲ�N�|�|������Ҳ����β���С��ڣ����ǿհ������ȻҲ�����f�@�����Ǜ]��ʲ�N�|�|�����հ�������Ҳ�Ǖ��Ђ��Q����Ԫ���������Ԕ���������ȫ�ĵĿհ��С� 
-\(...\)ӛ�� pattern������ \1, \2. . . \9���г��� 
-[���� ]:%s/\([a-z]\)\1/test/g�@�� aa, bb, cc, dd,. . . zz������ test��Q�����@�� :%s/[a-z][a-z]/test/g�ǲ�һ�ӵ���˼�����ߕ��� aa,ab, ac...ba,bb,bc...zz���Q�� test��Ҳ�����f \(...\)�� \1�г��r���Ќ��Q�Ե��䌦���F�� 
-�� 10��Ҏ�t��ʾʽ���\�� 10.1.������ƥ�� 
-[���� ]:%s/\(.\)\(.\)r\2\1/test/g
-�������g�� r��ǰ�ж�����һ��Ԫ�����Ѓɂ��ߌ��Q�Ե���Ԫ���M�ɵ��ִ���Q�� 
-test��\2�Ǻ��еڶ��M \(.\)���� \1�Ǻ��е�һ�M \(.\)�����磺 12r21��cfrfc��7grg7��
-��������Q�� test�� 
-\<ƥ���֣� word���ס����^ word�����Ĕ��ּ��׾��� 
-\>ƥ����β���@����ǰ���ἰ���޶��÷����� \<���� \>��ס�� pattern�͕�������
-ס��ʹ regexp���������ң��󣩔U���ጡ� ed�� perl�п��� >b����ʾ�@�ɂ���̖�� perl��ֻ֧Ԯ >b��ed�t >b�� \<, \>��֧Ԯ������ perl�ɶ�ӂ� ?������ regexp�ĔU����g�������϶��ԣ��@�Ǻ� .$һ�ӵĶ�λ��ʽ�� anchor pattern��ָ����ס���ִ�����ǆ���߅�磨 wordboundary����ǰ�����ǰ����˿հ���Ԫ�����c��̖�ⲻ������������Ԫ���� Vim�� \b�Ǳ�ʾ <BS>�� Backspace�I�� 
-[���� ]:%s/\<abbbc\>/test/g
-�@��ֻ�� abbbc�ŕ�����Q�� test������]���@���޶��� :%s/abbbc/test/g���� 
-deabbbcly�е� ��abbbc����������Q�� test������ǰ�� :%s/The\<All/test/g�ɓQ
-�� :%s/\<The\>\|\<All\>/test/g�@��һ���� There�Ͳ�������Q�� testre�ˣ� 
-[���� ]:%s/\<abbbc/test/g�@�ӵ�Ԓ��ֻҪ���� abbbc���׵��� (word)������
-�� abbbc�Ĳ��ݶ����� test����Q��ע�⣡��ָ���ף�������ָ���ס����� 
-abbbc��abbbcerd��abbbckijuds�����ϡ� 
-\{n,m}ָǰ����ס����Ԫ����Ԫ�������ٳ��F n�Σ������F m�Ρ�
-�@��һ��� regexp��ʾ�� \{n,m\}��Vim�� elvis�ɷN��ʾ����֧Ԯ�� perl�tֱ��ʹ�� {}����
-���e�ķN��ͬ�����ӣ�Ո��Ұl�]һ���������� :-) 
-[���� ]\{��Сֵ�����ֵ }
-�� [0�C9]\{3,4}ƥ��������λ���������ɶ����λ���Ĕ�Ŀ�֡��磺 
+                    注意， .要在中括號內，且在最開頭的地方，否則另有含意。 .匹配行首，指其後綁住的字串，出現在行首才符合。 $匹配行尾，指其前綁住的字串，出現在行尾才符合。含換行字元。不是在行首的 .指的是 .這個字元。不是在行尾的 $是指 $本身這個字元。 [實例 ]/.What這樣只有在行首的 What才會被找出來。注意！ Whatever, What’s也是會被找出來。如果是 /What$則是在行尾的 What才會被找出來。 
+    [實例 ].$這是什麼東東？行首也是行尾的行。ㄚ，就是空白行嘛！當然也不能說這個行是沒有什麼東東啦！空白行至少也是會有個換行字元。在後面會詳述如何消除全文的空白行。 
+                        \(...\)記憶 pattern，可由 \1, \2. . . \9來叫出。 
+                                                [實例 ]:%s/\([a-z]\)\1/test/g這樣 aa, bb, cc, dd,. . . zz都會被 test替換掉。這和 :%s/[a-z][a-z]/test/g是不一樣的意思，後者會把 aa,ab, ac...ba,bb,bc...zz都換成 test。也就是說 \(...\)由 \1叫出時會有對稱性的配對出現。 
+        第 10章規則表示式的運用 10.1.基本的匹配 
+        [實例 ]:%s/\(.\)\(.\)r\2\1/test/g
+會將中間為 r，前有二個任一字元，後有兩個具對稱性的字元所組成的字串替換成 
+        test。\2是呼叫第二組 \(.\)，而 \1是呼叫第一組 \(.\)。例如： 12r21，cfrfc，7grg7等
+都會被替換成 test。 
+\<匹配字（ word）首。所謂 word包括文數字及底線。 
+\>匹配字尾。這就是前所提及的限定用法，被 \<，或 \>括住的 pattern就會被限制
+    住，使 regexp不能再向右（左）擴充解釋。 ed及 perl中可以 >b來表示這兩個符號， perl中只支援 >b，ed則 >b及 \<, \>皆支援。但在 perl可多加個 ?來限制 regexp的擴充解譯。功能上而言，這是和 .$一樣的定位樣式（ anchor pattern）指所綁住的字串必須是單字邊界（ wordboundary），前或後或前後除了空白字元及標點符號外不可再有其它字元。在 Vim中 \b是表示 <BS>即 Backspace鍵。 
+[實例 ]:%s/\<abbbc\>/test/g
+這樣只有 abbbc才會被替換成 test。如果沒有這樣限定， :%s/abbbc/test/g，那 
+deabbbcly中的 “abbbc”亦會被替換成 test。所以前面 :%s/The\<All/test/g可換
+成 :%s/\<The\>\|\<All\>/test/g這樣一來， There就不會被替換成 testre了！ 
+[實例 ]:%s/\<abbbc/test/g這樣的話，只要是以 abbbc為首的字 (word)，其中
+的 abbbc的部份都會被 test所替換。注意！是指字首，而不是指行首。所以 
+abbbc，abbbcerd，abbbckijuds都符合。 
+\{n,m}指前所綁住的字元或字元集合最少出現 n次，最多出現 m次。
+這在一般的 regexp表示成 \{n,m\}。Vim及 elvis兩種表示法皆支援。 perl則直接使用 {}。以
+下會舉四種不同的例子，請大家發揮一下想像力。 :-) 
+[實例 ]\{最小值，最大值 }
+如 [0–9]\{3,4}匹配至少三位數，但不可多於四位數的數目字。如： 
 123 
 12 
 1 
@@ -1019,270 +1044,276 @@ abbbc��abbbcerd��abbbckijuds�����ϡ�
 12345678 
 1234 
 12345 
-�� 10��Ҏ�t��ʾʽ���\�� 10.2.�н���Ԫ�� METACHARACTER, OR CHARACTER CLASSES��
-����� :%s/[0-9]\{3,4}/test/g��Ԓ���� 1��12�@�ɽM��������Q����鲻�M 3λ������ 12345���t���Q�� test5��123456���t���Q�� test56��12345678���t���Q�� testtest��1234567Ҳ�Ǖ��Q�� testtest��123��1234�@�ɽM�t������Q�� test���������H�Բ���һ�ξ�֪�����Nһ�����ˡ������r����� gc�� con.rm���@���������t�⌍�H��Q�ă��ݡ��ߣ��e���� u���Ի��}���ľ�݋������ 
-[���� ]\{��Ŀ�� } 
-xy\{20}����ʾ x��� 20�� y�� e[x-z]\{4}����ʾ e������Ă���Ԫ���� x,y,z������
-һ���ĽM�ϡ��磺 exxxx, exyyz, ezzyz, exyzz�Է��ϡ� 
+        第 10章規則表示式的運用 10.2.中介字元（ METACHARACTER, OR CHARACTER CLASSES）
+    如果下 :%s/[0-9]\{3,4}/test/g的話，那 1，12這兩組不會被替換，因為不滿 3位數。而 12345，則會換成 test5。123456，則會換成 test56。12345678，則會換成 testtest。1234567也是會換成 testtest。123，1234這兩組則會被替換成 test。您可以親自操作一次就知道怎麼一回事了。操作時最後加 gc來 con.rm，這樣您會更瞭解實際替換的內容。ㄟ，別忘了 u可以回複您的編輯動作。 
+[實例 ]\{數目字 } 
+xy\{20}　表示 x後接 20個 y。 e[x-z]\{4}　表示 e後接有四個字元，是 x,y,z的其中
+一個的組合。如： exxxx, exyyz, ezzyz, exyzz皆符合。 
 
-[���� ]\{��Сֵ�� } 
-xy\{2,}���� x������ٶ����� y���ஔ� xyyy*�� xyy\+�� 
+[實例 ]\{最小值， } 
+xy\{2,}　表 x後接至少二個的 y。相當於 xyyy*或 xyy\+。 
 
-[���� ]\{�����ֵ } 
-xy\{,4}���� x��������Ă�����ٵ� y�����ܛ]�У������ x, xy, xyy ,xyyy, xyyyy
-�Է��ϡ� 
+[實例 ]\{，最大值 } 
+xy\{,4}　表 x後接至多四個或更少的 y（可能沒有）。因此 x, xy, xyy ,xyyy, xyyyy
+皆符合。 
 
-10.2�н���Ԫ�� metacharacter, or character classes��
-��Ҫ�Ǻ��� regexp�ĕ����� 
-\s���հ���Ԫ���� Space�� Tab�� 
-\S���ǿհ���Ԫ�� 
-\d�픵Ŀ�֣� digits������ [0�C9]�� 
-\D���ǔ�Ŀ�֣��� [.0�C9]�� 
-\w��һ����Ԫ�� wordcharacter���������׾����� [0�C9a�CzA�CZ_]�� 
-\W����һ����Ԫ���� [.0�C9a�CzA�CZ_]�� 
-\a��Ӣ����ĸ�� alphabetic character������ [a�CzA�CZ]�� 
-\A����Ӣ����ĸ���� [.a�CzA�CZ]�� 
-\l��С����ĸ�� lowercase character������ [a�Cz]�� 
-\L����С����ĸ���� [.a�Cz]�� 
-\u������ĸ�� uppercase������ [A�CZ]�� 
-\U���Ǵ���ĸ���� [.A�CZ]��
+    10.2中介字元（ metacharacter, or character classes）
+主要是簡化 regexp的書寫。 
+\s表空白字元，即 Space或 Tab。 
+\S表非空白字元。 
+\d表數目字（ digits），即 [0–9]。 
+    \D表非數目字，即 [.0–9]。 
+\w表一般字元（ wordcharacter），包括底線。即 [0–9a–zA–Z_]。 
+    \W表非一般字元，即 [.0–9a–zA–Z_]。 
+\a表英文字母（ alphabetic character），即 [a–zA–Z]。 
+    \A表非英文字母，即 [.a–zA–Z]。 
+\l表小寫字母（ lowercase character），即 [a–z]。 
+    \L表非小寫字母，即 [.a–z]。 
+\u表大寫字母（ uppercase），即 [A–Z]。 
+    \U表非大寫字母，即 [.A–Z]。
 
-ԭʼ vi��֧Ԯ�˷N�н���Ԫ��ʹ���н���Ԫ�ıȌ��ٶȌ�����ʹ����Ԫ���� []�Ŀ졣 
-�� 10��Ҏ�t��ʾʽ���\�� 10.3.ȫ���Ե�ָ�� 
-10.3ȫ���Ե�ָ�� 
+原始 vi不支援此種中介字元。使用中介字元的比對速度將會比使用字元集合 []的快。 
+        第 10章規則表示式的運用 10.3.全域性的指令 
+    10.3全域性的指令 
 :[range]g/pattern/[cmd] 
-cmd�� ed���õ�ָ��A�O�� p(print)�����ɲ�һ�� man ed���Ϳ���֪����ʲ�Nָ����á��@��С���e��Ҫ���f�� d(delete)�Ĺ��ܡ������Ҫ�f����������հ��С���ע����ǣ� d���Єh��ָ����� pattern�����ж������h�������� range��ָ����Ԓ���A�O��ȫƪ���£���� g���Ǵ��� globe��
-�� Vim�� help�n�e�f���� exָ��� ex���H���Ǻ� Vim�B�Y�ģ�����@�e�؄eָ�� ed���� ed��ָ���ٔ����ܕ��� Vim�� ex��ͬ���@����� ed�� Vim�K��ͬ���ڰlչ������Ҳ��ͬһ�ˡ� 
-:g/.$/d
-�@�Ӿ͕��h��ȫ�ĵĿհ��С�ǰ�������^ .$�������ǿհ��С����@�e�Ђ����}������հ����e�����������հ���Ԫ���� Space�� Tab����Ԓ�����濴�����Ǻ�һ��հ���һģһ�ӣ����s�������C��������ķ����͟o���h���@�N�հ����ˣ����N�k���������У� 
+cmd是 ed可用的指令，預設是 p(print)，您可查一下 man ed，就可以知道有什麼指令可用。這個小節裡主要是說明 d(delete)的功能。因為是要說明如何消除空白行。需注意的是， d是行刪除指令，凡含 pattern的整行都會被刪掉，而且 range不指定的話，預設是全篇文章，因為 g就是代表 globe。
+在 Vim的 help檔裡說的是 ex指令，但 ex實際上是和 Vim連結的，因此這裡特別指出 ed。但 ed的指令少數可能會和 Vim的 ex不同，這是因為 ed和 Vim並非同步在發展，作者也非同一人。 
+    :g/.$/d
+    這樣就會刪除全文的空白行。前面已提過 .$代表的是空白行。但這裡有個問題，如果空白行裡包含了其它空白字元（即 Space或 Tab）的話。表面看起來是和一般空白行一模一樣，但卻暗藏玄機，用上面的方法就無法刪除這種空白行了！怎麼辦？來！看招！ 
 :g/^[<Space><Tab>]*$/d
-�� Vim�� elvis�e����������մ�Ҳ���� <Space>�����հ���Ԫ�� <Tab>������ Tab�I�ĽY������ԭʼ vi�t���У������а���������Ԫ���������� Ctrl+v Space�� Ctrl+v Tab���������εĴ򷨣� 
+在 Vim或 elvis裡您可以如此照打，也就是 <Space>代表空白字元， <Tab>代表按 Tab鍵的結果。在原始 vi則不行，得自行按出特殊字元出來，就是 Ctrl+v Space及 Ctrl+v Tab。或採更簡單的打法： 
 :g/^\s*$/d
-߀ӛ���н���Ԫ�᣿���ðɣ��ٴ��˲����֡� :-)��˼���Ǆh���� 0�� 1�����Ͽհ���Ԫ���С�
-��Щ���Ќ��� :%s/.$//g���Ԅh���հ��У��@���e�`�ģ���� :s�@��ָ��ֻ����һ���e�ă�������������h��һ�еĄ����� 
-10.4 &���׃��
-�����ÓQ�r��� patern����Ԫ���ִ��� 
-�� 10��Ҏ�t��ʾʽ���\�� 10.5. GREEDY���� 
-[���� ]:%s/.\d\d\d\d\d\d\d\d\d\>/ID:&/g
-�@��ȫ���е������C��̖ǰ�͕����� ID:�֘ӣ�Ҳ�����f T123456789�����Q�� 
-ID:T123456789��߀ӛ�Æ᣿ \d���� [0-9]��\u�����󌑵�Ӣ����ĸ���ӂ� \>�Ƿ�ֹ 
-T12345678999Ҳ���Q������Ȼǰ���ټӂ� \<�����U�� ID:�֘���������Ҳ�У���һ��
-���õ��������Ԓ̖�aǰ���� TeL:����Ո�����о����ˣ� 
+還記得中介中元嗎？好用吧！少打了不少字。 :-)意思就是刪除含 0或 1個以上空白字元的行。
+    有些書中寫成 :%s/.$//g可以刪除空白行，這是錯誤的，因為 :s這個指令只更動一行裡的內容物，但不會做刪除一行的動作。 
+    10.4 &替代變數
+代表置換時合於 patern的字元或字串。 
+        第 10章規則表示式的運用 10.5. GREEDY陷阱 
+    [實例 ]:%s/.\d\d\d\d\d\d\d\d\d\>/ID:&/g
+這樣全文中的身份證字號前就會加上 ID:字樣，也就是說 T123456789會被換成 
+ID:T123456789。還記得嗎？ \d就是 [0-9]，\u代表大寫的英文字母。加個 \>是防止 
+T12345678999也被換掉。當然前面再加個 \<更保險。 ID:字樣您用中文也行！另一個
+好用的例子是電話號碼前加上 TeL:，就請您自行練習了！ 
 
-[���� ]���n�� 3�� 7�е��Y�������� 2���հ� 
-:3,7s/.*/ &/
-���@���B�հ���Ҳ�Ǖ�����հ���Ԫ���^�����������ǣ� 
-:3,7s/.\+/ &/
-�@�ӿհ��оͲ���ȥ�����ˣ���ͨ�� .*�� .\+����˼�ˆ᣿��ǰ��һ�� .* \+�Ķ��x�� 
-[���� ]���n�� 3�� 7�е��Y�������� 2���հ� 
-:3,7s/. //
-���Ǆhȥ���׵Ķ����հ����� 
-[���� ]��ȫ�ĵ� Edward�@�����֣�ǰ���������̖ 
+[實例 ]將檔案 3至 7行的資料向右移 2個空白 
+    :3,7s/.*/ &/
+但這樣連空白行也是會插入空白字元，較高明的做法是： 
+    :3,7s/.\+/ &/
+            這樣空白行就不會去動它了！想通了 .*及 .\+的意思了嗎？往前翻一下 .* \+的定義。 
+[實例 ]將檔案 3至 7行的資料向左移 2個空白 
+    :3,7s/. //
+就是刪去行首的二個空白啦！ 
+[實例 ]將全文的 Edward這個單字，前後加上中括號 
 :%s/\<Edward\>/[&]/g 
-[���� ]��ȫ�ĵ� Edward�@�����֣��ĳɴ󌑵ġ� 
+[實例 ]將全文的 Edward這個單字，改成大寫的。 
 :%s/\<Edward\>/\U&/g
-�ߣ� \U���Ǵ����Ǵ���ĸ�᣿ร������eλ���ˡ� \U�� pattern��λ�õĕr����ָ�Ǵ���ĸ�Ę�ʽ���� [.A�CZ]������������ÓQ�ִ�λ�õĕr����ָ��������ִ�ͨͨ�ĳɴ󌑡��c���������� \L������������ִ��Ğ�С����Ԕ��Ո :h sub-replace-special�� 
-[���� ]��ȫ��ÿ��������� <BR>�@�� HTML tag�� 
-:%s/.*/&<BR>/g
-���N�ӣ��Ƿ��Ѹ��X�� regexp�����o�F���أ�߀�����ѽ���˯�����أ� :-)���^ҲՈ�����룬������ڛ]�� regexp���ܵľ�݋���e�������е�һЩ�����������N���أ�һ��һ��ȥ�ģ� 
-10.5 greedy���� 
-regexp����؝�ĵăA��ʲ�N��˼�أ������f��ͬһ�Ѓȣ�����ж������� pattern�����Σ��������L����һ����Ոע�⣡ greedy��������ᘌ��������Ȍ��� regexp���ԣ����磺 *, \=, \+, \{}�ȡ�ǰ�����e�� .*�����ӣ���� greedy���P�S������ƪ����������Q�r������������ÿһ�����У���� regexp��ȥ��ÿһ�����L���ϵ���һ���� 
-�� 10��Ҏ�t��ʾʽ���\�� 10.5. GREEDY���� 
-[���� ]Thisisa test.Test forregexp.
-������� :%s/[Tt].*t/program/gԭ����������е� Test�� test�Q�� program
-�ģ��Y����� regexp��؝�ģ����� ��This is a test. Test�����Q�� program���Y��ԭ
-�ľ�׃���� program for regexp.�����ȫ����Q�rҪ�ǳ�С�ģ�����ʹ�Ï���̫��
-�� regexp���������ֻҪ�� :%s/\<[Tt]est\>/program/g�Ϳ����ˣ�
+    ㄟ！ \U不是代表非大寫字母嗎？喔！您搞錯位置了。 \U在 pattern的位置的時候是指非大寫字母的樣式，即 [.A–Z]，但如果是在置換字串位置的時候是指將其後的字串通通改成大寫。與其相對的是 \L，會將其後的字串改為小寫。詳細請 :h sub-replace-special。 
+[實例 ]將全文每行最後加上 <BR>這個 HTML tag。 
+    :%s/.*/&<BR>/g
+怎麼樣，是否已感覺到 regexp威力無窮了呢？還是您已經快睡著了呢？ :-)不過也請您想想，如果是在沒有 regexp功能的編輯器裡，範例中的一些動作您會怎麼做呢？一個一個去改？ 
+    10.5 greedy陷阱 
+    regexp會有貪心的傾向，什麼意思呢？就是說在同一行內，如果有多個符合 pattern的情形，會找最長的那一個。請注意！ greedy的特性是針對會反覆比對的 regexp而言，例如： *, \=, \+, \{}等。前面所舉的 .*的例子，由於 greedy的關係，在整篇文章中做替換時，會被當成是每一行整行，因為 regexp會去找每一行最長符合的那一個。 
+        第 10章規則表示式的運用 10.5. GREEDY陷阱 
+    [實例 ]Thisisa test.Test forregexp.
+    如果您下 :%s/[Tt].*t/program/g原意是想把所有的 Test或 test換成 program
+    的，結果由於 regexp的貪心，整個 “This is a test. Test”會換成 program。結果原
+    文就變成了 program for regexp.因此在全文替換時要非常小心，避免使用彈性太大
+的 regexp。像此例，只要下 :%s/\<[Tt]est\>/program/g就可以了！
 
-�������������@�ɲ��� regexp��ȫ�����K�ƪ�������¹����Ć��}����Ȼ�Ǜ]�k��ȫ��Ԕ�M�����λ����B������ֻ�ǌ���λ�I�M�T�����о͵ÿ���λ�ˣ����߀���������о� regexp���Ʌ����� Mastering Regular Expressions(O��Reilly&Associates)һ�������ĵ�Ԓ���Ʌ������T��ξ�ľWվ�� 
-http://www.rtfiber.com.tw/~changyj/
-�e�^�ġ���Ҏ��ʾʽ���T�c���ã�һ���������������ǳ�ֵ�����x�� 
+最後提醒您，這可不是 regexp的全部，礙於篇幅及在下功力的問題，當然是沒辦法全面詳盡的向各位做介紹，在下只是將各位領進門，修行就得看各位了！如果還想更深入的研究 regexp，可參考： Mastering Regular Expressions(O’Reilly&Associates)一書。中文的話，可參考龍門少尉的網站： 
+            http://www.rtfiber.com.tw/~changyj/
+裡頭的『正規表示式入門與應用（一、二、三）』，非常值得研讀。 
 
+-----------------------------第10章结束-------------------------------
 
-�� 11�� �� Vim�ۯB�� folding����
+第11章 把 Vim折疊（ folding）？
 
-�� Vim�ۯB�� folding���ᣬȻ����Է���ڴ����Ǻǣ���Ȼ�����@�������@�� Vim��һ�������⹦�ܣ�ԭʼ vi��һ��� vi clone�ԟo�˹��ܣ������ε��f�����ǿ��Ԍ������ݣ��������ĽY�����Ѷ��Ѓ��ݼ��������һ�������Ё��@ʾ��ΞĻ��ֻ���õ��¹����}��һ�����У��@���������½Y����һĿ��Ȼ������Ҫ��x�������ݕr�����ɺ��εİ��I��������_���@��춲���Ŀ䛽Y�����ļ����ʽ�a������̎�� 
+把 Vim折疊（ folding）後，然後可以放入口袋？呵呵，當然不是這樣啦！這是 Vim的一個很特殊功能（原始 vi及一般的 vi clone皆無此功能）。簡單的說，就是可以將文章內容，依據他的結構，把多行內容集中於其中一個代表行來顯示，螢幕上只看得到章節標題那一代表行，這樣整個文章結構就一目了然，真正要閱讀其他內容時，再由簡單的按鍵或滑鼠來打開。這對於不含目錄結構的文件或程式碼很有用處。 
 
-Vim�е��۵��ǿ���Ƕ�׵ģ���һ���۵����԰��������۵����۵��Ĳ�ο���ͨ��set foldmethmax=n(nΪ1-20֮�ڵ�����������vim���֧��20��Ƕ��)�����á�
+Vim中的折叠是可以嵌套的，即一个折叠可以包含几个折叠。折叠的层次可以通过set foldmethmax=n(n为1-20之内的任意整数，vim最多支持20层嵌套)来设置。
 
-11.1 �ք��ۯB(manual)
+    11.1 手動折疊(manual)
 
-�ۯB���О���F���� foldmethod[fdm]�@���O��헁����Ƶģ��ֶ��۵�����foldmethodΪ manual��marker�������ք��O�����@�Ǳ�����Ҫ������������ۯB��ʽ�������ۯB��ʽ������һ����B���ۯB�ķ�ʽ�����Е��л����nͻ�ĵط���ʹ����Ոע��һ�¡� 
+折疊的行為表現是由 foldmethod[fdm]這個設定項來控制的，手动折叠设置foldmethod为 manual或marker，就是手動設定，這是本節所要敘述的最基本折疊方式。其他折疊方式會在下一節介紹，折疊的方式，其中會有互相衝突的地方，使用上請注意一下。 
 
-11.1.1 �ۯB�Įa��
-�քӮa���ۯB��ָ���� zf��zF��:fo[ld]�����������Ӂ��f���^����� 
-zfap          ���Θ�����̎���ǂ������ۯB��һ�С� 
-zf7G          ���Θ�����̎��ȫ�ĵ� 7���ۯB������ 
-:3,9fold      ���� 3������ 7���ۯB������ 
-:1,.fo        ����һ�е���ǰ���۵�������
-5zF           ���Θ�����̎���� 5�еă����ۯB������Ҳ���Ԍ���Ҫ�ۯB�Ĳ����� Shift+v��ӛ������Ȼ�԰� zf�͕�����ӛ�ă����ۯB������ 
+        11.1.1 折疊的產生
+手動產生折疊的指令是 zf、zF、:fo[ld]，以下以例子來說明較清楚。 
+zfap          將游標所在處的那個段落折疊成一行。 
+zf7G          自游標所在處至全文第 7行折疊起來。 
+:3,9fold      將第 3行至第 7行折疊起來。 
+    :1,.fo        将第一行到当前行折叠起来。
+5zF           將游標所在處起算 5行的內容折疊起來。也可以將所要折疊的部份以 Shift+v標記起來，然以按 zf就會將標記的內容折疊起來。 
 
-1mkvimrc 1.2.�Ԅ��ۯB 
+1mkvimrc 1.2.自動折疊 
 
-11.1.2�ۯB�Ĳ��� 
-zo ���Θ�����̎���ۯB���_�� open��  
-zc ���Θ�����̎�Ѵ��_�ă����ٶ��ۯB������ close��  
-zr ��ȫ�ĵ������ۯB���Ӵ�ͨͨ���_�� reduce��  
-zm ��ȫ���Ѵ��_���ۯB���Ӵ�ͨͨ���ۯB������ more��  
-zR ���ú� zrͬ���������_�������ۯB���ۯB����߀���ۯB���������ۯB��  
-zM ���ú� zmͬ������춳����ۯB�������á�  
-zi �@�ǂ��ГQ�����ۯB�c���ۯBָ���g���ГQ��  
-zn ���_ȫ�ĵ������ۯB�� fold none��  
-zN �@�� zn������ָ��؏����е��ۯB�� 
+        11.1.2折疊的操作 
+zo 將游標所在處的折疊打開。 open。  
+zc 將游標所在處已打開的內容再度折疊起來。 close。  
+zr 將全文的所有折疊依層次通通打開。 reduce。  
+zm 將全文已打開的折疊依層次通通再折疊起來。 more。  
+zR 作用和 zr同，但會打開含巢狀折疊（折疊中又還有折疊）的所有折疊。  
+zM 作用和 zm同，但對於巢狀折疊亦有作用。  
+zi 這是個切換，是折疊與不折疊指令間的切換。  
+zn 打開全文的所有折疊。 fold none。  
+zN 這是 zn的相對指令，回復所有的折疊。 
 
-���@�� zn�� zR���Ƕ�һ�ӆ᣿���ǵģ� zR������� foldlevel�@���O��헣��ǿ����ۯB�ČӴΣ��� zn�t������� foldenable�@���O��헣����ǲ��܌Ӵεģ�ֻ��ȫ�P��ȫ�_����Ȼ�����õ��ĽY�����S����������һ�ӵģ����e�Ӳ�һ�ӣ��@�ڌ� Vim script�r��С�ķֱ档
-ͨ�����Θ����ۯB̎����������Ƶ�Ԓ���ۯBҲ���ԄӴ��_�����M�뾎݋ģʽ�����簴 i�� o���@��Ҳ���ԄӴ��_�ۯB��
-�������}�u���h������Q�Ȅ���߀�ǿ��Ժ�һ�������ĸ�һ�ӵĲ��������� dd�͕��h��һ�����ۯB�� yy���}�uһ�����ۯB�� p���N��һ�����ۯB���������ۯB�ͮ�����һ�о����ˡ� 
+那這個 zn和 zR不是都一樣嗎？不是的， zR的作用於 foldlevel這個設定項，是控制折疊的層次，而 zn則是作用於 foldenable這個設定項，他是不管層次的，只有全關或全開。當然，所得到的結果有許多情形下是一樣的，但裡子不一樣，這在寫 Vim script時得小心分辨。
+通常，游標在折疊處向左或向右移的話，折疊也會自動打開。在進入編輯模式，例如按 i或 o，這是也會自動打開折疊。
+其他的複製、刪除及替換等動作還是可以和一般正常文稿一樣的操作，例如 dd就會刪掉一整個折疊， yy會複製一整個折疊， p會貼上一整個折疊。把整個折疊就當做是一行就行了。 
 
-11.1.3�ۯB��ӛ��
+        11.1.3折疊的記憶
 
-�ք��ۯB������һ���_�n�r����ʧ�ˣ����҂�����ʹ�� :mkview���ۯB������ӛ����������һ���d��ͬһ���n���r�Ϳ����� :loadview��ӛ������ǰ�ۯB����r����Ȼ��ʹ���ք��ۯB��ӛ�����ڲ����ρK���Ǻܷ��㣬�����ǰ������� Vim script�����á������һ��ҪՄ���Ԅ��ۯB���@���ܕ����^����һ�c�� 
+手動折疊，在下一次開檔時就消失了，但我們可以使用 :mkview把折疊的情形記憶起來，下一次載入同一個檔案時就可以下 :loadview，記憶起以前折疊的情況。當然，使用手動折疊及記憶，在操作上並不是很方便，除非是把他寫成 Vim script來叫用。因此下一節要談到自動折疊，這可能會比較實用一點。 
 
-11.2�Ԅ��ۯB
+    11.2自動折疊
 
-11.2.1�Կs�О����� (indent)
-:set foldmethod=indent�͕����s�Ё��ۯB��Ĭ�������� :set foldmethod=normal�����۵��Ĳ㼶��������ȡ�����㰴�˼����ո���Ʊ�������`shiftwidth���йء��е��������ȳ���`shiftwidth����������ȡ���õ�ÿһ�е��۵��㼶��ͬһ�۵��㼶�������۵��㼶���������γ��۵��������еĸ����۵��㼶���С�������еĻ����γ�Ƕ�׵��۵���
-Ոע�⣬�˕r�ք��ۯB���O������ֹͣ�o��ʹ�á� 
+        11.2.1以縮行為依據 (indent)
+:set foldmethod=indent就會依縮行來折疊（默认设置是 :set foldmethod=normal）。折叠的层级并不仅仅取决于你按了几个空格或制表符还与`shiftwidth‘有关。行的缩进宽度除以`shiftwidth‘，并向下取整得到每一行的折叠层级。同一折叠层级及更高折叠层级的连续行形成折叠。而其中的更高折叠层级的行——如果有的话，形成嵌套的折叠。
+請注意，此時手動折疊的設定會被停止無法使用。 
 
-11.2.2�Ա���ʽ (expr) 
-:mkvimrc set foldmethod=expr������߀Ҫ�O�� :set foldexpr=...(һ���������ʽ)��������ÿһ���۵���
+        11.2.2以表达式 (expr) 
+            :mkvimrc set foldmethod=expr，另外還要設定 :set foldexpr=...(一个正则表达式)，如设置每一行折叠：
 :set foldmethod=expr
 :set foldexpr=1
 
-�Ʌ�������ʹ���փ� :h fold-expr�����ӡ� 
+可參考線上使用手冊 :h fold-expr的例子。 
 
-11.2.3���Z�������� (syntax)
-�@���ڶ��x�Z����syntax���n�rͬ�r�����ۯB�Ķ��x��Ȼ�ᣬ set foldmethod=syntax�͕������@���Z�����x�nȥ�ۯB��Ո :h syn-fold�� 
+        11.2.3以語法為依據 (syntax)
+這是在定義語法（syntax）檔時同時加入折疊的定義。然後， set foldmethod=syntax就會依照這個語法定義檔去折疊，請 :h syn-fold。 
 
-11.2.4���Ƿ�����^������ (diff)
-�@�e���^���õ������ļ��ȵĘ��I���ۯB����������ķ�ʽ��ֻ��΢��B�ˡ� 
-�@���M�� vimdiff���� vim -d file1 file2���r���Ԅ��M�� foldmethod=diff��ģʽ�����Ҫ diff�O����O��ͬһ��ΞĻ�@ʾ���С��Ա����w�Ğg�[����ȻҪ���и����A�Oֵ��ɡ��A�O�ǣ� 
+        11.2.4以是否更改過為依據 (diff)
+這裡比較實用的是依文件內的標誌來折疊，因此其他的方式就只稍微介紹了。 
+這在進入 vimdiff（即 vim -d file1 file2）時會自動進入 foldmethod=diff的模式，因此要 diff設定項設在同一個螢幕顯示才行。以便整體的瀏覽。當然要自行更改預設值亦可。預設是： 
 setlocal diff foldmethod=diff scrollbind nowrap foldlevel=1
-�@��һ�����ɂ��n����ͬ�Ĳ��ݕ��ۯB�������]���ۯB�Ĳ��ݾ����в�ĵط��� 
+這樣一來，兩個檔案相同的部份會折疊起來，沒有折疊的部份就是有差異的地方。 
 
-11.2.5���ļ��ϵĘ��I������ (marker)
-�@�Ǹ��������еĘ��I��marker�������ۯB���@Щ���I����� {{{��ֹ� }}}���@���g�Ĳ��ݕ��ۯB������ͨ���@Щ���I�ǲ����]����e�^������ C��ʽ�a�� /*�� */֮�g�� shell script�� #֮�ᣬ Vim script�� "֮�ᣬ��ҕ��ʽ�Z�ԵĲ�ͬ���������һ������¾Ͳ��m��ʹ���ˡ� �@Щ�A�O�Ę��IҲ������ foldmarker�����ģ��������ļ�����ͨ�ԣ����hʹ���A�Oֵ�Ϳ����ˡ� ��Ȼ��һЩ��ʽ�a�d��r�ف��O�� :set foldmethod=marker��̫�韩�ˣ��@���O�������O���ļ��ȣ����磺 
+        11.2.5以文件上的標誌為依據 (marker)
+這是跟據文章中的標誌（marker）來做折疊。這些標誌，起於 {{{，止於 }}}，這中間的部份會折疊起來。通常這些標誌是藏在註解欄裡頭，例如 C程式碼的 /*及 */之間， shell script的 #之後， Vim script的 "之後，得視程式語言的不同而定，因此一般的文章就不適合使用了。 這些預設的標誌也可以由 foldmarker來更改，但為了文件的流通性，建議使用預設值就可以了。 當然，一些程式碼載入時再來設定 :set foldmethod=marker就太麻煩了，這個設定可以設在文件內，例如： 
 #!/bin/sh 
-#�@��һ�� sh script 
+#這是一個 sh script 
 # {{{ 
 ...
-�@�e�� script���ݣ��� vim���_�@
-���n�r���@�����ݕ��Ԅ��ۯB������ 
+這裡是 script內容，由 vim打開這
+個檔時，這個部份會自動折疊起來。 
 ... 
 # }}} 
 # vim:fdm=marker:ts=2
 
-߀ӛ�� modeline�᣿Ո�}��һ�µ� 9�¡� 
+還記得 modeline嗎？請複習一下第 9章。 
 
-�� 12�� 
+-----------------------------第11章结束-------------------------------
 
-Vim tags��ʹ�� 
-tagָ�����ļ��е�һ�N����Ę��I����ʹ�� Vim�r�������ɺܺ��εİ��I���R�������ǂ����¼��ǂ� tag��λ�ã�Ҳ��������ԭ̎���@�����ܾͺ���Ŀǰ�ľW��ϵ� hyperlinkһ�ӡ�����һ�ӵ��ǣ��@�� tag�K���ǌ����ļ��e�^�ģ������� ctags�@֧��ʽ��������˵Ĺ��߳�ʽ�����a�����P�n�� tags��Ȼ���n�һ���ⲿ�n���e�^��Ҫ�õ��r���� Vim�г����� 
-12.1���N��ʽ�a���� tag���� 
-ctags �@����õ��ģ����ܕ��ЃɷN�汾���f�� ctagsֻ����� C��ʽ 
-�a�� exuberant ctags�t����� C/C++��Java��Fortran�� �� �� �� �� ���ȵȡ�����  
-ctags -version��֪�汾��  
-etags �@�� emacs/xemacs�����ģ�����Ҳ�Ƿǳ�����  
-JTags �@ֻ��̎�� Java��ʽ�a��  
-ptags.py ̎�� Python��ʽ�a��  
-ptags ̎�� Perl��ʽ�a�� 
+第12章 
 
-�@�e��Ҫ�v�� exuberant ctags���� man ctags�� ctags -help��֪��֧Ԯ�ĳ�ʽ�Z�ԡ��� $VIMRUNTIME/toolsĿ�����һЩ���߿���ʹ�ã����猣���� sh script��Tcl/Tk script�� tag���ߡ������� tags���ߣ�ϵ�y�ϲ�һ�����b������Ҫ��Ԓ�����а��b��һ��ʹ�ã���ԓ ctags�͉����ˣ� ctagsҲ����ģ�M etags��
-������ Vim������ exuberant ctags�����½��İ汾�ћ]�и��ϣ�����ʹ�������а��b����ʹ��ϵ�y�Ͼ��е� ctags�����ϵ�y�ϵāK���� exuberant ctags���������� http://ctags. 
-sourceforge.net���d�����b�� 
-�� 12�� Vim tags��ʹ�� 12.2. TAGS�n���ĸ�ʽ 
-12.2 tags�n���ĸ�ʽ
-������һ�� tag�n�ĽY������һ�О������� 
+Vim tags的使用 
+tag指的是文件中的一種特殊的標誌，在使用 Vim時，可以由很簡單的按鍵就馬上跳到那個文章及那個 tag的位置，也可以跳回原處。這個功能就好像目前的網頁上的 hyperlink一樣。但不一樣的是，這個 tag並不是寫在文件裡頭的，而是由 ctags這支程式（或其他類此的工具程式）來產生相關檔的 tags，然後存檔於一個外部檔案裡頭，要用到時再由 Vim叫出來。 
+    12.1各種程式碼專用 tag工具 
+ctags 這是最常用到的，可能會有兩種版本，舊的 ctags只能用於 C程式 
+碼。 exuberant ctags則可用於 C/C++、Java、Fortran· · · · · ·等等。可由  
+ctags -version得知版本。  
+etags 這是 emacs/xemacs所附的，功能也是非常強大。  
+JTags 這只能處理 Java程式碼。  
+    ptags.py 處理 Python程式碼。  
+ptags 處理 Perl程式碼。 
+
+這裡主要講述 exuberant ctags。可 man ctags或 ctags -help得知所支援的程式語言。在 $VIMRUNTIME/tools目錄下會有一些工具可以使用，例如專用在 sh script，Tcl/Tk script的 tag工具。其他的 tags工具，系統上不一會安裝，有需要的話得自行安裝，一般使用，應該 ctags就夠用了， ctags也可以模擬 etags。
+    以往， Vim會附上 exuberant ctags，但新近的版本已沒有附上，得由使用者自行安裝，或使用系統上就有的 ctags。如果系統上的並不是 exuberant ctags，可自行由 http://ctags. 
+    sourceforge.net下載、安裝。 
+        第 12章 Vim tags的使用 12.2. TAGS檔案的格式 
+    12.2 tags檔案的格式
+以下是一般 tag檔的結構（以一行為例）： 
 tagname TAB tagfile TAB tagaddress term field 
-tagname �@���R�e�ֵ����Q��ͨ������һЩ���������������κ��R�e�֡�  
-TAB �@�����ό�����һ�� Tab�I��  
-tag.le �@�� tag�n�ęn����  
-tagaddress �@�� Exָ�ͨ�������ь�ָ����Д�Ҳ�ǿ��ԡ�  
-term  ;"�@��ӛ̖���ɂ���Ԫ������ă���ҕ���]�⡣  
-.eld ���t�⡣  
+tagname 這是識別字的名稱，通常就是一些函數名，或其他任何識別字。  
+TAB 這是老老實實的一個 Tab鍵。  
+    tag.le 這是 tag檔的檔名。  
+tagaddress 這是 Ex指令，通常就是搜尋指令，但行數也是可以。  
+term  ;"這個記號（兩個字元）以後的內容視為註解。  
+.eld 待瞭解。  
 
-12.3 tag�n�����u��
-���v����Ԓ�������������_�� source codeĿ��£�������ָ� 
+    12.3 tag檔案的製作
+不講究的話，可以在所解開的 source code目錄下，下以下指令： 
 ctags -R *
-�@�ӕ��� source codeĿ��®a��һ�� tags�@���n������ʹ�� -f�x헁�ָ���n���������e�^�Ͱ��������� source code�����Йn���� tags�YӍ�������������е���Ŀ��µęn���� ctags�ѱM���ܵ�����������n���������������Ժͳ�ʽ�a�o�P�ęn������Ȼ ctags߀���S�ྫ���ą�������ʹ�ã�Ո man ctags��
-Ոע�⣬ ctags�A�O����ݔ���n������˲�����������ȥ������������һ����̎���Ǿ��� Vim��ȥʹ�� binary search�ķ�ʽȥ�ь����@�ӕ����^�졣 
-12.4һ��� tagʹ��
-���������һ���ķ�ʽ�a�� tag .les�����NֻҪ�� source codeĿ����� vimȥ�_���n����Ԓ�����Ԅ��d�� tags�@���n�����o�������d�룬��tҪ�� :set tags=your.tags��ָ�� tags�n��Ȼ�������һ��ʹ�� Vim�����f��һ�ӣ��Θ��Ƶ��R�e�ֻ򺯔����ϣ��� Ctrl+]��Ҫ�ص�ԭ̎�Ͱ� Ctrl+T�� 
-�� 12�� Vim tags��ʹ�� 12.5. VIM�����f���ļ����u��
-Ոע�⣬ Vim���ӕr������Ŀ䛣� vim���ӕr������Ŀ䛣����� tags�ęn�����Ԅ��d�룬 $VIMRUNTIME/doc�� $HOME/.vim/docĿ��µ� tags�nҲ���Ԅ��d�롣���ң������d��� tags�n�e�^���И��I���ֶ�����ʹ���aȫ�I���aȫ���e�����@�����õĹ��ܡ� 
-12.5 Vim�����f���ļ����u�� 
-Vim�ľ����f���ļ�����ʹ�� tags�ķ�ʽ�������ģ����ʹ�÷���Ҳ�Ǻ�һ�� tags�nһ�ӣ��� Ctrl+]�� Ctrl+T�����ơ� 
-12.5.1 doctags
-�@������һ�㲻����ϵ�y�� $PATH�e�^�������� Vimԭʼ�a�� runtime/docĿ��¡����һ�� tags��ʽֻ����ʽ�a���ã���ˌ�һ������֙n�]�����á����@�� doctags�t�������֙n���� *�@�ǘ��} *���I�ă������� tag�n������
-�� source code���M�� runtime/docĿ��᣺ 
-make doctags =>���g�� doctags�@���Ɉ��Йn 
-make tags =>�u����Ŀ������� *.txt�� tags�n
-�@�� doctagsҲ���Ա����������Լ����u���� *.txt��� $VIMRUNTIME/docĿ��£����У� 
-doctags *.txt | sort > tags
-�@�Ӿ����ˣ������M�� vim��Ϳ���ʹ���ˡ�
-��Ȼ���@�����������о��g����ˌ�һ��ʹ���߶��ԣ�ʹ���ρK�����㡣�䌍 Vim���ЃȽ��@�������ˡ� 
-12.5.2�� Vim�e�^�������f��
-�M�� vim�ᣬ :helpt[ags]Ŀ����@�Ӿ͕�����ָ��Ŀ��µ����� *.txt�a�� tags�n�����@������Ҳ�����������Ё���У� 
-vim -c "helptags ." -c quit 
-�� 12�� Vim tags��ʹ�� 12.5. VIM�����f���ļ����u��
-�@�� 
-doctags *.txt | sort > tags
-��һ�ӵġ�
-��� Vim�Ԅӕ��ь����ļ�Ŀ��ǣ�Ŀǰ����Ŀ䛡� $VIMRUNTIME/doc�� $HOME/.vim/doc��˽��h���Լ������ļ���� $HOME/.vim/doc�^�á�����һ�����ε����ӣ� 
-This is a test. *test1* 
-This is another test. *test2*
-��n�� test.txt��� $HOME/.vim/docĿ��£� 
-cd .vim/doc 
-vim -c "helptags ." -c quit
-�����_�� vim��Ȼ�� :h test1ԇ������֪�����Nһ�����ˡ����� F1�����I��Ԓ�����l�F������ĳh�ݶ���һ���¹����Ǿ��� LOCAL ADDITIONS:����Ŀ��µ��ļ�Ŀ䛾����÷�춴ˡ� 
-�� 13�� 
+這樣會有 source code目錄下產生一個 tags這個檔（可以使用 -f選項來指定檔案名），裡頭就包含了整個 source code的所有檔案的 tags資訊，包括其下所有的子目錄下的檔案。 ctags已盡可能的做到聰明掃描檔案的能力，會忽略和程式碼無關的檔案。當然 ctags還有許多精細的參數可以使用，請 man ctags。
+請注意， ctags預設會將輸出檔排序，因此不必自行另外去排序。有排序有一個好處，那就是 Vim會去使用 binary search的方式去搜尋，這樣會比較快。 
+    12.4一般的 tag使用
+        如果就照上一節的方式產生 tag .les，那麼只要在 source code目錄下由 vim去開啟檔案的話，會自動載入 tags這個檔案，無需另行載入，否則要由 :set tags=your.tags來指定 tags檔。然後就是照一般使用 Vim線上說明一樣，游標移到識別字或函數名上，按 Ctrl+]，要回到原處就按 Ctrl+T。 
+        第 12章 Vim tags的使用 12.5. VIM線上說明文件的製作
+    請注意， Vim啟動時，工作目錄（ vim啟動時的所在目錄）名為 tags的檔案會自動載入， $VIMRUNTIME/doc及 $HOME/.vim/doc目錄下的 tags檔也會自動載入。而且，凡是載入的 tags檔裡頭所有標誌文字都可以使用補全鍵來補全，別忘了這個好用的功能。 
+    12.5 Vim線上說明文件的製作 
+Vim的線上說明文件就是使用 tags的方式來管理的，因此使用方法也是和一般 tags檔一樣，由 Ctrl+]及 Ctrl+T來控制。 
+        12.5.1 doctags
+這個工具一般不會在系統的 $PATH裡頭，而是在 Vim原始碼的 runtime/doc目錄下。由於一般 tags程式只對程式碼作用，因此對一般的文字檔沒有作用。而這個 doctags則會依文字檔中有 *這是標題 *標誌的內容做出 tag檔出來。
+在 source code，進入 runtime/doc目錄後： 
+make doctags =>編譯出 doctags這個可執行檔 
+    make tags =>製作此目錄下所有 *.txt的 tags檔
+    這個 doctags也可以保留下來，把自己新製作的 *.txt置於 $VIMRUNTIME/doc目錄下，執行： 
+    doctags *.txt | sort > tags
+這樣就行了，重新進入 vim後就可以使用了。
+當然，這個工具需自行編譯，因此對一般使用者而言，使用上並不方便。其實 Vim已有內建這個工具了。 
+        12.5.2由 Vim裡頭作線上說明
+    進入 vim後， :helpt[ags]目錄名這樣就會把所指定目錄下的所有 *.txt產生 tags檔案。這個動作也可以由命令列來執行： 
+    vim -c "helptags ." -c quit 
+        第 12章 Vim tags的使用 12.5. VIM線上說明文件的製作
+這和 
+    doctags *.txt | sort > tags
+是一樣的。
+        由於 Vim自動會搜尋的文件目錄是，目前工作目錄、 $VIMRUNTIME/doc及 $HOME/.vim/doc因此建議把自己的新文件置於 $HOME/.vim/doc較好。以下為一個簡單的例子： 
+    This is a test. *test1* 
+    This is another test. *test2*
+        存檔成 test.txt置於 $HOME/.vim/doc目錄下： 
+    cd .vim/doc 
+    vim -c "helptags ." -c quit
+重新開啟 vim，然後 :h test1試看看就知道怎麼一回事了。而按 F1求助鍵的話，會發現在後面的砲份多了一個章節，那就是 LOCAL ADDITIONS:，家目錄下的文件目錄就是置放於此。 
 
-Vim script����
-ԭʼ�� vi������һЩ���ε� macro�Z���������O��һЩ�}�s�ľ�݋�����һ��ָ�������ڄ���һ���µ�ָ� Vim�t���Mһ�������lչ�ɳ�ʽ�Z�ԡ��� Vim�У�һ����O���n���� vimrc��һЩ syntax/plugin�n�������� Vim script���ɵġ������O��׃����Ҳ��ޒȦ���l���Д༰�Ƚ���������ʹ�ã���������ӆ��������Ȼ����һ����ʽ�Z���r���ˡ���Ȼ��ԭʼ�� vi macro�Z��߀���J�õģ��@�c���ؓ��ġ�
-��� Vim script�Ĵ��U�䣬�mȻ�f�Ǻ��飬�����ݿ��ܕ����������¹��࣬���ҿ��ܕ����^����һЩ������ҕ���Σ���ׂ���ֵ����Ӂ��ã�����һ�_ʼ��Ҫͨͨ�㶮���� :-) 
-13.1һЩ���ε� 
+-----------------------------第12章结束-------------------------------
+
+第13章 
+
+Vim script簡介
+原始的 vi本就有一些簡單的 macro語法，可以設定一些複雜的編輯動作於一個指令，等於是在創造一個新的指令。 Vim則更進一步把他發展成程式語言。在 Vim中，一般的設定檔，如 vimrc及一些 syntax/plugin檔，都是由 Vim script寫成的。可以設定變數，也有迴圈、條件判斷及內建函數可以使用，更可以自訂函數，儼然就是一個程式語言雛形了。當然，原始的 vi macro語法還是認得的，這點不必擔心。
+由於 Vim script的大大擴充，雖然說是簡介，但內容可能會比其他的章節多，而且可能會比較深入一些，可以視情形，撿幾個順手的例子來用，不必一開始就要通通搞懂他。 :-) 
+    13.1一些簡單的 
 macro
 
-�@�eָ�� macro��һ����I�P�������s���O�������ε�������x���mȻҲ�Ǖ�ʹ�õ� Vim script������춁K����������Ҏ�����OӋ����˾��� macro��������������Ȼ�����|��Ҳ������ Vim script������ģ��� 
+這裡指的 macro是一般的鍵盤對應、縮寫設定及簡單的新命令定義，雖然也是會使用到 Vim script，但由於並不是完整的規劃、設計，因此就以 macro為名來代表（當然，實質上也是利用 Vim script來書寫的）。 
 
 13.
-1.1���I���� 
+    1.1按鍵對應 
 
 
-Vim���Ԍ�����������������Ǻ����������oһ�����εİ��I���@��һ���Ϳ��Ժܷ���İ����Iȥ���������x�Ą��������������Ӿ��ǵ� 9.7����� 38��һЩ���H���ӡ���� Vim�A�O�ѽ��Ƚ��� F1�I���x�o���������n����ˣ��@���I�Ͳ�Ҫȥ�韩���ˡ�
-һЩ���I�ĕ�������
-�ڂ��y�İ��I�����������ĺ��Ε�����������ͨ���K���Ǻ�ֱ�X�� Vim�t���M�˕������������Ժ�ֱ�X�ĕ�����������һЩ���ӣ� 
-�� 13�� Vim script���� 13.1.һЩ���ε� MACRO 
-<Esc> Esc�I�� 
-<Tab> Tab�I�� 
-<Home> Home�I�� 
-<Del> Del�I�� 
-<CR> Enter�I�� 
-<Enter> Enter�I�����������ͬ�� 
-<LT>���� <���ں� <��Ԫ������л��������x�rʹ�á�Ҳ����ʹ�� \<�� 
-<BS> Backspace�����I�� 
-<Up> PageUp���Ϸ���I�� 
-<F5> F5�����I�� 
-<C-G> Ctrl+G�I��
+    Vim可以將多個動作（命令或是函數）對應給一個簡單的按鍵，這樣一來就可以很方便的按個鍵去執行所定義的動作，基本的例子就是第 9.7節，頁 38的一些實際例子。由於 Vim預設已經內建把 F1鍵定義給線上求助檔，因此，這個鍵就不要去麻煩他了。
+一些按鍵的書寫方法
+在傳統的按鍵對應，有他的簡單書寫方法，但通常並不是很直覺， Vim則改進了書寫方法，可以很直覺的書寫。以下是一些例子： 
+        第 13章 Vim script簡介 13.1.一些簡單的 MACRO 
+<Esc> Esc鍵。 
+<Tab> Tab鍵。 
+<Home> Home鍵。 
+<Del> Del鍵。 
+<CR> Enter鍵。 
+<Enter> Enter鍵，和上面的相同。 
+<LT>就是 <，在和 <字元本身會有混淆、疑義時使用。也可以使用 \<。 
+<BS> Backspace倒退鍵。 
+<Up> PageUp向上翻頁鍵。 
+<F5> F5功能鍵。 
+<C-G> Ctrl+G鍵。
 
-Ҫע����ǣ���С���ǲ��ֵģ����ϵĕ���ֻ�Ǟ�����x������ѡ�Ԕ���İ��I��̖���@�e�Ͳ����f���ˣ�����Ҫ��Ԓ�������M�� vim�� :h key-notation���͕���Ԕ�����б��� 
-\<��ʹ��ֻ���� cpoptions�O��헲��� B��˕r����ʹ�ã�ͨ�� B����A�O�Ǖ��еģ�Ո :set cpoptiions?�Ϳ�֪��Ŀǰ���O����
-Ҫ�ǳ�С�ĵ��ǣ��@�Nֱ�X�ĕ�����ʽ��������� :set�� :autocmd�����Σ�������̖���e�^���������������x��ͨ�����@ֻ����춰��I�Č������s�����x���O������r�� 
-mapָ��ķN� 
-Vim����ԭʼ�� map[!]�⣬�U�����ஔ������ mapָ����ڲ�ͬ��ģʽ���á� map��Ҫ
-������춳��Bģʽ������ģʽ���� map!�t������춲���ģʽ��������ģʽ�� vmap�H�ڷ���ģʽ�r���ã� Visual mode�� nmap�H�ڳ��Bģʽ�r���ã� Normal mode�� imap�H�ڲ���ģʽ�r���ã� Insert mode�� omap�H�ڲ����ȴ�ģʽ�r���ã� Operator-pending mode�� cmap�H��������ģʽ�r���ã� Command-line mode�� 
-[���� ]:map <F5> bi{<Esc>ea}<Esc>�@��һ����ֻҪ��Ӣ�Ć�������̎�� F5���@��Ӣ�Ć��ֵ�ǰ��͕����ϴ���̖���f�����£� 
-�� 13�� Vim script���� 13.1.һЩ���ε� MACRO 
-bi{<Esc>�� b����Ӣ�Ć��ֵĵ�һ����ĸ̎���K�� i�M�����ģʽ������ {�@����Ԫ��
-�K�� Esc�I���؏ͳ��Bģʽ�� 
-e�Ƅ����@��Ӣ�Ć��ֵ�����һ����ĸ̎�� 
-a}<Esc>�M����� appendģʽ���Kݔ�� }�@����Ԫ���ٻص����Bģʽ��
-��ע����ǣ���������ģʽǰ�^���Ђ�ð̖������� vim�e�^��Ҫ����ð̖�ŕ��M��������ģʽ����������O�� Vim script�n�e�^��Ȼ�͛]��ð̖�ˡ����ϵ�����Ҳ�ǿ��Ԍ�����һЩ�^����ӛ���İ��I�����磺 
+要注意的是，大小寫是不分的，以上的書寫只是為了閱讀方便而已。詳細的按鍵符號，這裡就不多說明了，有需要的話，可以進入 vim後 :h key-notation，就會有詳細的列表。 
+\<的使用只能在 cpoptions設定項不含 B旗標時才能使用，通常 B旗標預設是會有的，請 :set cpoptiions?就可知道目前的設定。
+要非常小心的是，這種直覺的書寫方式，不能用於 :set及 :autocmd的情形，因為角括號在裡頭有其他的特殊意義。通常，這只能用於按鍵的對應，縮寫及選單設定的情況。 
+map指令的種類 
+Vim除了原始的 map[!]外，擴充了相當多的類似 map指令。各在不同的模式作用。 map主要
+是作用於常態模式及反白模式，而 map!則是作用於插入模式及命令列模式。 vmap僅在反白模式時作用， Visual mode。 nmap僅在常態模式時作用， Normal mode。 imap僅在插入模式時作用， Insert mode。 omap僅在操作等待模式時作用， Operator-pending mode。 cmap僅在命令列模式時作用， Command-line mode。 
+[實例 ]:map <F5> bi{<Esc>ea}<Esc>這樣一來，只要在英文單字任意處按 F5，這個英文單字的前後就會加上大括號。說明如下： 
+        第 13章 Vim script簡介 13.1.一些簡單的 MACRO 
+bi{<Esc>按 b移至英文單字的第一個字母處，並按 i進入插入模式，寫入 {這個字元，
+並按 Esc鍵，回復常態模式。 
+e移動至這個英文單字的最後一個字母處。 
+a}<Esc>進入插入 append模式，並輸入 }這個字元，再回到常態模式。
+需注意的是，在命令列模式前頭會有個冒號，因為在 vim裡頭，要按個冒號才會進入命令列模式。但如果是設在 Vim script檔裡頭當然就沒有冒號了。以上的例子也是可以對應至一些較容易記憶的按鍵，例如： 
 map ,b bi{<Esc>ea}<Esc>
-�@�Ӱ� ��,b���͕���ͬ�ӵ����ã��� ��,���� ��b��֮�g�������̫�õĕr�g���@�� Vim�ŕ�֪���@�ɂ����I�ǽY����һ��� 1���� b�ڴ˾ʹ��� braces������̖����
-���Ҫ֪��Ŀǰ�İ��I���������Σ��� :map�͕��г����е�Ŀǰ���I������ǰ���ʾ��ӛ�{���Ǹ��Nģʽ�Ĵ�����ĸ������ n���� normal��i���� insert��
-��ֹ���}����
-���˷�ֹ���}���������ж��x�İ��I��ͨ��ָ��ȿɼ��� nore���֘ӣ����磺 
+這樣按 “,b”就會有同樣的作用，但 “,”及 “b”之間不能相隔太久的時間，這樣 Vim才會知道這兩個按鍵是結合在一起的 1。而 b在此就代表 braces（大括號）。
+如果要知道目前的按鍵對應的情形，可 :map就會列出所有的目前按鍵對應，前面標示的記踸就是各種模式的代表字母，例如 n代表 normal，i代表 insert。
+防止重複對應
+為了防止重複對應到已有定義的按鍵，通常指令內可加入 nore的字樣，例如： 
 :noremap => Normal, Visual and Operator-pending 
 :vnoremap => Visual 
 :nnoremap => Normal 
@@ -1290,208 +1321,224 @@ map ,b bi{<Esc>ea}<Esc>
 :noremap! => Insert and Command-line 
 :inoremap => Insert 
 :cnoremap => Command-line
-�䌍�����������|��ָ��Ҳ�Ǖ�����Ƶ��@�Nָ�Ո������һ���� 
-13.1.2�s������
-�s�������ǰ�һ�L�����ִ����������εĎׂ��������ִ����s���Č���ֻ�����ڲ���ģʽ��ȡ��ģʽ��������ģʽ����Ҫ���ݔ��r��ʡ�r�g������ƴ�e���@�e�������Ӂ����f���� 
-1�����ڵ��µĠ�B�п��õ����I���� ��,�����@ʾ��������һ�Εr�g���֕���ʧ�����@�Εr�g�Ȱ� ��b������ Vim�͕����������ɂ��I�ǽY����һ��ġ� 
-�� 13�� Vim script���� 13.1.һЩ���ε� MACRO 
-[���� ]:ab gl GNU Linux
-�� gl�@�����I������ GNU Linux�� ab�� abbreviate�Ŀs�����@��һ�����ڲ���ģʽ�r��ֻҪݔ�� gl���ٰ� Sapce�I�� Ctril+]���@�� gl�͕�׃�� GNU Linux�@���ִ��� Sapce�� Ctril+]�ą^�e���ǰ�ߕ����􂀿հף������^�mݔ���������֣������߄t�������􂀿հס�Ҫע����ǣ��@��ȡ��ģʽ��Ո������ 3.1.2����� 10����������ģʽ��Ո������ 
-1.4����� 4��Ҳ�ǿ������ã������ʹ�� 
-:ia[bbrev]����ֻ���ڲ���ģʽ��ȡ��ģʽ�����á�
-������һЩ�����õ���ָ� 
-:ab[breviate] �����κ΅������@���г�Ŀǰ���еĿs�����������И��� ��i���ģ��� 
-������춲���ģʽ������ ��c���ģ����������������ģʽ������ ��!�� 
-�ģ��t�ɷNģʽ�������á�  
-:ab gl �@���г� gl�ǌ�����ʲ�N�ִ���  
-:una[bbreviate] gl ȡ�� gl�@��������  
-:ia[bbrev] �� :ab�Ķ��xһ�ӣ���ֻ����춲���ģʽ��  
-:cb[bbrev] �� :ab�Ķ��xһ�ӣ���ֻ�����������ģʽ��  
-:norea[bbrev] ��춷�ֹ�،������Ќ������ִ���  
-:abc[lear] ȡ�������� :ab�����x�Č�����  
-:iabc[lear] ȡ�������� :ia�����x�Č�����  
-:cabc[lear] ȡ�������� :ca�����x�Č�����  
+其實其他對應性質的指令也是會有類似的這種指令，請參考下一節。 
+        13.1.2縮寫對應
+縮寫對應是把一長串的字串對應到簡單的幾個代表性字串。縮寫的對應只能用在插入模式、取代模式及命令列模式。主要用於輸入時節省時間及避免拼錯。這裡利用例子來做說明： 
+1可以在底下的狀態列看得到按鍵，按 “,”會顯示出來，等一段時間後又會消失，在這段時間內按 “b”，那 Vim就會把他當做兩個鍵是結合在一起的。 
+        第 13章 Vim script簡介 13.1.一些簡單的 MACRO 
+[實例 ]:ab gl GNU Linux
+        把 gl這個按鍵對應成 GNU Linux。 ab是 abbreviate的縮寫，這樣一來，在插入模式時，只要輸入 gl，再按 Sapce鍵或 Ctril+]，這個 gl就會變成 GNU Linux這個字串。 Sapce和 Ctril+]的區別在於前者會多留個空白，方便繼續輸入其他文字；而後者則不會多留個空白。要注意的是，這在取代模式（請參考第 3.1.2節，頁 10）、命令列模式（請參考第 
+    1.4節，頁 4）也是可以作用，如果是使用 
+:ia[bbrev]，那只會在插入模式及取代模式有作用。
+以下是一些常會用到的指令： 
+:ab[breviate] 不接任何參數，這會列出目前所有的縮寫對應。其中標有 ‘i’的，代 
+表作用於插入模式；標有 ‘c’的，代表作用於命令列模式；標有 ‘!’ 
+的，則兩種模式皆有作用。  
+:ab gl 這會列出 gl是對應成什麼字串。  
+:una[bbreviate] gl 取消 gl這個對應。  
+:ia[bbrev] 和 :ab的定義一樣，但只作用於插入模式。  
+:cb[bbrev] 和 :ab的定義一樣，但只作用於命令列模式。  
+:norea[bbrev] 用於防止重對應已有對應的字串。  
+:abc[lear] 取消所有由 :ab所定義的對應。  
+:iabc[lear] 取消所有由 :ia所定義的對應。  
+:cabc[lear] 取消所有由 :ca所定義的對應。  
 
-13.1.3���x������ 
-Vim�ṩ���ж��x������ķ��������Z���ǣ� 
-:com[mand][!] [���� ������������]������������
-���ԵĲ����^�}�s���ڴ���ʡ�Բ�Մ�������ف�Ԕ���f�������� ��!�����폊�ƶ��x���е������t�Ѵ��ڵ������ǲ����S�ض��x�ġ���������Ҳ�������ƣ� 
+        13.1.3定義新命令 
+Vim提供自行定義新命令的方法，其語法是： 
+:com[mand][!] [屬性 ······]新命令名動作
+屬性的部份較複雜，在此先省略不談，底下再來詳細說明。其中 ‘!’代表強制定義已有的命令，否則已存在的命令是不允許重定義的。新命令名也是有限制： 
 (1)
-�����Դ�Ӣ����ĸ�_�^�� 
+必需以大寫英文字母開頭。 
 
-(2)����ʹ�� 
-:X��:Next��:Print���@���������֡� 
+(2)不能使用 
+:X，:Next，:Print，這三個保留字。 
 
 (3)
-�����Ĳ��ݣ���������ĸ���֣��ִ�С����������ʹ�õ׾����������hʹ�Ô�Ŀ�֡�
+其他的部份，可以是字母或數字，分大小寫，但不能使用底線。但不建議使用數目字。
 
 
-ͨ�����������Ķ��x��ʹ���� Vim script�Ĉ��ϡ� 
-�� 13�� Vim script���� 13.2. VIM SCRIPT���Z�� 
-13.1.4������Č��� 
-Vim�����@Щ������� ex����һ��ĵ�λ���@�e�����^����ָ��������������ʹ�õą������Ƿ����ָ�������ȵȡ��@�e�ֳ��Ă����݁��f�����������aȫ����������ָ�����������Ρ�
-����
-���������ʹ�� -nargs���ԁ�ָ�����������|�� 
--nargs=0�@���A�O�����Ǜ]�Ѕ���������ʡ�Բ����� 
--nargs=1��Ҫһ�������� 
--nargs=*�Ƿ��Ѕ�����������Ŀ���С� 
--nargs=?���S���һ�������� 
--nargs=+����Ѕ�������������Ŀ���С�
+通常此類新命令的定義是使用在 Vim script的場合。 
+        第 13章 Vim script簡介 13.2. VIM SCRIPT的語法 
+        13.1.4新命令的屬性 
+Vim會把這些命令當成是 ex命令一般的地位。這裡的所謂屬性指的是新命令所能使用的參數及是否可以指定範圍等等。這裡分成四個部份來說明：參數、補全動作、範圍指定及特殊情形。
+參數
+新命令可以使用 -nargs屬性來指定參數的性質。 
+-nargs=0這是預設，就是沒有參數，可以省略不寫。 
+-nargs=1需要一個參數。 
+-nargs=*是否有參數及參數數目不拘。 
+-nargs=?允許零或一個參數。 
+-nargs=+必須有參數，但參數數目不拘。
 
-����֮�g�Կհ׻� Tab�^�������H�϶��x�r���÷Ņ�����λ������ <args>�������ġ� 
-<args>һ��ʹ�ã��������ȟo��ʹ���p��̖�� 
-<q-args>�� <args>ͬ��������ʹ���p��̖�� 
-<f-args>��춺�������Ҫ�õ��ą����� 
+參數之間以空白或 Tab區隔。實際上定義時，置放參數的位置是以 <args>來代表的。 
+<args>一般使用，但參數內無法使用雙引號。 
+<q-args>和 <args>同，但可以使用雙引號。 
+<f-args>用於函數內所要用到的參數。 
 
-13.2 Vim script���Z�� 
-Vim scriptֻ�ЃɷN�Y���͑B�����ּ��ִ��� 
-�� 14�� 
+    13.2 Vim script的語法 
+Vim script只有兩種資料型態，數字及字串。 
 
-Vim������ܛ�w�����
+-----------------------------第13章结束-------------------------------
 
-��݋�������������ض����ܣ��o����ɽ�����İ�һЩ��X�ϕ��õ��Ĺ���ͨͨ�����Mȥ������� Vim�ṩ�� Vim script�����ⲿ shell��ͨ�Ĺ��ܣ���˺����׾Ϳ��԰� Vim������ܛ�w�Y������ʹ�ã������ھ�݋�ļ��r߀Ҫ�˳� Vimȥ������������ܛ�w�� 
-14.1���]������ܛ�w�����
-�@�eֻ�Ԃ���ʹ�õ� mutt/slrn���������������ܛ�w��Ո��λ�l�]�������ӣ� 
-14.1.1 mutt + vim 
-# ~/.muttrc 
-set editor="vi -c ��:0;/^$��" 
-14.1.2 slrn + vim 
-# ~/.slrnrc 
-set editor_command "vi -c ��:0;/^$�� ��%s��"
-�@�� -c��������˼�������M�� Vim�ᣬ�R�ψ��Ѕ������ Vim ex����ڴ��� :0;/.$��ʲ�N��˼��ԓȥ�}��һ��Ҏ�t��ʾʽ�ӣ��@�������ż����^�c�ż����H���ݵ����g������ȫ���е�һ�������Ŀհ��У����Ա���Է����R�Ͼ͵ؾ�݋������ :0���Ƶ��ļ��ĵ�һ�У�Ȼ�� /.$���ҵ�һ���հ��С� 
-14.
-2�;��g��ʽ�����
+第14章 Vim和其他軟體的配合
 
-14.3�� 
-TEX/LATEX����� 
+編輯器畢竟是有其特定功能，無法包山包海的把一些電腦上會用到的功能通通整合進去。但由於 Vim提供了 Vim script及和外部 shell溝通的功能，因此很容易就可以把 Vim和其他軟體結合起來使用，不必在編輯文件時還要退出 Vim去執行其他應用軟體。 
 
-14.4�� 
-Java����� 
+    14.1和郵件、新聞軟體的配合
+這裡只以個人使用的 mutt/slrn為例，其他的類似軟體就請各位發揮想像力囉！ 
 
+        14.1.1 mutt + vim 
+    # ~/.muttrc 
+set editor="vi -c ’:0;/^$’" 
 
-�@��һ��ʹ���ߵ��P�S���󣬵���춌���ʽ���ˁ��f�ͷǳ������ˡ� 
-�� 14�� Vim������ܛ�w����� 14.3.�� TEX/LATEX����� 
-�� 15�� 
+        14.1.2 slrn + vim 
+    # ~/.slrnrc 
+set editor_command "vi -c ’:0;/^$’ ’%s’"
+        這個 -c參數的意思，就是進入 Vim後，馬上執行參數後的 Vim ex命令。在此是 :0;/.$，什麼意思？該去複習一下規則表示式囉！這會移至信件表頭與信件實際內容的中間（就是全文中第一個遇到的空白行），以便可以方便馬上就地編輯。首先 :0是移到文件的第一行，然後 /.$是找第一個空白行。 
 
-Vim tips���\
-������һЩ���H�ϳ��á����õ� tips���\����Ȼÿ���˵�ʹ�����T�K��һ�ӣ�����@Щ tips�������m��ÿһ���ˣ������Խ����޸ģ��ĳ��Լ��M���ʹ�÷������@���Ǳ��µ����c���ڡ� 
-�� 16�� 
+    14.2和編譯程式的配合
 
-GNU�����ļ��S���Cԭ�� 
+    14.3和TEX/LATEX的配合 
+
+    14.4和Java的配合 
+
+這和一般使用者的關係不大，但對於寫程式的人來說就非常方便了。 
+
+    14.3.和 TEX/LATEX的配合 
+
+-----------------------------第14章结束-------------------------------
+
+第15章 Vim tips集錦
+
+本章是一些實際上常用、好用的 tips集錦。當然每個人的使用習慣並不一樣，因此這些 tips不可能適合每一個人，但可以經由修改，改成自己滿意的使用方法，這才是本章的重點所在。 
+
+    15.1 分栏显示文本
+有20行文本长短不一，现要把11-20行整体搬移到1-10后的后面，行与行对应。1-10行最长有20字符，11-20行就从30字符处开始。
+方法一：
+:1,20!pr -2t
+方法二：
+    :1,10g/^/s/.*/\=printf("%-30s",submatch(0))/|+10t,|-1j
+:11,20d
+        来源：http://blah.blogsome.com/2007/10/13/p51/
+
+-----------------------------第15章结束-------------------------------
+
+第16章 
+
+GNU自由文件許可證原文 
 
 GNU Free Documentation License 
-Version 1.2, November 2002 
-Copyright .c2000,2001,2002 Free Software Foundation, Inc. 
+    Version 1.2, November 2002 
+        Copyright .c2000,2001,2002 Free Software Foundation, Inc. 
 59Temple Place, Suite 330, Boston,MA 02111-1307 USA 
-Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed. 
+    Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed. 
 0. PREAMBLE 
-ThepurposeofthisLicenseistomakeamanual,textbook,orother functionalanduseful document ��free�� in the sense of freedom: to assure everyone the e.ective freedom to copy and redistribute it, with or without modifying it, either commercially or noncom-mercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being consideredresponsible for modi.cations madeby others. 
-This Licenseisakindof ��copyleft��,which meansthat derivativeworksofthe document must themselves be free in the same sense. It complements the GNU General Public License, which is a copyleft license designed for free software. 
-We have designed this License in order to use it for manuals for free software, because free software needs free documentation: a free program should come with manuals providing the same freedoms that the software does. But this License is not limited to software manuals; it can be used for any textual work, regardless of subject matter or whether it is published as a printed book. We recommend this License principally for works whose purpose is instruction or reference. 
-�� 16�� GNU�����ļ��S���Cԭ�� 
+                ThepurposeofthisLicenseistomakeamanual,textbook,orother functionalanduseful document “free” in the sense of freedom: to assure everyone the e.ective freedom to copy and redistribute it, with or without modifying it, either commercially or noncom-mercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being consideredresponsible for modi.cations madeby others. 
+        This Licenseisakindof “copyleft”,which meansthat derivativeworksofthe document must themselves be free in the same sense. It complements the GNU General Public License, which is a copyleft license designed for free software. 
+            We have designed this License in order to use it for manuals for free software, because free software needs free documentation: a free program should come with manuals providing the same freedoms that the software does. But this License is not limited to software manuals; it can be used for any textual work, regardless of subject matter or whether it is published as a printed book. We recommend this License principally for works whose purpose is instruction or reference. 
+第 16章 GNU自由文件許可證原文 
 1. APPLICABILITY AND DEFINITIONS 
-ThisLicenseappliestoanymanualorotherwork,inanymedium,that containsanotice placed by the copyright holder saying it can be distributed under the terms of this License. Such a notice grants a world-wide, royalty-free license, unlimited in duration, to use that work under the conditions stated herein. The ��Document��, below, refers to any such manual or work. Any member of the public is a licensee, and is addressed as ��you��. You accept the license if you copy, modify or distribute the work in a way requiring permission under copyright law. 
-A��Modi.edVersion��of the Document means any work containing the Document ora portionofit, eithercopied verbatim,orwith modi.cationsand/or translated into another language. 
-A��Secondary Section�� is a named appendix or a front-matter section of the Document thatdeals exclusivelywiththerelationshipofthe publishersor authorsofthe Document tothe Document��s overallsubject(ortorelatedmatters)and containsnothingthatcould fall directly within that overall subject. (Thus, if the Document is in part a textbook of mathematics, a Secondary Section may not explain any mathematics.) The relationship could be a matter of historical connection with the subject or with related matters, or of legal, commercial, philosophical, ethical or political position regarding them. 
-The ��Invariant Sections�� are certain Secondary Sections whose titles are designated, as being those of Invariant Sections, in the notice that says that the Document is released under this License. If a section does not .t the above de.nition of Secondary then it is not allowed to be designated as Invariant. The Document may contain zero Invariant Sections. If the Document does not identify any Invariant Sections then there are none. 
-The��CoverTexts��are certainshort passagesoftextthatarelisted,asFront-CoverTexts or Back-CoverTexts,inthe notice that says thatthe Documentisreleased under this License.AFront-CoverTextmaybeat most5 words,anda Back-CoverTextmaybeat most 25 words. 
-A��Transparent��copyofthe Document meansamachine-readablecopy,representedina formatwhose speci.cationis availabletothegeneralpublic,thatis suitableforrevising the document straightforwardly with generic text editors or (for images composed of pixels) generic paint programs or (for drawings) some widely available drawing editor, andthatis suitableforinputtotext formattersorfor automatic translationtoavarietyof formats suitableforinputtotext formatters.Acopymadeinan otherwiseTransparent .le format whose markup, or absence of markup, has been arranged to thwart or dis-courage subsequent modi.cationbyreadersisnotTransparent.Animage formatisnot Transparentifusedforany substantial amountof text.Acopythatisnot��Transparent�� is called ��Opaque��. 
+                    ThisLicenseappliestoanymanualorotherwork,inanymedium,that containsanotice placed by the copyright holder saying it can be distributed under the terms of this License. Such a notice grants a world-wide, royalty-free license, unlimited in duration, to use that work under the conditions stated herein. The “Document”, below, refers to any such manual or work. Any member of the public is a licensee, and is addressed as “you”. You accept the license if you copy, modify or distribute the work in a way requiring permission under copyright law. 
+            A“Modi.edVersion”of the Document means any work containing the Document ora portionofit, eithercopied verbatim,orwith modi.cationsand/or translated into another language. 
+            A“Secondary Section” is a named appendix or a front-matter section of the Document thatdeals exclusivelywiththerelationshipofthe publishersor authorsofthe Document tothe Document’s overallsubject(ortorelatedmatters)and containsnothingthatcould fall directly within that overall subject. (Thus, if the Document is in part a textbook of mathematics, a Secondary Section may not explain any mathematics.) The relationship could be a matter of historical connection with the subject or with related matters, or of legal, commercial, philosophical, ethical or political position regarding them. 
+                        The “Invariant Sections” are certain Secondary Sections whose titles are designated, as being those of Invariant Sections, in the notice that says that the Document is released under this License. If a section does not .t the above de.nition of Secondary then it is not allowed to be designated as Invariant. The Document may contain zero Invariant Sections. If the Document does not identify any Invariant Sections then there are none. 
+        The“CoverTexts”are certainshort passagesoftextthatarelisted,asFront-CoverTexts or Back-CoverTexts,inthe notice that says thatthe Documentisreleased under this License.AFront-CoverTextmaybeat most5 words,anda Back-CoverTextmaybeat most 25 words. 
+                            A“Transparent”copyofthe Document meansamachine-readablecopy,representedina formatwhose speci.cationis availabletothegeneralpublic,thatis suitableforrevising the document straightforwardly with generic text editors or (for images composed of pixels) generic paint programs or (for drawings) some widely available drawing editor, andthatis suitableforinputtotext formattersorfor automatic translationtoavarietyof formats suitableforinputtotext formatters.Acopymadeinan otherwiseTransparent .le format whose markup, or absence of markup, has been arranged to thwart or dis-courage subsequent modi.cationbyreadersisnotTransparent.Animage formatisnot Transparentifusedforany substantial amountof text.Acopythatisnot“Transparent” is called “Opaque”. 
 Examplesofsuitable formatsforTransparentcopies includeplainASCIIwithoutmarkup, Texinfo input format,LATEXinput format, SGML or XML usingapublicly available DTD, and standard-conforming simple HTML, PostScript or PDF designed for human mod-
-�� 16�� GNU�����ļ��S���Cԭ�� 
-i.cation. Examples of transparent image formats include PNG, XCF and JPG. Opaque formats include proprietary formats that can be read and edited only by proprietary word processors, SGML or XML for which the DTD and/or processing tools are not generally available, and the machine-generated HTML, PostScript or PDF produced by some wordprocessors for output purposes only. 
-The ��Title Page�� means, for a printed book, the title page itself, plus such following pages as are needed to hold, legibly, the material this License requires to appear in the title page. For works in formats which do not have any title page as such, ��Title Page�� means the text near the most prominent appearance of the work��s title, preceding the beginning of the body of the text. 
-A section ��Entitled XYZ�� means a named subunit of the Document whose title either is precisely XYZ or contains XYZ in parentheses following text that translates XYZ in another language. (Here XYZ stands for a speci.c section name mentioned below, such as ��Acknowledgements��, ��Dedications��, ��Endorsements��, or ��History��.) To ��Preserve theTitle��of sucha section whenyou modifythe Document means thatitremainsa section ��Entitled XYZ�� according to this de.nition. 
-The Document may includeWarranty Disclaimers next to the notice which states that this License appliestothe Document. TheseWarranty Disclaimersare consideredtobe included by reference in this License, but only as regards disclaiming warranties: any other implicationthattheseWarranty Disclaimersmayhaveisvoidandhasnoe.ect on the meaning of this License. 
+第 16章 GNU自由文件許可證原文 
+                i.cation. Examples of transparent image formats include PNG, XCF and JPG. Opaque formats include proprietary formats that can be read and edited only by proprietary word processors, SGML or XML for which the DTD and/or processing tools are not generally available, and the machine-generated HTML, PostScript or PDF produced by some wordprocessors for output purposes only. 
+        The “Title Page” means, for a printed book, the title page itself, plus such following pages as are needed to hold, legibly, the material this License requires to appear in the title page. For works in formats which do not have any title page as such, “Title Page” means the text near the most prominent appearance of the work’s title, preceding the beginning of the body of the text. 
+                    A section “Entitled XYZ” means a named subunit of the Document whose title either is precisely XYZ or contains XYZ in parentheses following text that translates XYZ in another language. (Here XYZ stands for a speci.c section name mentioned below, such as “Acknowledgements”, “Dedications”, “Endorsements”, or “History”.) To “Preserve theTitle”of sucha section whenyou modifythe Document means thatitremainsa section “Entitled XYZ” according to this de.nition. 
+            The Document may includeWarranty Disclaimers next to the notice which states that this License appliestothe Document. TheseWarranty Disclaimersare consideredtobe included by reference in this License, but only as regards disclaiming warranties: any other implicationthattheseWarranty Disclaimersmayhaveisvoidandhasnoe.ect on the meaning of this License. 
 2. VERBATIM COPYING 
-You may copy and distribute the Document in any medium, either commercially or noncommercially, provided that this License, the copyright notices, and the license notice saying this License applies to the Document are reproduced in all copies, and that you add no other conditions whatsoever to those of this License. You may not use technical measures to obstruct or control the reading or further copying of the copies you make or distribute. However,you may accept compensation in exchange for copies. If you distribute a large enough number of copies you must also follow the conditions in section 3. 
-You may also lend copies, under the same conditions stated above, and you may publicly display copies. 
+                You may copy and distribute the Document in any medium, either commercially or noncommercially, provided that this License, the copyright notices, and the license notice saying this License applies to the Document are reproduced in all copies, and that you add no other conditions whatsoever to those of this License. You may not use technical measures to obstruct or control the reading or further copying of the copies you make or distribute. However,you may accept compensation in exchange for copies. If you distribute a large enough number of copies you must also follow the conditions in section 3. 
+    You may also lend copies, under the same conditions stated above, and you may publicly display copies. 
 3. COPYING IN QUANTITY 
-If you publish printed copies (or copies in media that commonly have printed covers) of the Document, numbering more than 100, and the Document��s license noticerequires CoverTexts, you must enclose the copies in covers that carry, clearly and legibly, all 
-�� 16�� GNU�����ļ��S���Cԭ�� 
-these CoverTexts: Front-CoverTexts on the front cover, and Back-CoverTexts on the back cover. Both covers must also clearly and legibly identify you as the publisher of these copies. The front cover must present the full title with all words of the title equally prominent and visible. You may add other material on the covers in addition. Copying with changes limited to the covers, as long as they preserve the title of the Document and satisfy these conditions, can be treated as verbatim copying in other respects. 
-If the required texts for either cover are too voluminous to .t legibly, you should put the.rst ones listed(asmanyas.treasonably)onthe actual cover,and continuetherest onto adjacent pages. 
-If you publish or distribute Opaque copies of the Document numbering more than 100, you must either includea machine-readableTransparent copy along with each Opaque copy,orstateinorwitheachOpaquecopyacomputer-network locationfromwhichthe general network-using public has access to download using public-standard network protocols a complete Transparent copy of the Document, free of added material. If you use the latter option, you must take reasonably prudent steps, when you begin distribution of Opaque copies in quantity, to ensure that this Transparent copy will remain thus accessible at the stated location until at least one year after the last time you distribute an Opaque copy (directly or through your agents or retailers) of that edition to the public. 
-It is requested, but not required, that you contact the authors of the Document well before redistributing any large number of copies, to give them a chance to provide you with an updated version of the Document. 
+If you publish printed copies (or copies in media that commonly have printed covers) of the Document, numbering more than 100, and the Document’s license noticerequires CoverTexts, you must enclose the copies in covers that carry, clearly and legibly, all 
+第 16章 GNU自由文件許可證原文 
+                    these CoverTexts: Front-CoverTexts on the front cover, and Back-CoverTexts on the back cover. Both covers must also clearly and legibly identify you as the publisher of these copies. The front cover must present the full title with all words of the title equally prominent and visible. You may add other material on the covers in addition. Copying with changes limited to the covers, as long as they preserve the title of the Document and satisfy these conditions, can be treated as verbatim copying in other respects. 
+                If the required texts for either cover are too voluminous to .t legibly, you should put the.rst ones listed(asmanyas.treasonably)onthe actual cover,and continuetherest onto adjacent pages. 
+        If you publish or distribute Opaque copies of the Document numbering more than 100, you must either includea machine-readableTransparent copy along with each Opaque copy,orstateinorwitheachOpaquecopyacomputer-network locationfromwhichthe general network-using public has access to download using public-standard network protocols a complete Transparent copy of the Document, free of added material. If you use the latter option, you must take reasonably prudent steps, when you begin distribution of Opaque copies in quantity, to ensure that this Transparent copy will remain thus accessible at the stated location until at least one year after the last time you distribute an Opaque copy (directly or through your agents or retailers) of that edition to the public. 
+    It is requested, but not required, that you contact the authors of the Document well before redistributing any large number of copies, to give them a chance to provide you with an updated version of the Document. 
 4. MODIFICATIONS 
-You may copy and distributea Modi.edVersionof the Document under the conditions of sections2and3above,providedthatyoureleasethe Modi.edVersionunderprecisely this License, withthe Modi.edVersion .llingtheroleofthe Document, thus licensing distributionand modi.cationofthe Modi.edVersionto whoever possessesacopyofit. In addition, you mustdo these thingsin the Modi.edVersion: 
-A. Usein theTitle Page (and on the covers,if any)a title distinct. from thatof the Document, and from those of previous versions (which should, if there were any, be listed in the History section of the Document). You may use the same title as a previous version if the original publisher of that version gives permission. 
-B. List on theTitle Page, as authors, one or more persons or entitiesresponsible for authorshipofthe modi.cationsinthe Modi.edVersion, together withat least .ve of the principal authors of the Document (all of its principal authors, if it has fewer than .ve), unless they release you from this requirement. 
-C. State on theTitle page the name of the publisher of the Modi.edVersion, as the publisher. 
-�� 16�� GNU�����ļ��S���Cԭ�� 
-D. Preserve all the copyright notices of the Document. 
-E. Add an appropriate copyright notice for your modi.cations adjacent to the other copyright notices. 
-F. Include, immediately after the copyright notices,a license notice giving the public permissiontousethe Modi.edVersionunderthe termsofthis License,intheform shown in the Addendum below. 
-G. Preserveinthat licensenoticethefulllistsof Invariant SectionsandrequiredCover Texts given in the Document��s license notice. 
-H. Include an unaltered copy of this License. 
-I. Preserve the section Entitled ��History��, Preserve itsTitle, and add to it an item stating at least the title, year, new authors, and publisher of the Modi.edVersion asgivenontheTitlePage.Ifthereisno section Entitled ��History��inthe Document, create one stating the title, year, authors, and publisher of the Document as given onitsTitlePage,thenaddanitem describingthe Modi.edVersionas statedinthe previous sentence. 
-J. Preserve the network location, if any, given in the Document for public access to aTransparent copy of the Document, and likewise the network locations given in the Document for previous versions it was based on. These may be placed in the ��History�� section.You may omitanetwork location forawork that was published at least four years before the Document itself, or if the original publisher of the version it refers to gives permission. 
-K. Forany section Entitled ��Acknowledgements��or ��Dedications��,PreservetheTitle of the section, and preserve in the section all the substance and tone of each of the contributor acknowledgements and/or dedications given therein. 
-L. Preserve all the Invariant Sections of the Document, unaltered in their text and in their titles. Section numbers or the equivalent arenot considered part of the section titles. 
-M. Delete any section Entitled ��Endorsements��. Such a section may not be included in the Modi.edVersion. 
-N. Do not retitle any existing section to be Entitled ��Endorsements�� or to con.ict in title with any Invariant Section. 
-O. Preserve anyWarranty Disclaimers. 
-If the Modi.edVersion includes new front-matter sections or appendices that qualify as Secondary Sections and contain no material copied from the Document, you may at your option designate some or all of these sections as invariant. To do this, add their titlestothelistof Invariant Sectionsinthe Modi.edVersion��s license notice. These titles must be distinct from any other section titles. 
-�� 16�� GNU�����ļ��S���Cԭ�� 
-You may add a section Entitled ��Endorsements��, provided it contains nothing but en-dorsements of your Modi.ed Version by various parties�Cfor example, statements of peer review or that the text has been approved by an organization as the authoritative de.nition of a standard. 
-Youmayadda passageofupto .ve wordsasaFront-CoverText,anda passageofup to25wordsasa Back-CoverText,totheendofthelistofCoverTextsinthe Modi.ed Version. Only one passage of Front-Cover Text and one of Back-Cover Text may be added by (or through arrangements made by) any one entity. If the Document already includes a cover text for the same cover, previously added by you or by arrangement made by the same entity you are acting on behalf of, you may not add another; but you mayreplace the old one, on explicit permissionfrom theprevious publisher that added the old one. 
-The author(s) and publisher(s) of the Document do not by this License give permission to use their names for publicity for or to assert or imply endorsement of any Modi.ed Version. 
+                                You may copy and distributea Modi.edVersionof the Document under the conditions of sections2and3above,providedthatyoureleasethe Modi.edVersionunderprecisely this License, withthe Modi.edVersion .llingtheroleofthe Document, thus licensing distributionand modi.cationofthe Modi.edVersionto whoever possessesacopyofit. In addition, you mustdo these thingsin the Modi.edVersion: 
+                A. Usein theTitle Page (and on the covers,if any)a title distinct. from thatof the Document, and from those of previous versions (which should, if there were any, be listed in the History section of the Document). You may use the same title as a previous version if the original publisher of that version gives permission. 
+                        B. List on theTitle Page, as authors, one or more persons or entitiesresponsible for authorshipofthe modi.cationsinthe Modi.edVersion, together withat least .ve of the principal authors of the Document (all of its principal authors, if it has fewer than .ve), unless they release you from this requirement. 
+            C. State on theTitle page the name of the publisher of the Modi.edVersion, as the publisher. 
+第 16章 GNU自由文件許可證原文 
+        D. Preserve all the copyright notices of the Document. 
+            E. Add an appropriate copyright notice for your modi.cations adjacent to the other copyright notices. 
+            F. Include, immediately after the copyright notices,a license notice giving the public permissiontousethe Modi.edVersionunderthe termsofthis License,intheform shown in the Addendum below. 
+        G. Preserveinthat licensenoticethefulllistsof Invariant SectionsandrequiredCover Texts given in the Document’s license notice. 
+        H. Include an unaltered copy of this License. 
+                    I. Preserve the section Entitled “History”, Preserve itsTitle, and add to it an item stating at least the title, year, new authors, and publisher of the Modi.edVersion asgivenontheTitlePage.Ifthereisno section Entitled “History”inthe Document, create one stating the title, year, authors, and publisher of the Document as given onitsTitlePage,thenaddanitem describingthe Modi.edVersionas statedinthe previous sentence. 
+                J. Preserve the network location, if any, given in the Document for public access to aTransparent copy of the Document, and likewise the network locations given in the Document for previous versions it was based on. These may be placed in the “History” section.You may omitanetwork location forawork that was published at least four years before the Document itself, or if the original publisher of the version it refers to gives permission. 
+        K. Forany section Entitled “Acknowledgements”or “Dedications”,PreservetheTitle of the section, and preserve in the section all the substance and tone of each of the contributor acknowledgements and/or dedications given therein. 
+            L. Preserve all the Invariant Sections of the Document, unaltered in their text and in their titles. Section numbers or the equivalent arenot considered part of the section titles. 
+                M. Delete any section Entitled “Endorsements”. Such a section may not be included in the Modi.edVersion. 
+            N. Do not retitle any existing section to be Entitled “Endorsements” or to con.ict in title with any Invariant Section. 
+        O. Preserve anyWarranty Disclaimers. 
+                    If the Modi.edVersion includes new front-matter sections or appendices that qualify as Secondary Sections and contain no material copied from the Document, you may at your option designate some or all of these sections as invariant. To do this, add their titlestothelistof Invariant Sectionsinthe Modi.edVersion’s license notice. These titles must be distinct from any other section titles. 
+第 16章 GNU自由文件許可證原文 
+            You may add a section Entitled “Endorsements”, provided it contains nothing but en-dorsements of your Modi.ed Version by various parties–for example, statements of peer review or that the text has been approved by an organization as the authoritative de.nition of a standard. 
+                    Youmayadda passageofupto .ve wordsasaFront-CoverText,anda passageofup to25wordsasa Back-CoverText,totheendofthelistofCoverTextsinthe Modi.ed Version. Only one passage of Front-Cover Text and one of Back-Cover Text may be added by (or through arrangements made by) any one entity. If the Document already includes a cover text for the same cover, previously added by you or by arrangement made by the same entity you are acting on behalf of, you may not add another; but you mayreplace the old one, on explicit permissionfrom theprevious publisher that added the old one. 
+        The author(s) and publisher(s) of the Document do not by this License give permission to use their names for publicity for or to assert or imply endorsement of any Modi.ed Version. 
 5. COMBINING DOCUMENTS 
-You may combine the Document with other documents released under this License, under the terms de.ned in section4 above for modi.ed versions, provided that you include in the combination all of the Invariant Sections of all of the original documents, unmodi.ed, and list them all as Invariant Sections of your combined work in its license notice, and that youpreserve all theirWarranty Disclaimers. 
-The combined work need only contain one copy of this License, and multiple identical Invariant Sections may be replaced with a single copy. If there are multiple Invariant Sections with the same name but di.erent contents, make the title of each such section unique by adding at the end of it, in parentheses, the name of the original author or publisher of that section if known, or else a unique number. Make the same adjustment to the section titles in the list of Invariant Sections in the license notice of the combined work. 
-In the combination, you must combine any sections Entitled ��History�� in the various original documents, forming one section Entitled ��History��; likewise combine any sec-tions Entitled ��Acknowledgements��, and any sections Entitled ��Dedications��.You must delete all sections Entitled ��Endorsements��. 
+                You may combine the Document with other documents released under this License, under the terms de.ned in section4 above for modi.ed versions, provided that you include in the combination all of the Invariant Sections of all of the original documents, unmodi.ed, and list them all as Invariant Sections of your combined work in its license notice, and that youpreserve all theirWarranty Disclaimers. 
+                The combined work need only contain one copy of this License, and multiple identical Invariant Sections may be replaced with a single copy. If there are multiple Invariant Sections with the same name but di.erent contents, make the title of each such section unique by adding at the end of it, in parentheses, the name of the original author or publisher of that section if known, or else a unique number. Make the same adjustment to the section titles in the list of Invariant Sections in the license notice of the combined work. 
+        In the combination, you must combine any sections Entitled “History” in the various original documents, forming one section Entitled “History”; likewise combine any sec-tions Entitled “Acknowledgements”, and any sections Entitled “Dedications”.You must delete all sections Entitled “Endorsements”. 
 6. COLLECTIONS OF DOCUMENTS 
 You may make a collection consisting of the Document and other documents released under this License, and replace the individual copies of this License in the various documentswithasinglecopythatis includedinthe collection,providedthatyou follow 
-�� 16�� GNU�����ļ��S���Cԭ�� 
-the rules of this License for verbatim copying of each of the documents in all other respects. 
-Youmay extractasingle documentfromsucha collection,and distributeit individually under this License, provided you insert a copy of this License into the extracted docu-ment, and follow this License in all other respects regarding verbatim copying of that document. 
+第 16章 GNU自由文件許可證原文 
+    the rules of this License for verbatim copying of each of the documents in all other respects. 
+    Youmay extractasingle documentfromsucha collection,and distributeit individually under this License, provided you insert a copy of this License into the extracted docu-ment, and follow this License in all other respects regarding verbatim copying of that document. 
 7. AGGREGATION WITH INDEPENDENT WORKS 
-Acompilation of the Document or its derivatives with other separate and independent documentsor works,inorona volumeofa storageor distribution medium,is calledan ��aggregate��ifthe copyrightresultingfromthe compilationisnotusedtolimitthelegal rights of the compilation��s users beyond what the individual works permit. When the Document is included in an aggregate, this License does not apply to the other works in the aggregate which are not themselves derivative works of the Document. 
-IftheCoverTextrequirementof section3is applicabletothesecopiesofthe Document, then if the Document is less than one half of the entire aggregate, the Document��s Cover Texts may be placed on covers that bracket the Document within the aggregate, or the electronic equivalent of covers if the Document is in electronic form. Otherwise they must appear on printed covers that bracket the whole aggregate. 
+        Acompilation of the Document or its derivatives with other separate and independent documentsor works,inorona volumeofa storageor distribution medium,is calledan “aggregate”ifthe copyrightresultingfromthe compilationisnotusedtolimitthelegal rights of the compilation’s users beyond what the individual works permit. When the Document is included in an aggregate, this License does not apply to the other works in the aggregate which are not themselves derivative works of the Document. 
+        IftheCoverTextrequirementof section3is applicabletothesecopiesofthe Document, then if the Document is less than one half of the entire aggregate, the Document’s Cover Texts may be placed on covers that bracket the Document within the aggregate, or the electronic equivalent of covers if the Document is in electronic form. Otherwise they must appear on printed covers that bracket the whole aggregate. 
 8. TRANSLATION 
-Translation is considered a kind of modi.cation, so you may distribute translations of the Document under the terms of section 4. Replacing Invariant Sections with trans-lations requires special permission from their copyright holders, but you may include translations of some or all Invariant Sections in addition to the original versions of these Invariant Sections. You may include a translation of this License, and all the license noticesinthe Document,andanyWarranty Disclaimers,provided thatyou also include the original English version of this License and the original versions of those notices and disclaimers. In case of a disagreement between the translation and the original version of this License or a notice or disclaimer, the original version will prevail. 
-If a section in the Document is Entitled ��Acknowledgements��, ��Dedications��, or ��His-tory��,therequirement (section4)toPreserve itsTitle (section1) will typicallyrequire changing the actual title. 
-�� 16�� GNU�����ļ��S���Cԭ�� 
+                    Translation is considered a kind of modi.cation, so you may distribute translations of the Document under the terms of section 4. Replacing Invariant Sections with trans-lations requires special permission from their copyright holders, but you may include translations of some or all Invariant Sections in addition to the original versions of these Invariant Sections. You may include a translation of this License, and all the license noticesinthe Document,andanyWarranty Disclaimers,provided thatyou also include the original English version of this License and the original versions of those notices and disclaimers. In case of a disagreement between the translation and the original version of this License or a notice or disclaimer, the original version will prevail. 
+    If a section in the Document is Entitled “Acknowledgements”, “Dedications”, or “His-tory”,therequirement (section4)toPreserve itsTitle (section1) will typicallyrequire changing the actual title. 
+第 16章 GNU自由文件許可證原文 
 9. TERMINATION 
 
-You may not copy, modify, sublicense, or distribute the Document except as expressly provided for under this License. Any other attempt to copy, modify, sublicense or distribute the Document is void, and will automatically terminate your rights under this License. However, parties who have received copies, or rights, from you under this License will not have their licenses terminated so long as such parties remain in full compliance. 
+            You may not copy, modify, sublicense, or distribute the Document except as expressly provided for under this License. Any other attempt to copy, modify, sublicense or distribute the Document is void, and will automatically terminate your rights under this License. However, parties who have received copies, or rights, from you under this License will not have their licenses terminated so long as such parties remain in full compliance. 
 
 10. FUTURE REVISIONS OF THIS LICENSE 
 
 
-The Free Software Foundation may publish new, revised versions of the GNU Free Documentation License from time to time. Such new versions will be similar in spirit to the present version, but may di.er in detail to address new problems or concerns. See http://www.gnu.org/copyleft/. 
-Each version of the License is given a distinguishing version number. If the Document speci.esthataparticularnumberedversionofthisLicense��oranylater version��applies to it, you have the option of following the terms and conditions either of that speci.ed versionorofanylater versionthathasbeenpublished(notasadraft)bytheFree Software Foundation. If the Document does not specify a version number of this License, you may chooseany version ever published(notasadraft)bytheFree SoftwareFoundation. 
+                        The Free Software Foundation may publish new, revised versions of the GNU Free Documentation License from time to time. Such new versions will be similar in spirit to the present version, but may di.er in detail to address new problems or concerns. See http://www.gnu.org/copyleft/. 
+                    Each version of the License is given a distinguishing version number. If the Document speci.esthataparticularnumberedversionofthisLicense“oranylater version”applies to it, you have the option of following the terms and conditions either of that speci.ed versionorofanylater versionthathasbeenpublished(notasadraft)bytheFree Software Foundation. If the Document does not specify a version number of this License, you may chooseany version ever published(notasadraft)bytheFree SoftwareFoundation. 
 ADDENDUM: How to use this License for your documents 
 Tousethis Licenseina documentyouhave written, includeacopyofthe Licenseinthe document and put the following copyright and license notices just after the title page: 
-Copyright .cYEAR YOUR NAME. Permission is granted to copy, distribute and/or 
+        Copyright .cYEAR YOUR NAME. Permission is granted to copy, distribute and/or 
 modifythis document underthe termsoftheGNUFree Documentation License,Version 
-1.2 or any later version published by the Free Software Foundation; with no Invariant Sections,noFront-CoverTexts,andno Back-CoverTexts.Acopyofthe licenseis included in the section entitled ��GNU Free Documentation License��. 
-If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts, replace the ��with...Texts.�� line with this: 
+    1.2 or any later version published by the Free Software Foundation; with no Invariant Sections,noFront-CoverTexts,andno Back-CoverTexts.Acopyofthe licenseis included in the section entitled “GNU Free Documentation License”. 
+                If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts, replace the “with...Texts.” line with this: 
 with the Invariant Sections being LIST THEIR TITLES, with theFront-CoverTexts being 
-LIST, and with the Back-CoverTexts being LIST. 
-If you have Invariant Sections without CoverTexts, or some other combination of the three, merge those two alternatives to suit the situation. 
-�� 16�� GNU�����ļ��S���Cԭ�� 
-Ifyour document contains nontrivial examplesofprogramcode,werecommendreleas-ing these examples in parallel under your choice of free software license, such as the GNU General Public License, to permit their use in free software. 
-�ڙ��� 
+    LIST, and with the Back-CoverTexts being LIST. 
+    If you have Invariant Sections without CoverTexts, or some other combination of the three, merge those two alternatives to suit the situation. 
+第 16章 GNU自由文件許可證原文 
+    Ifyour document contains nontrivial examplesofprogramcode,werecommendreleas-ing these examples in parallel under your choice of free software license, such as the GNU General Public License, to permit their use in free software. 
+授權聲明 
 
-Copyright .c2000-2004����� EdwardG.J. Lee������ӆ���ڣ� 2005�� 2�� 19�ձ��ļ��������ļ��� GNU FDL http://www.gnu.org/copyleft/fdl.html�����������}�u���޸ġ�ɢ�ѣ���Ո�����ڙࡢ���������ʽ�a�Ĳ�������������� license������ GNU FDL��Ҏ���� PDF��ʽ�ļ�����Ƕ��������Y�ϣ��� cwTEX������ Type1�����D�Q���ɵ� TrueType���ͣ���ʹ���ڙ��� GNU GPL����ˣ��˲��ݵ������Y�ϣ��಻�� FDLҎ���������ļ������ἰ���̘˽Ԍ���Ϸ��]�Թ�˾���С� 
-�����Y�� 
+                        Copyright .c2000-2004李果正 EdwardG.J. Lee最後修訂日期： 2005年 2月 19日本文件為自由文件（ GNU FDL http://www.gnu.org/copyleft/fdl.html），可自由複製、修改、散佈，但請保留授權、版權聲明。程式碼的部份依其所宣告的 license，不受 GNU FDL的規範。 PDF格式文件內所嵌入的字型資料，為 cwTEX的中文 Type1字型轉換而成的 TrueType字型，其使用授權為 GNU GPL，因此，此部份的字型資料，亦不屬 FDL規範範圍。文件內所提及的商標皆屬其合法註冊公司所有。 
+參考資料 
 
 [1] Bram Moolenaar, VIM USER MANUAL 
-[2] EdwardG.J. Lee, Learnning Vim 
+        [2] EdwardG.J. Lee, Learnning Vim 
 [3] Steve Oualline, Vi IMproved -Vim 
-���� 
+索引 
 
-*, 42 ., 43 [...], 43 [.0-9], 44 [.M], 44 [.Tt], 44 [.a-zA-Z], 44 [.. .], 43 $, 44 &, 47 ., 44 \+, 42 \=, 42 \|, 42 \>, 45 \<, 45�н���Ԫ , 46ƥ�� , 45���� ,5����ģʽ ,5, 59��Ҏ��ʾʽ , 49ȫ���Ե�ָ�� , 47��Ԫ , 42��Ԫ���� , 42�о�݋�� ,4�ۯB , 50��λ��ʽ , 45������ģʽ ,4, 59�հ���Ԫ , 45���I���� , 58�޶��÷� , 45����ģʽ ,4�ڙ��� , 76���Bģʽ ,4, 59ͨ����Ԫ , 43����߅�� , 45Ҏ�t��ʾʽ , 42����ģʽ ,4, 59���׃�� , 47
-����ܛ�w ,2��� , 59���c��̖ , 45��݋�� ,2���������n , 58�x��ģʽ ,5���T��ξ , 49�U���� , 45�~��ģʽ ,5 
+                                                *, 42 ., 43 [...], 43 [.0-9], 44 [.M], 44 [.Tt], 44 [.a-zA-Z], 44 [.. .], 43 $, 44 &, 47 ., 44 \+, 42 \=, 42 \|, 42 \>, 45 \<, 45中介字元 , 46匹配 , 45反白 ,5反白模式 ,5, 59正規表示式 , 49全域性的指令 , 47字元 , 42字元集合 , 42行編輯器 ,4折疊 , 50定位樣式 , 45命令列模式 ,4, 59空白字元 , 45按鍵對應 , 58限定用法 , 45基本模式 ,4授權聲明 , 76常態模式 ,4, 59通用字元 , 43單字邊界 , 45規則表示式 , 42插入模式 ,4, 59替代變數 , 47
+慈善軟體 ,2旗標 , 59標點符號 , 45編輯器 ,2線上求助檔 , 58選擇模式 ,5龍門少尉 , 49擴充解釋 , 45額外模式 ,5 
 anchor pattern, 45 awk, 42 
 character classes, 46 cpoptions, 59 
-ed,4, 42, 45, 47 edline,4 elvis,2, 42 emacs,2 escape, 43 esd,4 ex,4, 47 Exģʽ ,5 
+ed,4, 42, 45, 47 edline,4 elvis,2, 42 emacs,2 escape, 43 esd,4 ex,4, 47 Ex模式 ,5 
 FDL, 76 folding, 50 
-globe, 47 GNU GPL, 76 greedy, 48 greedy���� , 48 grep, 42 
+globe, 47 GNU GPL, 76 greedy, 48 greedy陷阱 , 48 grep, 42 
 help, 47 hyperlink, 54 
 license, 76 
 macro, 58 man, 42 
-�������� 
+索引索引 
 metacharacter, 46 
 nvi,2 nvi-m17n,2 
 pattern, 42, 45 pattern matching notation, 43 perl, 45 perlre, 42 plugin, 58 
@@ -1502,7 +1549,11 @@ vi,2
 wordboundary, 45 
 xmeacs,2 
 
-�ο���http://blah.blogsome.com/2006/04/13/vim_tut_folding/
+        参考：http://blah.blogsome.com/2006/04/13/vim_tut_folding/
 
-vim: foldmethod=expr: foldexpr=Fold(v\:lnum)
+            vim: foldmethod=expr: foldexpr=Fold(v\:lnum):se inde=len(split(substitute(getline(v:lnum),'^[\ \\t]*\\([0-9.]\\+\\).*','\\1',''),'\\.'))*&sw
+
+    1.1好的
+        1.1.1 没有作用啊
+
 
