@@ -1,6 +1,6 @@
-" Last Modified: 2011-10-18 星期二 21:18:05 [Athena]
+" Last Modified: 2011-10-18 星期二 21:40:11 [Athena]
 
-0. 安装的要点
+0 安装的要点
 
 使用网络安装，光盘下载：http://www.debian.org/distrib/netinst。
 
@@ -471,6 +471,8 @@ alias rm＝'/bin/totrash'
 
 以后就可以使用rm命令把文件移动到回收站了。
 
+* 存在问题：无法同时删除多个文件，无法使用通配符。
+
 3.2 右键打开终端
 
 # apt-get install nautilus-open-terminal
@@ -546,6 +548,7 @@ root (hd0,5)
 kernel /boot/vmlinuz-2.6.32-5-686 root=/dev/sda6 ro quiet splash text vga=9 acpi_osi=Linux
 initrd /boot/initrd.img-2.6.32-5-686
 boot 
+* 这种方法使用的startx启动进入的桌面配置与默认启动的桌面有点不一样。
 
 附：另外3种方法
 
