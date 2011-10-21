@@ -1,6 +1,6 @@
 # File Name: /home/xxxcjr/note_for_debian/git基础.vtx
 # Created Time: 2011-10-19 星期三 19:17:59
-# Last Modified: 2011-10-20 星期四 22:24:19 [Athena]
+# Last Modified: 2011-10-21 星期五 22:01:23 [Athena]
 # vim:tw=78
 -------------------------------------------------------
 
@@ -91,8 +91,8 @@ git不会跟踪在文件目录中手动的文件重命名操作，如果手动�
 $ git mv oldfile newfile
 
 4.5 撤销操作
-如果想恢复某个文件，可使用chechout --<file>来恢复。
-$ git checkout --README
+如果想恢复某个文件，可使用chechout -- <file>来恢复。
+$ git checkout -- README
 它只有在修改文件还没有暂存的情况下，使用最近的提交版本进行恢复。如果文件已经暂存，则需要行使用git reset HEAD <file>从暂存区删除文件，再使用该命令。
 
 4.6 查看提交历史
