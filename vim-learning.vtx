@@ -1,4 +1,4 @@
-﻿" Last Modified: 2011-10-21 星期五 22:09:07 [Athena]
+﻿" Last Modified: 2011-10-21 星期五 22:51:07 [Athena]
 
 
 大家来学 Vim
@@ -1234,10 +1234,12 @@ ctags -R *
 请注意， ctags预设会将输出档排序，因此不必自行另外去排序。有排序有一个好处，那就是 Vim会去使用 binary search的方式去搜寻，这样会比较快。 
 12.4一般的 tag使用
         如果就照上一节的方式产生 tag .les，那么只要在 source code目录下由 vim去开启档案的话，会自动载入 tags这个档案，无需另行载入，否则要由 :set tags=your.tags来指定 tags档。然后就是照一般使用 Vim线上说明一样，游标移到识别字或函数名上，按 Ctrl+]，要回到原处就按 Ctrl+T。 
-        第 12章 Vim tags的使用 12.5. VIM线上说明文件的制作
+
     请注意， Vim启动时，工作目录（ vim启动时的所在目录）名为 tags的档案会自动载入， $VIMRUNTIME/doc及 $HOME/.vim/doc目录下的 tags档也会自动载入。而且，凡是载入的 tags档里头所有标志文字都可以使用补全键来补全，别忘了这个好用的功能。 
+
 12.5 Vim线上说明文件的制作 
 Vim的线上说明文件就是使用 tags的方式来管理的，因此使用方法也是和一般 tags档一样，由 Ctrl+]及 Ctrl+T来控制。 
+
 12.5.1 doctags
 这个工具一般不会在系统的 $PATH里头，而是在 Vim原始码的 runtime/doc目录下。由於一般 tags程式只对程式码作用，因此对一般的文字档没有作用。而这个 doctags则会依文字档中有 *这是标题 *标志的内容做出 tag档出来。
 在 source code，进入 runtime/doc目录后： 
@@ -1247,6 +1249,7 @@ make doctags =>编译出 doctags这个可执行档
     doctags *.txt | sort > tags
 这样就行了，重新进入 vim后就可以使用了。
 当然，这个工具需自行编译，因此对一般使用者而言，使用上并不方便。其实 Vim已有内建这个工具了。 
+
 12.5.2由 Vim里头作线上说明
     进入 vim后， :helpt[ags]目录名这样就会把所指定目录下的所有 *.txt产生 tags档案。这个动作也可以由命令列来执行： 
     vim -c "helptags ." -c quit 
