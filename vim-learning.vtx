@@ -1,4 +1,4 @@
-﻿" Last Modified: 2011-10-26 星期三 19:07:17 [Athena]
+﻿" Last Modified: 2011-10-26 星期三 21:39:32 [Athena]
 
 
 大家来学 Vim
@@ -1450,10 +1450,65 @@ Vimwiki可导出为html格式，便于发布为网页。
 
 14.26 quickfix 
 
+14.27 git-vim
+下面简单记一下它的使用方法：
 
-14.1 vimwiki
+安装（传统方式）
 
-14.2 插件snipMate的工作原理
+
+$ git clone git://github.com/motemen/git-vim.git
+$ cd git-vim
+$ cp -r plugin syntax ~/.vim/
+
+安装（vim-addon-manager方式）
+
+把下面这几句加到vimrc里面
+
+let addon_list = []
+
+let addon_list += [ "git-vim"]
+
+call vam#ActivateAddons(addon_list)
+
+
+
+" 设置git-vim的源代码地址  {{{ 
+let g:vim_addon_manager['plugin_sources']['git-vim'] = 
+            \{"type":"git", "url":"git://github.com/motemen/git-vim.git"}
+" }}}
+
+
+在状态栏上显示branch信息
+
+修改.vimrc文件，添加一下代码
+
+set laststatus=2
+set statusline=%{GitBranch()}
+这里其实就是使用git.vim内置的GitBranch()函数来显示信息，其实也可以在原有statusline上加入此函数，下面是我所是用的statusline
+
+set statusline=”%F%m%r%h%w\ [%{&ff}]\ [%Y]\ [%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]\ %=[%{GitBranch()}]“
+
+常用命令 
+
+:GitAdd
+:GitCommit
+:GitStatus
+:GitLog
+:GitCheckout
+:GitDiff
+:GitPull
+:GitPush
+快捷键
+
+<Leader>gd 等同于 :GitDiff
+<Leader>gD 等同于 :GitDiff —cached
+<Leader>gs 等同于 :GitStatus
+<Leader>gl 等同于 :GitLog
+<Leader>ga 等同于 :GitAdd
+<Leader>gA 等同于 :GitAdd <cfile>
+<Leader>gc 等同于 :GitCommit
+
+默认情况下等于”,”
 
 -----------------------------第14章结束-------------------------------
 
