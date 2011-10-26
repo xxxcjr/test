@@ -1,6 +1,6 @@
 # File Name: /home/xxxcjr/note_for_debian/git基础.vtx
 # Created Time: 2011-10-19 星期三 19:17:59
-# Last Modified: 2011-10-24 星期一 21:44:16 [Athena]
+# Last Modified: 2011-10-24 星期一 21:56:15 [Athena]
 # vim:tw=78
 -------------------------------------------------------
 
@@ -83,6 +83,7 @@ $ git commit
 
 4.3 删除文件
 可以在目录中手动删除，也可以使用git rm命令删除，后者相当于手动删除后使用add命令将更改添加到暂存区域
+如果文件位于 modified（已修改过的文件）状态，git rm命令将无法将其删除。
 # 删除暂存区的某个文件
 $ git reset HEAD <file>
 
